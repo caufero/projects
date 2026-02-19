@@ -1,0 +1,422 @@
+# CauferoAppStarter Documentation
+## Datepickers (Flatpickr) How They Are Implemented and Used
+
+> Purpose of this doc  
+> Train an AI Agent to correctly implement **datepickers** in CauferoAppStarter WebViewer pages using **Flatpickr**, including:
+> 1) How date fields are rendered in HTML  
+> 2) How calendar icons are wired to open the picker  
+> 3) How existing values are preloaded and shown in human-readable format  
+> 4) How dates are converted back into **MySQL format (Y-m-d)** before sending to FileMaker  
+> 5) How date ranges (From/To) are used to filter data and trigger FileMaker scripts  
+> 6) Required IDs, patterns, and failure mode fixes
+
+This documentation is based on your sample page, which uses Flatpickr from CDN and implements:
+- `dob` (Date of Birth)
+- `from_date` (Attendance filter)
+- `to_date` (Attendance filter)
+- Icon IDs:
+  - `dob_icon`
+  - `from_date_icon`
+  - `to_date_icon`
+- Helper function:
+  - `getMySQLFormattedDate(fieldId)`
+
+---
+
+## 1) What a Datepicker Means in CauferoAppStarter
+
+A datepicker is an enhanced text input that:
+- displays a human-readable date string on-screen
+- stores (or converts to) a database-friendly date string when saving or filtering
+- is opened by:
+  - clicking the input
+  - clicking a calendar icon next to it
+
+In CauferoAppStarter, datepickers are built using:
+- Flatpickr CSS + JS included in the HTML `<head>`
+- A shared initialization script that:
+  - binds flatpickr to selected fields
+  - converts initial MySQL dates into readable date strings
+  - provides a helper to convert readable dates back into MySQL format
+
+---
+
+## 2) Required Dependencies (Must Exist in the Full Page)
+
+Your full page includes these CDN resources:
+
+~~~html
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'>
+<script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>
+~~~
+
+### Rules
+1. Flatpickr CSS must be loaded before rendering fields (for correct UI)
+2. Flatpickr JS must be loaded before the initialization script runs
+3. The initialization script must run after DOM content is ready
+
+---
+
+## 3) HTML Implementation Pattern
+
+Each datepicker field uses:
+- an `<input type='text'>`
+- a stable `id`
+- an icon element placed absolutely within the same container
+
+### 3.1 Canonical HTML for a date input with icon
+From your page:
+
+~~~html
+<div style='position: relative;'>
+  <input type='text' id='dob' value='{{DATE_VALUE}}' />
+  <i class='fas fa-calendar-alt' id='dob_icon'
+     style='position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #666; cursor: pointer;'></i>
+</div>
+~~~
+
+Same structure for range filters:
+
+~~~html
+<div style='position: relative;'>
+  <input type='text' id='from_date' value='{{FROM_DATE_MYSQL}}' />
+  <i class='fas fa-calendar-alt' id='from_date_icon' style='position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #666; cursor: pointer;'></i>
+</div>
+
+<div style='position: relative;'>
+  <input type='text' id='to_date' value='{{TO_DATE_MYSQL}}' />
+  <i class='fas fa-calendar-alt' id='to_date_icon' style='position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #666; cursor: pointer;'></i>
+</div>
+~~~
+
+### 3.2 Mandatory IDs
+A datepicker field must have:
+- input ID: `FIELD_ID`
+- icon ID: `FIELD_ID_icon` (or explicit mapping inside JS)
+
+In your system you use explicit mapping objects, so the icon ID does not have to follow a naming formula, but it must match what JS expects.
+
+---
+
+## 4) FileMaker Preprocessing of Date Values
+
+Your page uses FileMaker variables to generate two styles of date values:
+
+### 4.1 Date of Birth (DOB)
+DOB appears to be stored as a date text string (likely in MySQL format already) and injected directly:
+~~~filemaker
+Set Variable [ $Date of Birth ; Value: GetValue ( $Link Record As List ; 8 ) ]
+~~~
+
+### 4.2 Date range filter values (From / To)
+You set defaults and also create MySQL versions:
+
+~~~filemaker
+Set Variable [ $From Date ; Value: DefaultIfEmpty ( GetValue ( GetScriptParameters ; 3 ) ; Get ( CurrentDate ) ) ]
+Set Variable [ $To Date ; Value: DefaultIfEmpty ( GetValue ( GetScriptParameters ; 4 ) ; Get ( CurrentDate ) ) ]
+
+Set Variable [ $From Date MySQL ; Value: FMPDateTextToMySQLDate ( $From Date ) ]
+Set Variable [ $To Date MySQL ; Value: FMPDateTextToMySQLDate ( $To Date ) ]
+~~~
+
+### Rule
+When the page loads, date fields can start with a MySQL-style date string:
+- `YYYY-MM-DD`
+Then JS converts it into a readable format for the user.
+
+---
+
+## 5) Datepicker Initialization Script (Flatpickr)
+
+Your implementation uses a single script that:
+- declares date fields to initialize
+- converts initial MySQL date strings to readable date strings
+- creates flatpickr instances
+- binds the calendar icon click to open the picker
+
+### 5.1 Canonical initialization script (from your page)
+This is the core pattern:
+
+~~~js
+document.addEventListener('DOMContentLoaded', function () {
+  const dateFields = [
+    { id: 'dob', iconId: 'dob_icon' },
+    { id: 'from_date', iconId: 'from_date_icon' },
+    { id: 'to_date', iconId: 'to_date_icon' }
+  ];
+
+  function formatMySQLDateToReadable(mysqlDate) {
+    const parsedDate = flatpickr.parseDate(mysqlDate, 'Y-m-d');
+    return parsedDate ? flatpickr.formatDate(parsedDate, 'l, j F, Y') : '';
+  }
+
+  dateFields.forEach(field => {
+    const dateInput = document.getElementById(field.id);
+    const dateIcon = document.getElementById(field.iconId);
+
+    const initialDate = dateInput.value && dateInput.value !== '--' ? dateInput.value : null;
+
+    if (initialDate) {
+      dateInput.value = formatMySQLDateToReadable(initialDate);
+    }
+
+    const flatpickrInstance = flatpickr(dateInput, {
+      dateFormat: 'l, j F, Y',
+      defaultDate: initialDate || null,
+      allowInput: true,
+      onChange: function (selectedDates, dateStr) {
+        dateInput.value = dateStr;
+      }
+    });
+
+    if (dateIcon) {
+      dateIcon.addEventListener('click', function () {
+        flatpickrInstance.open();
+      });
+    }
+  });
+});
+~~~
+
+### 5.2 What this script guarantees
+1. If the input value starts as `YYYY-MM-DD`, it becomes readable like:
+   - `Sunday, 7 January, 2026` (example format)
+2. The flatpickr instance uses readable date format for UI
+3. Clicking the icon opens the datepicker
+4. The input value remains readable after picking
+
+---
+
+## 6) Converting User-Selected Dates Back to MySQL Format
+
+Your system provides a helper:
+
+~~~js
+function getMySQLFormattedDate(fieldId) {
+  const dateInput = document.getElementById(fieldId).value;
+
+  if (!dateInput || dateInput === '--') {
+    return null;
+  }
+
+  const parsedDate = flatpickr.parseDate(dateInput, 'l, j F, Y');
+  return parsedDate ? flatpickr.formatDate(parsedDate, 'Y-m-d') : null;
+}
+~~~
+
+### Rule
+Whenever the system needs to pass a date back to FileMaker:
+- convert readable input value to `YYYY-MM-DD`
+- pass that string in script parameters
+
+---
+
+## 7) How Datepicker Values Are Used in Page Actions
+
+There are two common action types:
+
+### 7.1 Save action (Saving entity data)
+In your page, DOB is captured during Save as MySQL date:
+
+~~~js
+const dob = getMySQLFormattedDate('dob');
+~~~
+
+Then included in save parameters.
+
+### 7.2 Filter action (Date range filtering)
+Your attendance section reads:
+
+~~~js
+function getAttendance() {
+
+  const from_date = getMySQLFormattedDate('from_date');
+  const to_date = getMySQLFormattedDate('to_date');
+
+  const parameters = [ from_date, to_date ].join('|');
+
+  FileMaker.PerformScript('Get Staff Attendance', parameters);
+}
+~~~
+
+### Rule
+For date range filters:
+- both dates must be converted to MySQL format
+- parameters are sent to FileMaker script that regenerates the page or subtable
+
+---
+
+## 8) Standard ID and Icon Wiring Rules
+
+### 8.1 Input ID rule
+Every datepicker must have a unique, stable input ID.
+
+### 8.2 Icon ID rule
+Every datepicker may have an icon ID.
+If present, it must be mapped in the `dateFields` array.
+
+Example mapping entry:
+~~~js
+{ id: 'my_date_field', iconId: 'my_date_field_icon' }
+~~~
+
+### 8.3 If icon is missing
+The script checks:
+~~~js
+if (dateIcon) { ... }
+~~~
+So icon is optional, but recommended.
+
+---
+
+## 9) Copy-Paste Implementation Templates
+
+### 9.1 Template: Add one datepicker field
+HTML:
+~~~html
+<div class='form-group-2'>
+  <label for='my_date'>My Date</label>
+  <div style='position: relative;'>
+    <input type='text' id='my_date' value='{{MY_DATE_MYSQL}}' />
+    <i class='fas fa-calendar-alt' id='my_date_icon'
+       style='position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #666; cursor: pointer;'></i>
+  </div>
+</div>
+~~~
+
+JS additions:
+1) Add entry in the dateFields array:
+~~~js
+{ id: 'my_date', iconId: 'my_date_icon' }
+~~~
+
+2) Read value when needed:
+~~~js
+const my_date_mysql = getMySQLFormattedDate('my_date');
+~~~
+
+### 9.2 Template: Date range picker (From / To)
+HTML:
+~~~html
+<input type='text' id='from_date' value='{{FROM_DATE_MYSQL}}' />
+<i class='fas fa-calendar-alt' id='from_date_icon' ...></i>
+
+<input type='text' id='to_date' value='{{TO_DATE_MYSQL}}' />
+<i class='fas fa-calendar-alt' id='to_date_icon' ...></i>
+~~~
+
+JS usage:
+~~~js
+const from_date = getMySQLFormattedDate('from_date');
+const to_date = getMySQLFormattedDate('to_date');
+~~~
+
+---
+
+## 10) Quality Checklist for the AI Agent
+
+When implementing a datepicker, the AI Agent must verify:
+
+### Dependencies
+1. Flatpickr CSS is included
+2. Flatpickr JS is included
+
+### HTML
+3. The field is an `<input type='text'>`
+4. The input has a stable ID
+5. The icon exists and has a stable ID (recommended)
+
+### Initialization
+6. Field ID is included in `dateFields` array
+7. Script runs on `DOMContentLoaded`
+
+### Formatting
+8. Initial MySQL date is converted to readable format on load
+9. On selection, the input stores readable format
+
+### Output
+10. When sending to FileMaker, use `getMySQLFormattedDate()`
+11. Null is returned for empty or `--` values
+
+---
+
+## 11) Common Failure Modes and Fixes
+
+### 11.1 Datepicker does not show calendar
+Cause:
+- Flatpickr JS not loaded
+Fix:
+- Ensure:
+  - `<script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>`
+
+### 11.2 Icon click does nothing
+Cause:
+- icon ID mismatch
+Fix:
+- Ensure `iconId` in dateFields matches HTML
+
+### 11.3 Initial date shows as raw MySQL (YYYY-MM-DD)
+Cause:
+- format conversion not applied
+Fix:
+- Ensure:
+  - `dateInput.value = formatMySQLDateToReadable(initialDate);`
+
+### 11.4 getMySQLFormattedDate returns null unexpectedly
+Cause:
+- input is not in readable format expected by parseDate
+Fix:
+- Ensure flatpickr `dateFormat` matches parseDate format:
+  - parse uses `'l, j F, Y'`
+  - input is stored as `'l, j F, Y'`
+
+### 11.5 Saving breaks because date contains commas and spaces
+Cause:
+- you passed readable date instead of MySQL date
+Fix:
+- always pass `getMySQLFormattedDate('fieldId')` result to FileMaker
+
+---
+
+## 12) Clarifications Needed (Ambiguities the AI Agent Cannot Guess)
+
+These must be clarified to make the AI Agent implementation perfect:
+
+1. **Date storage standard in FileMaker**
+   - Are all stored dates in MySQL `YYYY-MM-DD` text format?
+   - Or are some dates stored as FileMaker date type and later converted?
+
+2. **Locale and display format**
+   - Your readable format is: `'l, j F, Y'`
+   - Must this always be the same across the whole app?
+   - Any pages that must show a different format?
+
+3. **Timezone behavior**
+   - Do you treat dates as pure dates (no timezone meaning)?
+   - Or do you sometimes use timestamp pickers?
+
+4. **Validation rules**
+   - Do you restrict:
+     - future dates for DOB
+     - from_date <= to_date
+     - required fields
+   - If yes, where do you enforce it (JS or FileMaker)?
+
+5. **Empty date marker**
+   - Your script checks for `'--'`
+   - Confirm what the standard empty marker is in your pages.
+
+---
+
+## 13) Implementation Standard (What the AI Agent Must Produce)
+
+When asked to implement a datepicker in CauferoAppStarter, the AI Agent must produce:
+
+1. `<input type='text'>` with stable ID and label
+2. calendar icon next to it, wired by ID mapping
+3. Flatpickr initialization script:
+   - converts initial MySQL date to readable
+   - sets flatpickr to readable date format
+4. Helper `getMySQLFormattedDate(fieldId)`
+5. Usage rule:
+   - always convert to MySQL format before passing to FileMaker scripts

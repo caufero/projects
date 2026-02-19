@@ -1,0 +1,535 @@
+# CauferoAppStarter Documentation
+## Wizards and How They Are Implemented (Stepper + Step Content + Next/Prev Logic)
+
+> Purpose of this doc  
+> Train an AI Agent to implement a **Wizard** (multi-step flow) in CauferoAppStarter WebViewer pages using the "My Appraisal Details" sample.  
+> A wizard is used when one “page” is too dense and must be broken into steps, with a stepper UI at the top and Next/Previous navigation at the bottom.  
+> This doc covers: data prep, HTML structure, CSS expectations, JS state machine, last-step actions, and FileMaker script contracts.
+
+---
+
+## 1) What “Wizard” Means in CauferoAppStarter
+
+A wizard is a structured multi-step UI that:
+
+- Shows a **Stepper** (steps 1..N) so users know where they are
+- Shows **only one step’s content at a time**
+- Provides **Previous** and **Next** buttons
+- On the last step, **Next becomes Submit/OK** and triggers a final action (save, submit, close, cancel)
+
+In this framework:
+- Steps are `.step` elements
+- Step content sections are `.step-wizard_content`
+- JavaScript manages `currentStep` and toggles the `active` class
+
+---
+
+## 2) When to Use a Wizard
+
+Use a wizard when:
+- The user must complete a process in a strict sequence
+- There are too many fields or sections to present at once
+- You need to reduce cognitive load and improve completion rates
+- The final step needs confirmation and a final action
+
+Examples:
+- Appraisal form: Questions → KPIs → Remarks → Submit
+- New employee onboarding: Bio → Permissions → Review → Create
+- Purchase request: Vendor → Items → Approvals → Submit
+- Stock transfer: Source → Items → Destination → Confirm
+
+AI Agent rule:
+- Use a wizard for “completion workflows” where it is helpful to guide users through a linear path.
+
+---
+
+## 3) Wizard Component Anatomy (High Level)
+
+A wizard has 3 major blocks:
+
+1) **Stepper UI**
+   - visual steps with numbers/labels
+2) **Wizard Content Area**
+   - multiple step panels, only one visible at a time
+3) **Wizard Navigation Buttons**
+   - Previous and Next, with Next label changing on last step
+
+In the sample, these blocks are wrapped in:
+
+~~~html
+<div class='wizard-container'>
+  <div class='stepper'> ...steps... </div>
+  <div class='wizard_content'> ...step-wizard_content... </div>
+  <div class='wizard_buttons'> ...prev/next... </div>
+</div>
+~~~
+
+---
+
+## 4) FileMaker Data Preparation Requirements
+
+A wizard page usually depends on significant data prep before HTML generation.
+
+In the sample, the wizard depends on:
+- appraisal header fields (period name, status, totals)
+- hierarchical questions HTML (`$Questions HTML`)
+- score headers HTML (`$Scores HTML`)
+- KPI subtable HTML (`$Sub Table HTML _KPIs`)
+- preloaded answers JS (`$Answers JS`)
+- status flags (e.g., `$$Status`, `$$Disabled`, `$Total Questions`)
+
+AI Agent rule:
+- Prepare all wizard-dependent HTML/JS fragments in FileMaker variables before building `$Tab1 HTML`.
+- Never try to fetch these in the browser; WebViewer page should be fully assembled.
+
+---
+
+## 5) Required HTML Structure
+
+### 5.1 Wizard container
+
+Recommended base:
+
+~~~html
+<div class='wizard-container' style='max-height: 105%;'>
+  ...
+</div>
+~~~
+
+### 5.2 Stepper (must match number of content steps)
+
+Sample stepper:
+
+~~~html
+<div class='stepper'>
+
+  <div class='step active'>
+    <div class='icon'>1</div>
+    <p>Start</p>
+    <div class='line'></div>
+  </div>
+
+  <div class='step'>
+    <div class='icon'>2</div>
+    <p>KPIs</p>
+    <div class='line'></div>
+  </div>
+
+  <div class='step'>
+    <div class='icon'>3</div>
+    <p>Remarks</p>
+  </div>
+
+</div>
+~~~
+
+Key rules:
+- Each `.step` represents one wizard stage.
+- The first `.step` starts as `active` (optional; JS will correct it).
+- A `.line` element is used for the visual connector between steps (optional on last step).
+- Labels must match the content intention.
+
+AI Agent rule:
+- The number of `.step` elements MUST equal the number of `.step-wizard_content` elements.
+
+### 5.3 Wizard content panels
+
+Sample content container:
+
+~~~html
+<div class='wizard_content'>
+
+  <div class='step-wizard_content active'>
+    ... Step 1 content ...
+  </div>
+
+  <div class='step-wizard_content'>
+    ... Step 2 content ...
+  </div>
+
+  <div class='step-wizard_content'>
+    ... Step 3 content ...
+  </div>
+
+</div>
+~~~
+
+Key rules:
+- Only one panel should have `active` at a time.
+- The first panel starts as `active`.
+
+AI Agent rule:
+- Each step panel must map to a stepper item by index.
+- Each step panel should include:
+  - a short title `<h3>`
+  - a short instruction `<p>`
+  - the actual UI objects (tables, inputs, subtables)
+
+### 5.4 Wizard navigation buttons (Prev/Next)
+
+Sample buttons:
+
+~~~html
+<div class='wizard_buttons'>
+  <button class='wizard_button' id='prev' disabled>Previous</button>
+  <button class='wizard_button' id='next'>Next</button>
+</div>
+~~~
+
+Key rules:
+- Buttons must have stable IDs:
+  - `prev`
+  - `next`
+- `prev` starts disabled
+- `next` starts as Next
+
+AI Agent rule:
+- Wizard JS must query by these IDs, so do not change them unless you also change the JS.
+
+---
+
+## 6) JavaScript Wizard State Machine
+
+### 6.1 Core variables and selection
+
+The wizard script begins by selecting:
+- `.step` elements
+- `.step-wizard_content` panels
+- buttons `#prev` and `#next`
+- `currentStep` index state
+
+Sample:
+
+~~~javascript
+const steps = document.querySelectorAll('.step');
+const contents = document.querySelectorAll('.step-wizard_content');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+let currentStep = 0;
+~~~
+
+AI Agent rule:
+- `currentStep` must always be an integer between 0 and steps.length-1.
+
+### 6.2 updateWizard() function (the brain)
+
+This function enforces:
+- stepper active state (<= currentStep)
+- content active state (== currentStep)
+- prev button enabled/disabled
+- next button text changes on last step
+
+Sample logic:
+
+~~~javascript
+function updateWizard() {
+  steps.forEach((step, index) => {
+    step.classList.toggle('active', index <= currentStep);
+  });
+
+  contents.forEach((content, index) => {
+    content.classList.toggle('active', index === currentStep);
+  });
+
+  prevBtn.disabled = currentStep === 0;
+
+  nextBtn.textContent =
+    currentStep === steps.length - 1
+      ? 'Submit' /* or OK */
+      : 'Next';
+}
+~~~
+
+In your framework, the last button label is computed from FileMaker:
+
+- If status is Pending/Not Completed: label is Submit
+- Else: label is OK
+
+Sample injection:
+
+~~~filemaker
+nextBtn.textContent = currentStep === steps.length - 1
+  ? '" & If ( $$Status = "Pending" or $$Status = "Not Completed" ; "Submit" ; "OK" ) & "'
+  : 'Next';
+~~~
+
+AI Agent rule:
+- Wizard UI state must always be derived from `currentStep` and `steps.length`.
+- The last step label must be controlled by FileMaker business logic when needed.
+
+### 6.3 Next button behavior
+
+Rules:
+- If not last step: increment step and update
+- If last step: run final action
+
+Sample:
+
+~~~javascript
+nextBtn.addEventListener('click', () => {
+  if (currentStep < steps.length - 1) {
+    currentStep++;
+    updateWizard();
+  } else {
+    /* Last step action */
+    submitRecordsInHierarchicalTable();
+  }
+});
+~~~
+
+In the sample, last action is injected based on status:
+
+~~~filemaker
+" & If ( $$Status = "Pending" or $$Status = "Not Completed" ;
+  "submitRecordsInHierarchicalTable()" ;
+  "cancelAction()" ) & ";
+~~~
+
+AI Agent rule:
+- Last step must always trigger a single “final action”.
+- Final action should be:
+  - submit script when editable
+  - cancel/close when already submitted or read-only
+
+### 6.4 Prev button behavior
+
+Rules:
+- If currentStep > 0: decrement step and update
+
+Sample:
+
+~~~javascript
+prevBtn.addEventListener('click', () => {
+  if (currentStep > 0) {
+    currentStep--;
+    updateWizard();
+  }
+});
+~~~
+
+### 6.5 Initialization call
+
+Always call:
+
+~~~javascript
+updateWizard();
+~~~
+
+AI Agent rule:
+- Without initialization, UI state will mismatch initial markup.
+
+---
+
+## 7) Wizard and “Read-Only / Disabled” State
+
+In the sample, fields become disabled based on status:
+
+~~~filemaker
+Set Variable [ $$Disabled ; Value: If ( $$Status = "Submitted" or $$Status = "Appraised" ; " disabled" ) ]
+~~~
+
+Usage in HTML:
+
+~~~html
+<textarea id='staff_remarks' ... {{DISABLED}}>{{REMARKS}}</textarea>
+~~~
+
+AI Agent rule:
+- Wizard does not manage permissions, FileMaker does.
+- Wizard content panels must respect `$$Disabled` when injected into input elements.
+
+---
+
+## 8) Wizard and Business Logic Coupling (Submit vs OK)
+
+This wizard changes behavior at the end:
+
+- Editable state: final button is Submit, calls submit function
+- Non-editable state: final button is OK, calls cancel action or closes page
+
+AI Agent rule:
+- Make wizard final step “meaningful”.
+- Do not leave Next on last step. It must become Submit/OK/Finish based on business rules.
+
+---
+
+## 9) Wizard Integration With Other Page Scripts
+
+In the sample, `$Scripts` includes many scripts:
+
+- `$Wizard Script` (wizard navigation)
+- `$Store Scores Scripts` (radio selection tracking + progress card updates)
+- `$Hierarchical Table Scripts` (save and submit functions)
+- `$Cancel Action Script` (exit page)
+- `$View KPI Script` (open KPI modal)
+
+Composition pattern:
+
+~~~filemaker
+Set Variable [ $Scripts ; Value:
+"<script> " & 
+  $Show Content Script & "¶¶" &
+  $Cancel Action Script & "¶¶" &
+  $Wizard Script & "¶¶" &
+  $Store Scores Scripts & "¶¶" &
+  $View KPI Script & "¶¶" &
+  $Hierarchical Table Scripts &
+" </script> "
+]
+~~~
+
+AI Agent rule:
+- Wizard is a navigation shell; it depends on other scripts to save/submit.
+- Ensure functions called by the wizard exist before runtime:
+  - `submitRecordsInHierarchicalTable()`
+  - `cancelAction()`
+
+---
+
+## 10) CSS Expectations for Wizards
+
+The wizard depends on these classes being styled:
+
+- `.wizard-container`
+- `.stepper`
+- `.step`
+- `.step.active`
+- `.icon`
+- `.line`
+- `.wizard_content`
+- `.step-wizard_content`
+- `.step-wizard_content.active`
+- `.wizard_buttons`
+- `.wizard_button`
+
+Minimum behavior:
+- Only `.step-wizard_content.active` should be visible
+- Inactive panels should be hidden (`display: none`)
+
+Recommended CSS (if not already in `🖌️ Use Details CSS`):
+
+~~~css
+.step-wizard_content { display: none; }
+.step-wizard_content.active { display: block; }
+
+.step.active .icon { /* highlight current and completed */ }
+.step.active p { /* highlight label */ }
+
+.wizard_buttons { display: flex; justify-content: space-between; gap: 12px; }
+.wizard_button[disabled] { opacity: 0.5; cursor: not-allowed; }
+~~~
+
+AI Agent rule:
+- If CSS is missing, wizard will show all steps at once and break the UX.
+- Always verify that `.step-wizard_content` is hidden unless active.
+
+---
+
+## 11) Standard Build Pattern (How the AI Agent Should Implement a Wizard)
+
+When asked to implement a wizard, the AI Agent must do:
+
+1) Decide steps and titles
+   - Example: Start, KPIs, Remarks
+2) Build stepper HTML with `.step` items
+3) Build content panels with `.step-wizard_content` in the same order
+4) Add navigation buttons with IDs `prev` and `next`
+5) Implement wizard JS:
+   - `currentStep`
+   - `updateWizard()`
+   - next/prev event handlers
+6) Define the last-step action based on FileMaker business logic
+7) Ensure any functions referenced on last step exist (submit/save/cancel)
+8) Ensure CSS supports hiding inactive steps
+
+---
+
+## 12) Common Failure Modes and Fixes
+
+### 12.1 Clicking Next does nothing
+Cause:
+- `#next` button ID is different
+Fix:
+- ensure `id='next'` exists
+
+### 12.2 All step contents show at once
+Cause:
+- missing CSS that hides `.step-wizard_content`
+Fix:
+- ensure `.step-wizard_content { display: none; }` and `.active { display: block; }`
+
+### 12.3 Stepper highlights incorrectly
+Cause:
+- active logic uses `index <= currentStep` but you want only current step
+Fix:
+- decide desired behavior:
+  - completed style for earlier steps (<=)
+  - current-only style (==)
+- adjust accordingly
+
+### 12.4 Last step runs wrong action
+Cause:
+- status logic inconsistent (`Pending`, `Not Completed`, `Submitted`, `Appraised`)
+Fix:
+- standardize status values and the condition used in wizard final action
+
+### 12.5 Wizard references functions that do not exist
+Cause:
+- last step calls `submitRecordsInHierarchicalTable()` but scripts not included
+Fix:
+- always include the submit/save functions in `$Scripts`
+
+---
+
+## 13) Required Clarifications (Ambiguities the AI Agent Cannot Guess)
+
+For perfect consistency across pages, clarify:
+
+1) Status vocabulary
+   - What are the exact allowed values for `$$Status`?
+   - In this sample it checks: Pending, Not Completed, Submitted, Appraised
+   - Are there others like Not Submitted, Completed, Approved?
+
+2) Desired stepper behavior
+   - Should completed steps stay highlighted (index <= currentStep), or should only the current step highlight?
+
+3) Last-step action policy
+   - When status is not editable, should final action always be `cancelAction()`?
+   - Or should it call a different script, like close modal, go back, or show a confirmation?
+
+4) Wizard clickability
+   - Should clicking on step circles allow jumping steps?
+   - Current sample does not support click-to-jump.
+   - If required, AI Agent must implement step click handlers and validation rules.
+
+5) Validation rule placement
+   - Should validation occur:
+     - when moving Next
+     - only on Submit
+     - both
+   - Current sample validates “all questions answered” only on submit.
+
+---
+
+## 14) AI Agent Output Standard (What Must Be Produced)
+
+When asked for a wizard implementation, the AI Agent must output:
+
+1) HTML
+   - `.wizard-container`
+   - `.stepper` with `.step` items
+   - `.wizard_content` with `.step-wizard_content` panels
+   - `.wizard_buttons` with `#prev` and `#next`
+
+2) JavaScript
+   - `currentStep` state
+   - `updateWizard()` toggling `active`
+   - next/prev event listeners
+   - last-step final action calling a known function
+
+3) FileMaker contracts
+   - Where the last-step label and action are derived from FileMaker variables (status)
+   - Which FileMaker scripts are called (Save, Submit, Cancel)
+
+4) CSS expectations
+   - Ensure inactive steps are hidden and active is visible

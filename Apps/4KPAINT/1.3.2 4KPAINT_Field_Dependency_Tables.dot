@@ -1,0 +1,13 @@
+digraph TableDependencies {
+  rankdir=LR;
+  node [shape=box];
+  "EMPLOYEE" -> "T31b_Employee_EMPLEDGER" [label="6"];
+  "TIME_CARD" -> "CONTRACTOR_WORKER" [label="4"];
+  "JOBCOST_LEDGERCONTRACTOR" -> "T72b_ConLedger_CONTRACTOR" [label="3"];
+  "TIME_CARD" -> "EMPLOYEE" [label="3"];
+  "EMPLOYEE" -> "DateRangeFiltered" [label="2"];
+  "MASTER_LEDGER" -> "T75a_MASTER_LEDGER" [label="2"];
+  "TIME_CARD" -> "JOB" [label="2"];
+  "DAILY_LOG" -> "EMPLOYEE" [label="2"];
+  "DAILY_LOG" -> "JOB" [label="2"];
+}

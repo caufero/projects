@@ -1,0 +1,2201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Agent Playbook - Doc-First Workflow</title>
+</head>
+<body>
+  <div class="page" data-theme="auto">
+    <div class="bg" aria-hidden="true"></div>
+
+    <header class="topbar" role="banner">
+      <div class="topbar-inner">
+        <div class="topbar-left">
+          <a class="brand" href="https://caufero.github.io/projects/_Misc/_/_Stuff.md#">
+            <img src="https://caufero.github.io/projects/Apps/CarePort/Screenshots/caufero_logo.png" alt="4KPAINT" style="width:37px;height:37px;object-fit:cover;margin-right:-3px;" />
+            <div class="brand-text">
+              <div class="brand-name">Caufero Workspace</div>
+              <div class="brand-sub">Your control room for apps, prompts, chats, and modular blocks</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="topbar-center">
+          <div class="page-chip">
+            <span class="page-chip-dot" aria-hidden="true"></span>
+            <span class="page-chip-text">Documentation › AI Agent Playbook</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a class="icon-btn" href="#" title="Beautify Markdown Pages" aria-label="Beautify Markdown Pages">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3l2.2 6.8H21l-5.6 4.1L17.6 21 12 16.9 6.4 21l2.2-7.1L3 9.8h6.8L12 3z"/>
+            </svg>
+            <span class="icon-btn-text">Beautify</span>
+          </a>
+
+          <a class="icon-btn brand" href="#" title="How To Do Stuff In Caufero" aria-label="How To Do Stuff In Caufero">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <path d="M14 2v6h6"/>
+              <path d="M8 13h8"/>
+              <path d="M8 17h8"/>
+              <path d="M8 9h2"/>
+            </svg>
+            <span class="icon-btn-text">How To</span>
+          </a>
+
+          <button class="icon-btn ghost" id="btnTheme" type="button" title="Toggle theme" aria-label="Toggle theme">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>
+            </svg>
+            <span class="icon-btn-text">Theme</span>
+          </button>
+
+          <button class="icon-btn ghost" id="btnMenu" type="button" title="Toggle menu" aria-label="Toggle menu">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 6h16"/>
+              <path d="M4 12h16"/>
+              <path d="M4 18h16"/>
+            </svg>
+            <span class="icon-btn-text">Menu</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell" id="shell">
+      <aside class="rail rail-left" id="railLeft" aria-label="Side menu">
+        <div class="rail-top">
+          <div class="rail-title">Navigation</div>
+          <div class="rail-sub">Quick jump to sections</div>
+
+          <div class="rail-search">
+            <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M21 21l-4.3-4.3"></path>
+            </svg>
+            <input id="navSearch" type="search" placeholder="Search sections..." autocomplete="off" />
+            <button class="xbtn" id="navClear" type="button" title="Clear" aria-label="Clear">
+              <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 6L6 18"></path>
+                <path d="M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <nav class="rail-body" id="navTree">
+          <a class="nav-item" href="https://caufero.github.io/projects/_Misc/_/_Stuff.md#" data-label="Home">
+            <span class="nav-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 10.5L12 3l9 7.5"></path>
+                <path d="M5 10v11h14V10"></path>
+              </svg>
+            </span>
+            <span class="nav-text">Home</span>
+          </a>
+
+          <div class="nav-group" data-label="Apps">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 7h16"></path>
+                  <path d="M4 12h16"></path>
+                  <path d="M4 17h16"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Apps</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/4KPAINT/_NewAdditions.md" data-label="Apps 4KPAINT"><span class="dot" aria-hidden="true"></span><span class="nav-text">4KPAINT</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CarePort/_NewAdditions.md" data-label="Apps CarePort"><span class="dot" aria-hidden="true"></span><span class="nav-text">CarePort</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/Elimes%20Outfit/_NewAdditions.md" data-label="Apps Elimes Outfit"><span class="dot" aria-hidden="true"></span><span class="nav-text">Elimes Outfit</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/Giftera/_NewAdditions.md" data-label="Apps Giftera"><span class="dot" aria-hidden="true"></span><span class="nav-text">Giftera</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/I2D/_NewAdditions.md" data-label="Apps I2D"><span class="dot" aria-hidden="true"></span><span class="nav-text">I2D</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/KoolTool/_NewAdditions.md" data-label="Apps KoolTool"><span class="dot" aria-hidden="true"></span><span class="nav-text">KoolTool</span></a>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Temp Text Files">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <path d="M14 2v6h6"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Temp Text Files</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub danger" href="https://caufero.github.io/projects/_Misc/_/Temp1.md" data-label="Temp Text Files Temp 1"><span class="dot"></span><span class="nav-text">Temp 1</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp2.md" data-label="Temp Text Files Temp 2"><span class="dot"></span><span class="nav-text">Temp 2</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp3.md" data-label="Temp Text Files Temp 3"><span class="dot"></span><span class="nav-text">Temp 3</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp4.md" data-label="Temp Text Files Temp 4"><span class="dot"></span><span class="nav-text">Temp 4</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp5.md" data-label="Temp Text Files Temp 5"><span class="dot"></span><span class="nav-text">Temp 5</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp6.md" data-label="Temp Text Files Temp 6"><span class="dot"></span><span class="nav-text">Temp 6</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp7.md" data-label="Temp Text Files Temp 7"><span class="dot"></span><span class="nav-text">Temp 7</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp8.md" data-label="Temp Text Files Temp 8"><span class="dot"></span><span class="nav-text">Temp 8</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp9.md" data-label="Temp Text Files Temp 9"><span class="dot"></span><span class="nav-text">Temp 9</span></a>
+              <a class="nav-item sub danger" href="https://caufero.github.io/projects/_Misc/_/Temp10.md" data-label="Temp Text Files Temp 10"><span class="dot"></span><span class="nav-text">Temp 10</span></a>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="AI Prompts">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a4 4 0 0 0-4 4v1H7a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1v1a4 4 0 1 0 8 0v-1h1a3 3 0 0 0 3-3V10a3 3 0 0 0-3-3h-1V6a4 4 0 0 0-4-4z"></path>
+                  <path d="M9 12h6"></path>
+                  <path d="M12 9v6"></path>
+                </svg>
+              </span>
+              <span class="nav-text">AI Prompts</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+
+            <div class="nav-group-body">
+              <div class="nav-subgroup" data-label="AI Prompts CSS">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill">CSS</span>
+                  <span class="nav-text">CSS</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Convert%20Current%20CSS%20To%20Tailwind%20CSS.md" data-label="AI Prompts CSS Convert Current CSS to Tailwind CSS"><span class="dot"></span><span class="nav-text">Convert Current CSS to Tailwind CSS</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/CSS_Theme_Mapper_Prompt.md" data-label="AI Prompts CSS Map CSS To Some Theme"><span class="dot"></span><span class="nav-text">Map CSS To Some Theme</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts Development">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill violet">DEV</span>
+                  <span class="nav-text">Development</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/Build%20Apps%20With%20CauferoAppStarter.md" data-label="AI Prompts Development Build App In CauferoAppStarter"><span class="dot"></span><span class="nav-text">Build App In CauferoAppStarter</span></a>
+                  
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/_Entity%20Filter%20Page.md" data-label="AI Prompts Development Build List Filter Page"><span class="dot"></span><span class="nav-text">Build List Filter Page</span></a>
+
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20List%20Page.md" data-label="AI Prompts Development Build List Page"><span class="dot"></span><span class="nav-text">Build List Page</span></a>
+
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++ Report%20Filter%20Page.md" data-label="AI Prompts Development Build Report Filter Page"><span class="dot"></span><span class="nav-text">Build Report Filter Page</span></a>
+
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Build%20Totally%20New%20Page.md" data-label="AI Prompts Development Build Totally New Page"><span class="dot"></span><span class="nav-text">Build Totally New Page</span></a>
+                  
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Do%20Changes%20In%20Solution%20Based%20On%20Development%20Documentation.md" data-label="AI Prompts Development Do Changes In Solution Based On Development Documentation"><span class="dot"></span><span class="nav-text">Do Changes In Solution Based On Development Documentation</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/How%20To%20Go%20About%20Some%20Development%20Task.md" data-label="AI Prompts Development How To Go About Some Development Task"><span class="dot"></span><span class="nav-text">How To Go About Some Development Task</span></a>
+
+                  <div class="nav-subgroup" data-label="AI Prompts Development Make Page Generation Better">
+                    <button class="nav-subgroup-head inner" type="button" data-toggle="subgroup">
+                      <span class="mini-pill teal">GEN</span>
+                      <span class="nav-text">Make Page Generation Better</span>
+                      <span class="chev" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </button>
+                    <div class="nav-subgroup-body">
+                      <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Make%20A%20Page%20ChatGPT%20Generated%20Become%20Better/Format%20JS%20Of%20Working%20FM%20Script%20Into%20Preferred%20Components.md" data-label="AI Prompts Development Make Page Generation Better Format JS Of Working FM Script Into Preferred Components"><span class="dot"></span><span class="nav-text">Format JS Of Working FM Script Into Preferred Components</span></a>
+                      <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Make%20A%20Page%20ChatGPT%20Generated%20Become%20Better/Make%20A%20Page%20ChatGPT%20Generated%20Become%20Better.md" data-label="AI Prompts Development Make Page Generation Better Make A Page ChatGPT Generated Become Better"><span class="dot"></span><span class="nav-text">Make A Page ChatGPT Generated Become Better</span></a>
+                    </div>
+                  </div>
+
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Mimic%20Caufero%20Workspace%20Page.md" data-label="AI Prompts Development Mimic Caufero Workspace Page"><span class="dot"></span><span class="nav-text">Mimic Caufero Workspace Page</span></a>
+
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Update%20ExecuteSQL%20Query.md" data-label="AI Prompts Development Update ExecuteSQL Query"><span class="dot"></span><span class="nav-text">Update ExecuteSQL Query</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts Documents">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill amber">DOC</span>
+                  <span class="nav-text">Documents</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Contract.md" data-label="AI Prompts Documents Software Contract"><span class="dot"></span><span class="nav-text">Software Contract</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Software%20Features%20Document%20_%20Based%20On%20DDR%20_n_%20Sample%20Features%20Doc.md" data-label="AI Prompts Documents Software Features Document"><span class="dot"></span><span class="nav-text">Software Features Document</span></a>
+                  <a class="nav-item sub muted" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Invoice.md" data-label="AI Prompts Documents Invoice"><span class="dot"></span><span class="nav-text">⏳ Invoice</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Software%20Proposal.md" data-label="AI Prompts Documents Software Proposal"><span class="dot"></span><span class="nav-text">Software Proposal</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts FM Script <-> XML">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill slate">XML</span>
+                  <span class="nav-text">FM Script &lt;-&gt; XML</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/XML:FM%20Scripts%20Convertions/Convert%20FM%20Script%20To%20XML.md" data-label="AI Prompts FM Script XML FM Script To XML"><span class="dot"></span><span class="nav-text">FM Script To XML</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/XML:FM%20Scripts%20Convertions/Convert%20XML%20To%20FM%20Script.md" data-label="AI Prompts FM Script XML XML To FM Script"><span class="dot"></span><span class="nav-text">XML To FM Script</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts Docs">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill teal">DOCS</span>
+                  <span class="nav-text">Docs</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Documentations/AI_AgentTraining.md" data-label="AI Prompts Docs Documentation To Train Agent To Do Something"><span class="dot"></span><span class="nav-text">Documentation To Train Agent To Do Something</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Documentations/FM%20App%20Documentation.md" data-label="AI Prompts Docs Documentation For A FileMaker Application"><span class="dot"></span><span class="nav-text">Documentation For A FileMaker Application</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts Explain">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill rose">WHY</span>
+                  <span class="nav-text">Explain</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/What%20Is%20It%20Doing/What%20Is%20This%20FM%20App%20Doing.md" data-label="AI Prompts Explain What Is This FileMaker Application Doing"><span class="dot"></span><span class="nav-text">What Is This FileMaker Application Doing?</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/What%20Is%20It%20Doing/What%20Is%20This%20FM%20Script%20Doing.md" data-label="AI Prompts Explain What Is This FileMaker Script Doing"><span class="dot"></span><span class="nav-text">What Is This FileMaker Script Doing?</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Modular Solutions">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h7v7H4z"></path>
+                  <path d="M13 4h7v7h-7z"></path>
+                  <path d="M4 13h7v7H4z"></path>
+                  <path d="M13 13h7v7h-7z"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Modular Solutions</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+
+            <div class="nav-group-body">
+              <div class="nav-subgroup" data-label="Modular Solutions Blue Collar">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill">BC</span>
+                  <span class="nav-text">Blue Collar</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/barcode_test.md" data-label="Modular Solutions Blue Collar barcode_test"><span class="dot"></span><span class="nav-text">barcode_test</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/Coffee%20Break.md" data-label="Modular Solutions Blue Collar Coffee Break"><span class="dot"></span><span class="nav-text">Coffee Break</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/Item%20Collection.md" data-label="Modular Solutions Blue Collar Item Collection"><span class="dot"></span><span class="nav-text">Item Collection</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/Time_Picker.md" data-label="Modular Solutions Blue Collar Time_Picker"><span class="dot"></span><span class="nav-text">Time_Picker</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Modular Solutions PerformanceBTS">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill amber">PB</span>
+                  <span class="nav-text">PerformanceBTS</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/ActionTrack_R1.md" data-label="Modular Solutions PerformanceBTS ActionTrack_R1"><span class="dot"></span><span class="nav-text">ActionTrack_R1</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/BCS_d1.md" data-label="Modular Solutions PerformanceBTS BCS_d1"><span class="dot"></span><span class="nav-text">BCS_d1</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/BCS_StyleSheetTheme.md" data-label="Modular Solutions PerformanceBTS BCS_StyleSheetTheme"><span class="dot"></span><span class="nav-text">BCS_StyleSheetTheme</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/FM%20Virtual%20Menu%20List.md" data-label="Modular Solutions PerformanceBTS FM Virtual Menu List"><span class="dot"></span><span class="nav-text">FM Virtual Menu List</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/InfoTools%20Helper.md" data-label="Modular Solutions PerformanceBTS InfoTools Helper"><span class="dot"></span><span class="nav-text">InfoTools Helper</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/Task_List.md" data-label="Modular Solutions PerformanceBTS Task_List"><span class="dot"></span><span class="nav-text">Task_List</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Modular Solutions Geist">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill violet">G</span>
+                  <span class="nav-text">Geist</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/FMSVGInator.md" data-label="Modular Solutions Geist FMSVGInator"><span class="dot"></span><span class="nav-text">FMSVGInator</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/LedgerLink.md" data-label="Modular Solutions Geist LedgerLink"><span class="dot"></span><span class="nav-text">LedgerLink</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/ModLog.md" data-label="Modular Solutions Geist ModLog"><span class="dot"></span><span class="nav-text">ModLog</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/OttoDeploy.md" data-label="Modular Solutions Geist OttoDeploy"><span class="dot"></span><span class="nav-text">OttoDeploy</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/OttoFMS.md" data-label="Modular Solutions Geist OttoFMS"><span class="dot"></span><span class="nav-text">OttoFMS</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/ProofChat.md" data-label="Modular Solutions Geist ProofChat"><span class="dot"></span><span class="nav-text">ProofChat</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/Raycast.md" data-label="Modular Solutions Geist Raycast"><span class="dot"></span><span class="nav-text">Raycast</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/SimpleQ.md" data-label="Modular Solutions Geist SimpleQ"><span class="dot"></span><span class="nav-text">SimpleQ</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Modular Solutions Monkeybread">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill slate">MB</span>
+                  <span class="nav-text">Monkeybread</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/CodeSnips.md" data-label="Modular Solutions Monkeybread CodeSnips"><span class="dot"></span><span class="nav-text">CodeSnips</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Modular Solutions Others">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill teal">+</span>
+                  <span class="nav-text">Others</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/JSONQuery%202.1.md" data-label="Modular Solutions Others JSONQuery 2.1"><span class="dot"></span><span class="nav-text">JSONQuery 2.1</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/OData%20Examples.md" data-label="Modular Solutions Others OData Examples"><span class="dot"></span><span class="nav-text">OData Examples</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/TaskControl.md" data-label="Modular Solutions Others TaskControl"><span class="dot"></span><span class="nav-text">TaskControl</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Tailwind-Designed Websites">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 12c2-6 6-6 8 0s6 6 8 0"></path>
+                  <path d="M4 18c2-6 6-6 8 0s6 6 8 0"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Tailwind-Designed Websites</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/_Stuff.md#tailwind-designed-websites" data-label="Tailwind-Designed Websites Jump To Section"><span class="dot"></span><span class="nav-text">Jump to Sites section</span></a>
+              <div class="nav-subgroup" data-label="Tailwind-Designed Websites AI Agents and Automation">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill teal">AI</span>
+                  <span class="nav-text">AI Agents &amp; Automation</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/AgentMail.md" data-label="Tailwind-Designed Websites AI AgentMail"><span class="dot"></span><span class="nav-text">AgentMail</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/AI%20Agents%20Hub.md" data-label="Tailwind-Designed Websites AI AI Agents Hub"><span class="dot"></span><span class="nav-text">AI Agents Hub</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/AI%20Agents%20List.md" data-label="Tailwind-Designed Websites AI AI Agents List"><span class="dot"></span><span class="nav-text">AI Agents List</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/AllGPTs.md" data-label="Tailwind-Designed Websites AI AllGPTs"><span class="dot"></span><span class="nav-text">AllGPTs</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/AutoGPT.md" data-label="Tailwind-Designed Websites AI AutoGPT"><span class="dot"></span><span class="nav-text">AutoGPT</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Best%20AI%20Agents.md" data-label="Tailwind-Designed Websites AI Best AI Agents"><span class="dot"></span><span class="nav-text">Best AI Agents</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Browser%20Use.md" data-label="Tailwind-Designed Websites AI Browser Use"><span class="dot"></span><span class="nav-text">Browser Use</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Composio.md" data-label="Tailwind-Designed Websites AI Composio"><span class="dot"></span><span class="nav-text">Composio</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Continuum.md" data-label="Tailwind-Designed Websites AI Continuum"><span class="dot"></span><span class="nav-text">Continuum</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Cranston%20AI.md" data-label="Tailwind-Designed Websites AI Cranston AI"><span class="dot"></span><span class="nav-text">Cranston AI</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/CrewAI.md" data-label="Tailwind-Designed Websites AI CrewAI"><span class="dot"></span><span class="nav-text">CrewAI</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Dify.md" data-label="Tailwind-Designed Websites AI Dify"><span class="dot"></span><span class="nav-text">Dify</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Flowise.md" data-label="Tailwind-Designed Websites AI Flowise"><span class="dot"></span><span class="nav-text">Flowise</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/LlamaIndex.md" data-label="Tailwind-Designed Websites AI LlamaIndex"><span class="dot"></span><span class="nav-text">LlamaIndex</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Subconscious.md" data-label="Tailwind-Designed Websites AI Subconscious"><span class="dot"></span><span class="nav-text">Subconscious</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Tavily.md" data-label="Tailwind-Designed Websites AI Tavily"><span class="dot"></span><span class="nav-text">Tavily</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/TaskMaster.md" data-label="Tailwind-Designed Websites AI TaskMaster"><span class="dot"></span><span class="nav-text">TaskMaster</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Tailwind-Designed Websites Builders and Platforms">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill violet">BLD</span>
+                  <span class="nav-text">Builders &amp; Platforms</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Bolt.new.md" data-label="Tailwind-Designed Websites Builders Bolt.new"><span class="dot"></span><span class="nav-text">Bolt.new</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Cofondr.md" data-label="Tailwind-Designed Websites Builders Cofondr"><span class="dot"></span><span class="nav-text">Cofondr</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Factory.md" data-label="Tailwind-Designed Websites Builders Factory"><span class="dot"></span><span class="nav-text">Factory</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Lovable.md" data-label="Tailwind-Designed Websites Builders Lovable"><span class="dot"></span><span class="nav-text">Lovable</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/MarsX.md" data-label="Tailwind-Designed Websites Builders MarsX"><span class="dot"></span><span class="nav-text">MarsX</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Unicorn%20Platform.md" data-label="Tailwind-Designed Websites Builders Unicorn Platform"><span class="dot"></span><span class="nav-text">Unicorn Platform</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Zuludesk.md" data-label="Tailwind-Designed Websites Builders Zuludesk"><span class="dot"></span><span class="nav-text">Zuludesk</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Tailwind-Designed Websites Dev Tools and Docs">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill">DEV</span>
+                  <span class="nav-text">Dev Tools &amp; Docs</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Cursor.md" data-label="Tailwind-Designed Websites Dev Cursor"><span class="dot"></span><span class="nav-text">Cursor</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Decipher%20AI.md" data-label="Tailwind-Designed Websites Dev Decipher AI"><span class="dot"></span><span class="nav-text">Decipher AI</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Dev%20Hunt.md" data-label="Tailwind-Designed Websites Dev Dev Hunt"><span class="dot"></span><span class="nav-text">Dev Hunt</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Graphed.md" data-label="Tailwind-Designed Websites Dev Graphed"><span class="dot"></span><span class="nav-text">Graphed</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Gravity.md" data-label="Tailwind-Designed Websites Dev Gravity"><span class="dot"></span><span class="nav-text">Gravity</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Make.md" data-label="Tailwind-Designed Websites Dev Make"><span class="dot"></span><span class="nav-text">Make</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/NextJs%20Starters%20&%20Boilerplates.md" data-label="Tailwind-Designed Websites Dev NextJs Starters & Boilerplates"><span class="dot"></span><span class="nav-text">NextJs Starters &amp; Boilerplates</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Open%20Source%20Software.md" data-label="Tailwind-Designed Websites Dev Open Source Software"><span class="dot"></span><span class="nav-text">Open Source Software</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Tailwind%20CSS.md" data-label="Tailwind-Designed Websites Dev Tailwind CSS"><span class="dot"></span><span class="nav-text">Tailwind CSS</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/UI%20Generator.md" data-label="Tailwind-Designed Websites Dev UI Generator"><span class="dot"></span><span class="nav-text">UI Generator</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Tailwind-Designed Websites Marketing and Growth">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill amber">GRW</span>
+                  <span class="nav-text">Marketing &amp; Growth</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/CountVisits.md" data-label="Tailwind-Designed Websites Marketing CountVisits"><span class="dot"></span><span class="nav-text">CountVisits</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Fast%20Search%20Engine%20Indexing.md" data-label="Tailwind-Designed Websites Marketing Fast Search Engine Indexing"><span class="dot"></span><span class="nav-text">Fast Search Engine Indexing</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/InboxBott.md" data-label="Tailwind-Designed Websites Marketing InboxBott"><span class="dot"></span><span class="nav-text">InboxBott</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/ListingBott.md" data-label="Tailwind-Designed Websites Marketing ListingBott"><span class="dot"></span><span class="nav-text">ListingBott</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Marketsy.ai.md" data-label="Tailwind-Designed Websites Marketing Marketsy.ai"><span class="dot"></span><span class="nav-text">Marketsy.ai</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Saas%20Emailer.md" data-label="Tailwind-Designed Websites Marketing Saas Emailer"><span class="dot"></span><span class="nav-text">Saas Emailer</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Secondly.md" data-label="Tailwind-Designed Websites Marketing Secondly"><span class="dot"></span><span class="nav-text">Secondly</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/SEObot.md" data-label="Tailwind-Designed Websites Marketing SEObot"><span class="dot"></span><span class="nav-text">SEObot</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/StartClaw.md" data-label="Tailwind-Designed Websites Marketing StartClaw"><span class="dot"></span><span class="nav-text">StartClaw</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Startups%20Tools.md" data-label="Tailwind-Designed Websites Marketing Startups Tools"><span class="dot"></span><span class="nav-text">Startups Tools</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/TinyAdz.md" data-label="Tailwind-Designed Websites Marketing TinyAdz"><span class="dot"></span><span class="nav-text">TinyAdz</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Tailwind-Designed Websites Misc and Reference">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill slate">MISC</span>
+                  <span class="nav-text">Misc &amp; Reference</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Butter.md" data-label="Tailwind-Designed Websites Misc Butter"><span class="dot"></span><span class="nav-text">Butter</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Filmgrail.md" data-label="Tailwind-Designed Websites Misc Filmgrail"><span class="dot"></span><span class="nav-text">Filmgrail</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Jack&Jill.md" data-label="Tailwind-Designed Websites Misc Jack&Jill"><span class="dot"></span><span class="nav-text">Jack&amp;Jill</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/John%20Rush.md" data-label="Tailwind-Designed Websites Misc John Rush"><span class="dot"></span><span class="nav-text">John Rush</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Kortix.md" data-label="Tailwind-Designed Websites Misc Kortix"><span class="dot"></span><span class="nav-text">Kortix</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Lorem.space.md" data-label="Tailwind-Designed Websites Misc Lorem.space"><span class="dot"></span><span class="nav-text">Lorem.space</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Mem0.md" data-label="Tailwind-Designed Websites Misc Mem0"><span class="dot"></span><span class="nav-text">Mem0</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/MyMeet.md" data-label="Tailwind-Designed Websites Misc MyMeet"><span class="dot"></span><span class="nav-text">MyMeet</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Naologic.md" data-label="Tailwind-Designed Websites Misc Naologic"><span class="dot"></span><span class="nav-text">Naologic</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Pally.md" data-label="Tailwind-Designed Websites Misc Pally"><span class="dot"></span><span class="nav-text">Pally</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Qurrent.md" data-label="Tailwind-Designed Websites Misc Qurrent"><span class="dot"></span><span class="nav-text">Qurrent</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Chats">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Chats</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/_Stuff.md" data-label="Chats Jump To Panel"><span class="dot"></span><span class="nav-text">Jump to Chats panel</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/_To%20Dos%20From%20Chats.md" data-label="Chats _To Dos From Chats"><span class="dot"></span><span class="nav-text">_To Dos From Chats</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/4K.md" data-label="Chats 4K"><span class="dot"></span><span class="nav-text">4K</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/AI.md" data-label="Chats AI"><span class="dot"></span><span class="nav-text">AI</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/APIs%20&%20Webhooks.md" data-label="Chats APIs & Webhooks"><span class="dot"></span><span class="nav-text">APIs &amp; Webhooks</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Caufero%20.md" data-label="Chats Caufero"><span class="dot"></span><span class="nav-text">Caufero</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Deployment.md" data-label="Chats Deployment"><span class="dot"></span><span class="nav-text">Deployment</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Design%20UI_UX.md" data-label="Chats Design UI_UX"><span class="dot"></span><span class="nav-text">Design UI_UX</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/DEV.md" data-label="Chats DEV"><span class="dot"></span><span class="nav-text">DEV</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Discussion.md" data-label="Chats Discussion"><span class="dot"></span><span class="nav-text">Discussion</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Files%20Shared.md" data-label="Chats Files Shared"><span class="dot"></span><span class="nav-text">Files Shared</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/General.md" data-label="Chats General"><span class="dot"></span><span class="nav-text">General</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Goodies%204U.md" data-label="Chats Goodies 4U"><span class="dot"></span><span class="nav-text">Goodies 4U</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Javascript%20in%20FileMaker.md" data-label="Chats Javascript in FileMaker"><span class="dot"></span><span class="nav-text">Javascript in FileMaker</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/JSON.md" data-label="Chats JSON"><span class="dot"></span><span class="nav-text">JSON</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/JS%20In%20FM.md" data-label="Chats JS In FM"><span class="dot"></span><span class="nav-text">JS In FM</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Mobile.md" data-label="Chats Mobile"><span class="dot"></span><span class="nav-text">Mobile</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Model%20Context%20Protocol%20(MCP).md" data-label="Chats Model Context Protocol (MCP)"><span class="dot"></span><span class="nav-text">Model Context Protocol (MCP)</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/ModularFM.md" data-label="Chats ModularFM"><span class="dot"></span><span class="nav-text">ModularFM</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/OData.md" data-label="Chats OData"><span class="dot"></span><span class="nav-text">OData</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/OTTO.md" data-label="Chats OTTO"><span class="dot"></span><span class="nav-text">OTTO</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Performance.md" data-label="Chats Performance"><span class="dot"></span><span class="nav-text">Performance</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Raycast.md" data-label="Chats Raycast"><span class="dot"></span><span class="nav-text">Raycast</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/ScriptsCalcs.md" data-label="Chats ScriptsCalcs"><span class="dot"></span><span class="nav-text">ScriptsCalcs</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Security%20Items.md" data-label="Chats Security Items"><span class="dot"></span><span class="nav-text">Security Items</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Server.md" data-label="Chats Server"><span class="dot"></span><span class="nav-text">Server</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/SQL.md" data-label="Chats SQL"><span class="dot"></span><span class="nav-text">SQL</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Team%20Meetings.md" data-label="Chats Team Meetings"><span class="dot"></span><span class="nav-text">Team Meetings</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/TipsTricksTraps.md" data-label="Chats TipsTricksTraps"><span class="dot"></span><span class="nav-text">TipsTricksTraps</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Tools.md" data-label="Chats Tools"><span class="dot"></span><span class="nav-text">Tools</span></a>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Actions To Automate">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18h6"></path>
+                  <path d="M10 22h4"></path>
+                  <path d="M12 2a7 7 0 0 0-4 12c.6.5 1 1.2 1.1 2h5.8c.1-.8.5-1.5 1.1-2A7 7 0 0 0 12 2z"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Actions To Automate</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="#actions" data-label="Actions To Automate Jump To Panel"><span class="dot"></span><span class="nav-text">Jump to Actions panel</span></a>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="YouTube">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 15l5-3-5-3z"></path>
+                  <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+                </svg>
+              </span>
+              <span class="nav-text">YouTube</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="#youtube" data-label="YouTube Jump To Panel"><span class="dot"></span><span class="nav-text">Jump to YouTube panel</span></a>
+              <a class="nav-item sub" href="#yt-ghana" data-label="YouTube Ghana Anchors"><span class="dot"></span><span class="nav-text">Open Ghana list</span></a>
+              <a class="nav-item sub" href="#yt-sports" data-label="YouTube Sports Anchors"><span class="dot"></span><span class="nav-text">Open Sports list</span></a>
+              <a class="nav-item sub" href="#yt-babies" data-label="YouTube Babies Anchors"><span class="dot"></span><span class="nav-text">Open Babies &amp; Animals list</span></a>
+              <a class="nav-item sub" href="#yt-tea" data-label="YouTube Streamer Tea Anchors"><span class="dot"></span><span class="nav-text">Open Streamer Tea list</span></a>
+              <a class="nav-item sub" href="#yt-politics" data-label="YouTube Politics Anchors"><span class="dot"></span><span class="nav-text">Open Politics list</span></a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="rail-bottom">
+          <div class="rail-foot">
+            <span class="rail-foot-dot" aria-hidden="true"></span>
+            <span>Fixed menu • scroll inside</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ========== MAIN CONTENT CANVAS (CENTER COLUMN) ========== -->
+      <main class="content" id="content" role="main">
+        <div class="content-inner">
+          <section class="hero">
+            <div class="hero-glow" aria-hidden="true"></div>
+            <div class="hero-inner">
+              <div class="hero-top">
+                <div class="hero-title">AI Agent Playbook</div>
+                <div class="hero-sub">Doc-First Interactive Build Workflow. Dual documentation for AI Agent and Builder. The AI agent provides requirements, produces build packets following strict documentation lookup rules, and the builder implements inside CauferoAppStarter. This playbook defines the exact process, creation methods, and mandatory build packet structure.</div>
+              </div>
+              <div class="hero-actions">
+                <button class="cta" onclick="window.location.href='#packet-section'">
+                  <span class="cta-ico" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <path d="M9 3v18"></path>
+                    </svg>
+                  </span>
+                  Build Packet Template
+                </button>
+              </div>
+              <div class="hero-meta">
+                <span class="chip">Doc-First</span>
+                <span class="chip violet">Phased Build</span>
+                <span class="chip amber">Strict Rules</span>
+                <span class="chip copper">Agent + Builder</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="card section" id="overview-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">📖</span>
+                <span>Overview</span>
+                <span class="section-sub">Doc-First Interactive Build Workflow</span>
+              </div>
+            </div>
+
+            <div style="padding: 20px; line-height: 1.6;">
+              <p>This workflow is for phased building while you interact with the AI Agent.</p>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 20px 0;">
+                <div style="border: 2px solid rgba(20,122,116,0.2); background: linear-gradient(180deg, rgba(20,122,116,0.08), rgba(20,122,116,0.04)); border-radius: 12px; padding: 16px; text-align: center;">
+                  <div style="font-size: 32px; margin-bottom: 8px;">📝</div>
+                  <div style="font-weight: 750; margin-bottom: 4px;">You Provide</div>
+                  <div style="font-size: 13px; color: var(--slate-600);">Requirements</div>
+                </div>
+
+                <div style="border: 2px solid rgba(91,73,200,0.2); background: linear-gradient(180deg, rgba(91,73,200,0.08), rgba(91,73,200,0.04)); border-radius: 12px; padding: 16px; text-align: center;">
+                  <div style="font-size: 32px; margin-bottom: 8px;">🤖</div>
+                  <div style="font-weight: 750; margin-bottom: 4px;">AI Produces</div>
+                  <div style="font-size: 13px; color: var(--slate-600);">Build Packets</div>
+                </div>
+
+                <div style="border: 2px solid rgba(216,116,61,0.2); background: linear-gradient(180deg, rgba(216,116,61,0.08), rgba(216,116,61,0.04)); border-radius: 12px; padding: 16px; text-align: center;">
+                  <div style="font-size: 32px; margin-bottom: 8px;">⚙️</div>
+                  <div style="font-weight: 750; margin-bottom: 4px;">You Implement</div>
+                  <div style="font-size: 13px; color: var(--slate-600);">In CauferoAppStarter</div>
+                </div>
+
+                <div style="border: 2px solid rgba(44,151,185,0.2); background: linear-gradient(180deg, rgba(44,151,185,0.08), rgba(44,151,185,0.04)); border-radius: 12px; padding: 16px; text-align: center;">
+                  <div style="font-size: 32px; margin-bottom: 8px;">🔄</div>
+                  <div style="font-weight: 750; margin-bottom: 4px;">Repeat</div>
+                  <div style="font-size: 13px; color: var(--slate-600);">Until Complete</div>
+                </div>
+              </div>
+
+              <p style="background: rgba(20,122,116,0.1); border-left: 3px solid rgba(20,122,116,0.7); padding: 12px; border-radius: 8px; margin-top: 16px;"><strong>Core Principle:</strong> The AI Agent must always consult documentation first, extract rules and contracts, then generate outputs that match CauferoAppStarter patterns.</p>
+            </div>
+          </section>
+
+          <section class="card section" id="docfirst-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">🎯</span>
+                <span>The Doc-First Rule (Strict)</span>
+                <span class="section-sub">Mandatory documentation lookup</span>
+              </div>
+            </div>
+
+            <div style="padding: 20px; line-height: 1.6;">
+              <h3 style="margin-top: 0; margin-bottom: 12px; font-weight: 750;">The AI Agent Must Always Do This First</h3>
+              <p>Before generating any output for any task, the AI Agent must:</p>
+
+              <ol style="margin-left: 20px;">
+                <li><strong>Locate</strong> the relevant documentation section(s) for the task</li>
+                <li><strong>Extract</strong> the rules and constraints</li>
+                <li><strong>Extract</strong> the required data formats and contracts</li>
+                <li><strong>Extract</strong> the canonical implementation approach used in CauferoAppStarter</li>
+                <li><strong>Only then</strong> generate the output</li>
+              </ol>
+
+              <h3 style="margin-top: 24px; margin-bottom: 12px; font-weight: 750;">Applies to All Tasks</h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 12px;">
+                <div style="border: 1px solid var(--line); background: var(--surface2); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 750; text-align: center;">Tables</div>
+                <div style="border: 1px solid var(--line); background: var(--surface2); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 750; text-align: center;">Fields</div>
+                <div style="border: 1px solid var(--line); background: var(--surface2); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 750; text-align: center;">Value Lists</div>
+                <div style="border: 1px solid var(--line); background: var(--surface2); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 750; text-align: center;">Custom Functions</div>
+                <div style="border: 1px solid var(--line); background: var(--surface2); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 750; text-align: center;">Links</div>
+                <div style="border: 1px solid var(--line); background: var(--surface2); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 750; text-align: center;">Page Scripts</div>
+                <div style="border: 1px solid var(--line); background: var(--surface2); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 750; text-align: center;">Modals</div>
+                <div style="border: 1px solid var(--line); background: var(--surface2); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 750; text-align: center;">Auxiliary Scripts</div>
+                <div style="border: 1px solid var(--line); background: var(--surface2); border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 750; text-align: center;">Script Edits</div>
+              </div>
+
+              <h3 style="margin-top: 24px; margin-bottom: 12px; font-weight: 750;">The AI Agent Must Show Its Doc-First Compliance</h3>
+              <p>Every build packet must start with:</p>
+
+              <div style="background: #0f1729; color: #e5e7eb; padding: 16px; border-radius: 12px; margin-top: 12px; font-family: monospace; font-size: 13px; line-height: 1.6;">
+<span style="color: #41c5e0;">### Doc References Used (Required)</span>
+
+<span style="color: #94a3b8;">- The AI Agent must list the exact documentation sections it used</span>
+<span style="color: #94a3b8;">- It must list the key rules it applied from those sections</span>
+<span style="color: #94a3b8;">- It must list any contracts or formats it followed</span>
+              </div>
+
+              <p style="background: rgba(15,23,42,0.06); border-left: 3px solid rgba(15,23,42,0.2); padding: 12px; border-radius: 8px; margin-top: 16px;"><strong>Important:</strong> It must not quote the entire documentation. It must extract and apply only what is necessary.</p>
+            </div>
+          </section>
+
+          <section class="card section" id="taskmap-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">🗺️</span>
+                <span>Task-to-Documentation Map</span>
+                <span class="section-sub">What the AI Agent must look up</span>
+              </div>
+            </div>
+
+            <div style="padding: 20px; line-height: 1.6;">
+              <p>This is the lookup map the AI Agent must follow.</p>
+
+              <!-- Tables -->
+              <div style="border: 2px solid rgba(20,122,116,0.2); background: linear-gradient(180deg, rgba(20,122,116,0.08), rgba(20,122,116,0.04)); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 850; color: var(--teal-700);">2.1 Tables</h3>
+                <p><strong>AI Agent must consult documentation sections covering:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Schema preflight</li>
+                  <li>Table naming rules</li>
+                  <li>Base vs child vs join vs document tables</li>
+                  <li>Audit fields requirements</li>
+                  <li>Strict prohibitions</li>
+                  <li>Templates and quick patterns</li>
+                </ul>
+                <p style="margin-top: 12px;"><strong>Output expectation:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Tables list</li>
+                  <li>Per-table fields list</li>
+                  <li>Keys and join tables</li>
+                  <li>Audit fields and indexing plan</li>
+                  <li>Exact creation approach (manual vs scripted)</li>
+                </ul>
+              </div>
+
+              <!-- Fields -->
+              <div style="border: 2px solid rgba(91,73,200,0.2); background: linear-gradient(180deg, rgba(91,73,200,0.08), rgba(91,73,200,0.04)); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 850; color: var(--violet-600);">2.2 Fields</h3>
+                <p><strong>AI Agent must consult documentation sections covering:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Field naming conventions</li>
+                  <li>Field type rules</li>
+                  <li>Calculation field rules and prohibitions</li>
+                  <li>Indexing guidance</li>
+                  <li>Reuse priority rules</li>
+                </ul>
+                <p style="margin-top: 12px;"><strong>Output expectation:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Full field definitions per table</li>
+                  <li>Type, auto-enter rules, indexing</li>
+                  <li>Whether safe to add or must reuse existing</li>
+                  <li>Creation approach (manual Manage Database steps vs automation)</li>
+                </ul>
+              </div>
+
+              <!-- Value Lists -->
+              <div style="border: 2px solid rgba(183,121,31,0.2); background: linear-gradient(180deg, rgba(183,121,31,0.08), rgba(183,121,31,0.04)); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 850; color: var(--amber-600);">2.3 Value Lists</h3>
+                <p><strong>AI Agent must consult documentation sections covering:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>How value lists are defined and used in this system</li>
+                  <li>How dropdown options are fetched for WebViewer UI</li>
+                  <li>Any canonical scripts or contracts for fetching value lists</li>
+                </ul>
+                <p style="margin-top: 12px;"><strong>Output expectation:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>List of required value lists</li>
+                  <li>Source tables or static lists</li>
+                  <li>Contract for retrieval (dropdown mode and JS mode if applicable)</li>
+                  <li>Creation approach (manual Manage Value Lists vs system script-driven)</li>
+                </ul>
+              </div>
+
+              <!-- Custom Functions -->
+              <div style="border: 2px solid rgba(216,116,61,0.2); background: linear-gradient(180deg, rgba(216,116,61,0.08), rgba(216,116,61,0.04)); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 850; color: var(--copper-600);">2.4 Custom Functions</h3>
+                <p><strong>AI Agent must consult documentation sections covering:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Custom function conventions</li>
+                  <li>Naming rules</li>
+                  <li>When to create new vs reuse</li>
+                  <li>Current custom functions list and behavior</li>
+                </ul>
+                <p style="margin-top: 12px;"><strong>Output expectation:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Custom functions required (new or reuse)</li>
+                  <li>Full function definitions for new ones</li>
+                  <li>How they are used inside scripts</li>
+                  <li>Creation approach (manual Manage Custom Functions steps)</li>
+                </ul>
+              </div>
+
+              <!-- Links -->
+              <div style="border: 2px solid rgba(44,151,185,0.2); background: linear-gradient(180deg, rgba(44,151,185,0.08), rgba(44,151,185,0.04)); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 850; color: var(--sky-600);">2.5 Links</h3>
+                <p><strong>AI Agent must consult documentation sections covering:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Link tables and fields</li>
+                  <li>Link data formats</li>
+                  <li>Link creation rules (parent links, ordering, flags, subtitles, icons)</li>
+                  <li>Canonical scripts that populate available links</li>
+                  <li>Select link routing behavior</li>
+                </ul>
+                <p style="margin-top: 12px;"><strong>Output expectation:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Full links list</li>
+                  <li>Parent-child grouping</li>
+                  <li>Role link mapping if needed</li>
+                  <li>Runnable script or exact script edits required</li>
+                </ul>
+              </div>
+
+              <!-- Page Scripts and Modals -->
+              <div style="border: 2px solid rgba(180,35,58,0.2); background: linear-gradient(180deg, rgba(180,35,58,0.08), rgba(180,35,58,0.04)); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 850; color: var(--rose-700);">2.6 Page Scripts and Modals</h3>
+                <p><strong>AI Agent must consult documentation sections covering:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Generator patterns for pages</li>
+                  <li>Banner page rules</li>
+                  <li>Modal generation rules</li>
+                  <li>SQL plus WebViewer architecture rules</li>
+                  <li>Required scripts and startup guarantees</li>
+                  <li>Value list fetching for dropdowns</li>
+                  <li>Any page UI component contracts</li>
+                </ul>
+                <p style="margin-top: 12px;"><strong>Output expectation:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Full script that generates the page or modal</li>
+                  <li>SQL contracts</li>
+                  <li>HTML, CSS, JS assembly rules (as allowed by docs)</li>
+                  <li>Actions and handlers</li>
+                  <li>Dependencies (value lists, custom functions, helper scripts)</li>
+                  <li>Any routing updates required</li>
+                </ul>
+              </div>
+
+              <!-- Auxiliary Scripts -->
+              <div style="border: 2px solid rgba(20,122,116,0.2); background: linear-gradient(180deg, rgba(20,122,116,0.08), rgba(20,122,116,0.04)); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 850; color: var(--teal-700);">2.7 Auxiliary Scripts</h3>
+                <p><strong>AI Agent must consult documentation sections covering:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Shared scripts required by pages</li>
+                  <li>Save patterns</li>
+                  <li>Modal open and close patterns</li>
+                  <li>Standardized helper scripts</li>
+                </ul>
+                <p style="margin-top: 12px;"><strong>Output expectation:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>List of auxiliary scripts required</li>
+                  <li>Full implementation or exact edits</li>
+                  <li>Where each is called</li>
+                </ul>
+              </div>
+
+              <!-- Script Edits -->
+              <div style="border: 2px solid rgba(91,73,200,0.2); background: linear-gradient(180deg, rgba(91,73,200,0.08), rgba(91,73,200,0.04)); border-radius: 14px; padding: 16px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 850; color: var(--violet-600);">2.8 Script Edits</h3>
+                <p><strong>AI Agent must consult documentation sections covering:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Required edits patterns</li>
+                  <li>Prohibited changes</li>
+                  <li>Router or startup script integration rules</li>
+                </ul>
+                <p style="margin-top: 12px;"><strong>Output expectation:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Full edited script steps</li>
+                  <li>Exact changes summary</li>
+                  <li>Side effects checklist</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="card section" id="methods-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">⚙️</span>
+                <span>Creation Method Rules</span>
+                <span class="section-sub">Scripts vs Manual vs Hybrid</span>
+              </div>
+            </div>
+
+            <div style="padding: 20px; line-height: 1.6;">
+              <p style="background: rgba(213,67,46,0.1); border-left: 3px solid rgba(213,67,46,0.7); padding: 12px; border-radius: 8px; margin-bottom: 16px;"><strong>Critical:</strong> Scripts will not create everything. The AI Agent must decide the correct creation method per item.</p>
+
+              <h3 style="margin-top: 0; margin-bottom: 12px; font-weight: 750;">For Every Item, the AI Agent Must Label the Creation Method</h3>
+              <p>Each build packet must label each item as one of these:</p>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px;">
+                
+                <!-- Method A -->
+                <div style="border: 2px solid rgba(20,122,116,0.25); background: linear-gradient(180deg, rgba(20,122,116,0.10), rgba(20,122,116,0.05)); border-radius: 14px; padding: 18px;">
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--teal-600); color: white; display: flex; align-items: center; justify-content: center; font-weight: 850; font-size: 16px;">A</div>
+                    <div style="font-weight: 850; font-size: 15px;">Script-Generated</div>
+                  </div>
+                  <p style="font-size: 13px; margin: 0 0 10px 0;">A FileMaker script will create the records or structure.</p>
+                  <p style="font-size: 13px; margin: 0; color: var(--teal-700); font-weight: 750;">→ AI Agent outputs full runnable script steps</p>
+                </div>
+
+                <!-- Method B -->
+                <div style="border: 2px solid rgba(91,73,200,0.25); background: linear-gradient(180deg, rgba(91,73,200,0.10), rgba(91,73,200,0.05)); border-radius: 14px; padding: 18px;">
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--violet-600); color: white; display: flex; align-items: center; justify-content: center; font-weight: 850; font-size: 16px;">B</div>
+                    <div style="font-weight: 850; font-size: 15px;">Manual in FileMaker UI</div>
+                  </div>
+                  <p style="font-size: 13px; margin: 0 0 10px 0;">Builder must use FileMaker UI such as:</p>
+                  <ul style="font-size: 13px; margin: 0; padding-left: 20px;">
+                    <li>Manage Database</li>
+                    <li>Manage Value Lists</li>
+                    <li>Manage Custom Functions</li>
+                  </ul>
+                  <p style="font-size: 13px; margin: 10px 0 0 0; color: var(--violet-600); font-weight: 750;">→ AI Agent outputs exact click-by-click steps</p>
+                </div>
+
+                <!-- Method C -->
+                <div style="border: 2px solid rgba(216,116,61,0.25); background: linear-gradient(180deg, rgba(216,116,61,0.10), rgba(216,116,61,0.05)); border-radius: 14px; padding: 18px;">
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <div style="width: 36px; height: 36px; border-radius: 8px; background: var(--copper-600); color: white; display: flex; align-items: center; justify-content: center; font-weight: 850; font-size: 16px;">C</div>
+                    <div style="font-weight: 850; font-size: 15px;">Hybrid</div>
+                  </div>
+                  <p style="font-size: 13px; margin: 0 0 10px 0;">Some parts are manual and some are script-based.</p>
+                  <p style="font-size: 13px; margin: 0; color: var(--copper-600); font-weight: 750;">→ AI Agent splits tasks clearly and in order</p>
+                </div>
+              </div>
+
+              <p style="background: rgba(15,23,42,0.06); border-left: 3px solid rgba(15,23,42,0.2); padding: 12px; border-radius: 8px; margin-top: 16px;"><strong>Important:</strong> The AI Agent must not assume Method A for everything.</p>
+            </div>
+          </section>
+
+          <section class="card section" id="phases-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">📊</span>
+                <span>The Interactive Phases</span>
+                <span class="section-sub">Updated phase-based workflow</span>
+              </div>
+            </div>
+
+            <div style="padding: 20px; line-height: 1.6;">
+              
+              <!-- Phase 1 -->
+              <div style="border: 2px solid rgba(20,122,116,0.2); background: linear-gradient(180deg, rgba(20,122,116,0.08), rgba(20,122,116,0.04)); border-radius: 14px; padding: 18px; margin-bottom: 18px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                  <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--teal-600); color: white; display: flex; align-items: center; justify-content: center; font-weight: 850; font-size: 18px;">1</div>
+                  <div>
+                    <h3 style="margin: 0; font-weight: 850; font-size: 16px;">Phase 1: Schema Proposal (Tables and Fields)</h3>
+                    <div style="font-size: 13px; color: var(--slate-600); margin-top: 2px;">Builder prompt: "Here are the requirements. Phase 1."</div>
+                  </div>
+                </div>
+                
+                <p><strong>AI Agent process:</strong></p>
+                <ol style="margin-left: 20px; font-size: 13px;">
+                  <li>Doc-first lookup: schema preflight, table naming, field rules, templates</li>
+                  <li>Produce tables list</li>
+                  <li>Produce field list per table</li>
+                  <li>Produce keys and join tables plan</li>
+                  <li>Mark each item with creation method (usually manual unless docs provide generator)</li>
+                  <li>Include Builder steps for manual creation</li>
+                </ol>
+
+                <p style="margin-top: 12px;"><strong>AI Agent output must include:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Schema packet</li>
+                  <li>Creation method labels</li>
+                  <li>Builder checklist</li>
+                </ul>
+              </div>
+
+              <!-- Phase 2 -->
+              <div style="border: 2px solid rgba(91,73,200,0.2); background: linear-gradient(180deg, rgba(91,73,200,0.08), rgba(91,73,200,0.04)); border-radius: 14px; padding: 18px; margin-bottom: 18px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                  <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--violet-600); color: white; display: flex; align-items: center; justify-content: center; font-weight: 850; font-size: 18px;">2</div>
+                  <div>
+                    <h3 style="margin: 0; font-weight: 850; font-size: 16px;">Phase 2: Pages Inventory</h3>
+                    <div style="font-size: 13px; color: var(--slate-600); margin-top: 2px;">Builder prompt: "List every page and modal required."</div>
+                  </div>
+                </div>
+                
+                <p><strong>AI Agent process:</strong></p>
+                <ol style="margin-left: 20px; font-size: 13px;">
+                  <li>Doc-first lookup: page and modal rules, generator patterns, WebViewer architecture constraints</li>
+                  <li>Convert requirements into pages and modals</li>
+                  <li>For each page, define: purpose, primary table, supporting tables, actions, dependencies</li>
+                  <li>Identify which pages require value lists, custom functions, or helper scripts</li>
+                </ol>
+
+                <p style="margin-top: 12px;"><strong>Output must include:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Complete page list</li>
+                  <li>Modal list</li>
+                  <li>Dependencies list</li>
+                </ul>
+              </div>
+
+              <!-- Phase 3 -->
+              <div style="border: 2px solid rgba(183,121,31,0.2); background: linear-gradient(180deg, rgba(183,121,31,0.08), rgba(183,121,31,0.04)); border-radius: 14px; padding: 18px; margin-bottom: 18px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                  <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--amber-600); color: white; display: flex; align-items: center; justify-content: center; font-weight: 850; font-size: 18px;">3</div>
+                  <div>
+                    <h3 style="margin: 0; font-weight: 850; font-size: 16px;">Phase 3: Links Plan and Links Creation</h3>
+                    <div style="font-size: 13px; color: var(--slate-600); margin-top: 2px;">Builder prompt: "Generate all links needed and how to create them."</div>
+                  </div>
+                </div>
+                
+                <p><strong>AI Agent process:</strong></p>
+                <ol style="margin-left: 20px; font-size: 13px;">
+                  <li>Doc-first lookup: links creation rules and canonical link scripts</li>
+                  <li>Generate links list with full details (parents, ordering, flags)</li>
+                  <li>Output the correct method:
+                    <ul style="margin-top: 6px;">
+                      <li>If docs define script-based creation → output full script steps and data formatting</li>
+                      <li>If docs require manual record creation → output exact steps and field values</li>
+                    </ul>
+                  </li>
+                </ol>
+
+                <p style="margin-top: 12px;"><strong>Output must include:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Links table</li>
+                  <li>Script or manual steps</li>
+                  <li>Verification checklist</li>
+                </ul>
+              </div>
+
+              <!-- Phase 4 -->
+              <div style="border: 2px solid rgba(216,116,61,0.2); background: linear-gradient(180deg, rgba(216,116,61,0.08), rgba(216,116,61,0.04)); border-radius: 14px; padding: 18px; margin-bottom: 18px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                  <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--copper-600); color: white; display: flex; align-items: center; justify-content: center; font-weight: 850; font-size: 18px;">4</div>
+                  <div>
+                    <h3 style="margin: 0; font-weight: 850; font-size: 16px;">Phase 4: Page Generation Loop (One page at a time)</h3>
+                    <div style="font-size: 13px; color: var(--slate-600); margin-top: 2px;">Builder prompt: "Generate the full code for Page X."</div>
+                  </div>
+                </div>
+                
+                <p><strong>AI Agent process:</strong></p>
+                <ol style="margin-left: 20px; font-size: 13px;">
+                  <li>Doc-first lookup: generator pattern and page rules</li>
+                  <li>Confirm dependencies for this page: value lists, custom functions, helper scripts</li>
+                  <li>Output full script that generates the page</li>
+                  <li>If page requires supporting items: include those first, label creation method for each</li>
+                </ol>
+
+                <p style="margin-top: 12px;"><strong>Output must include:</strong></p>
+                <ul style="margin-left: 20px; font-size: 13px;">
+                  <li>Full page script steps</li>
+                  <li>Any helper scripts</li>
+                  <li>Any required edits to routing scripts</li>
+                  <li>Verification checklist</li>
+                </ul>
+
+                <p style="margin-top: 12px; font-weight: 750;">Repeat for every page.</p>
+              </div>
+
+              <!-- Phase 5 -->
+              <div style="border: 2px solid rgba(44,151,185,0.2); background: linear-gradient(180deg, rgba(44,151,185,0.08), rgba(44,151,185,0.04)); border-radius: 14px; padding: 18px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                  <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--sky-600); color: white; display: flex; align-items: center; justify-content: center; font-weight: 850; font-size: 18px;">5</div>
+                  <div>
+                    <h3 style="margin: 0; font-weight: 850; font-size: 16px;">Phase 5: Script Modification Loop</h3>
+                    <div style="font-size: 13px; color: var(--slate-600); margin-top: 2px;">Builder prompt: "Here is the script. Modify it with these points."</div>
+                  </div>
+                </div>
+                
+                <p><strong>AI Agent process:</strong></p>
+                <ol style="margin-left: 20px; font-size: 13px;">
+                  <li>Doc-first lookup: rules that constrain edits</li>
+                  <li>Apply edits without breaking system contracts</li>
+                  <li>Identify side impacts</li>
+                  <li>Output full edited script steps</li>
+                </ol>
+              </div>
+            </div>
+          </section>
+
+          <section class="card section" id="packet-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">📦</span>
+                <span>Build Packet Template (Mandatory)</span>
+                <span class="section-sub">Every AI Agent response must follow this template</span>
+              </div>
+            </div>
+
+            <div style="padding: 20px; line-height: 1.6;">
+              
+              <div style="background: #0f1729; color: #e5e7eb; padding: 18px; border-radius: 12px; font-family: monospace; font-size: 13px; line-height: 1.8;">
+<span style="color: #41c5e0; font-weight: 750;">## 5.1 Header</span>
+<span style="color: #94a3b8;">### Phase</span>
+<span style="color: #94a3b8;">### Target</span>
+<span style="color: #94a3b8;">### Requirements being implemented</span>
+
+<span style="color: #41c5e0; font-weight: 750;">## 5.2 Doc References Used (Required)</span>
+<span style="color: #94a3b8;">- Documentation sections consulted</span>
+<span style="color: #94a3b8;">- Key rules extracted and applied</span>
+<span style="color: #94a3b8;">- Contracts and formats used</span>
+
+<span style="color: #41c5e0; font-weight: 750;">## 5.3 Deliverables in this packet</span>
+<span style="color: #94a3b8;">For each deliverable:</span>
+<span style="color: #94a3b8;">- name</span>
+<span style="color: #94a3b8;">- type (table, field, value list, link, script, edit)</span>
+<span style="color: #94a3b8;">- creation method (A, B, or C)</span>
+
+<span style="color: #41c5e0; font-weight: 750;">## 5.4 Implementation</span>
+<span style="color: #94a3b8;">### Script output (if Method A or C)</span>
+<span style="color: #94a3b8;">- full script steps</span>
+
+<span style="color: #94a3b8;">### Manual steps (if Method B or C)</span>
+<span style="color: #94a3b8;">- exact UI steps</span>
+
+<span style="color: #41c5e0; font-weight: 750;">## 5.5 Dependencies</span>
+<span style="color: #94a3b8;">- value lists</span>
+<span style="color: #94a3b8;">- custom functions</span>
+<span style="color: #94a3b8;">- helper scripts</span>
+<span style="color: #94a3b8;">- edits to existing scripts</span>
+
+<span style="color: #41c5e0; font-weight: 750;">## 5.6 Verification Checklist</span>
+<span style="color: #94a3b8;">- what to verify</span>
+<span style="color: #94a3b8;">- what success looks like</span>
+<span style="color: #94a3b8;">- what to do if it fails</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="card section" id="builder-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">👤</span>
+                <span>Builder Manual</span>
+                <span class="section-sub">How you drive the AI Agent</span>
+              </div>
+            </div>
+
+            <div style="padding: 20px; line-height: 1.6;">
+              <p>You will drive the AI Agent like this:</p>
+
+              <ol style="margin-left: 20px; font-size: 14px; line-height: 1.8;">
+                <li><strong>"Phase 1 from these requirements"</strong></li>
+                <li>Approve schema or correct it</li>
+                <li><strong>"Phase 2: list all pages and modals"</strong></li>
+                <li>Approve pages list</li>
+                <li><strong>"Phase 3: generate links and how to create them"</strong></li>
+                <li>Create links in FileMaker and verify menu</li>
+                <li><strong>"Phase 4: generate page X"</strong></li>
+                <li>Run script, verify page, move to next page</li>
+                <li><strong>"Phase 5: modify script X using these bullets"</strong></li>
+              </ol>
+            </div>
+          </section>
+
+          <section class="card section" style="background: linear-gradient(135deg, rgba(20,122,116,0.12), rgba(65,197,224,0.12)); border: 2px solid rgba(20,122,116,0.3);">
+            <div style="padding: 20px; line-height: 1.6;">
+              <h3 style="margin-top: 0; margin-bottom: 12px; font-weight: 850; font-size: 16px; color: var(--teal-700);">Final Confirmation</h3>
+              
+              <p style="font-weight: 750; font-size: 15px;">From now on, the AI Agent workflow is:</p>
+              
+              <ul style="margin-left: 20px; font-size: 14px;">
+                <li>✓ Doc-first lookup</li>
+                <li>✓ Extract rules and contracts</li>
+                <li>✓ Decide creation method (script vs manual vs hybrid)</li>
+                <li>✓ Generate outputs that match CauferoAppStarter patterns</li>
+                <li>✓ Include dependencies and required edits</li>
+                <li>✓ Provide verification steps every time</li>
+              </ul>
+            </div>
+          </section>
+
+          <footer class="footer">
+            <div class="footer-left">
+              <div class="footer-title">Caufero Workspace</div>
+              <div class="footer-sub">Built like Tailwind. Stored like Markdown.</div>
+            </div>
+            <div class="footer-right">
+              <a class="footer-link" href="#">Apps</a>
+              <a class="footer-link" href="#">Documentation</a>
+              <a class="footer-link" href="#">AI Prompts</a>
+            </div>
+          </footer>
+        </div>
+      </main>
+      <!-- ========== END MAIN CONTENT CANVAS ========== -->
+
+      <!-- ========== RIGHT PANEL ========== -->
+      <aside class="rail rail-right" id="railRight" aria-label="Right panel">
+        <div class="rail-top">
+          <div class="rail-title">Quick Reference</div>
+          <div class="rail-sub">AI Agent Playbook</div>
+          <div class="rail-actions">
+            <a class="rail-btn" href="#">Home</a>
+            <a class="rail-btn" href="#docfirst-section">Doc-First</a>
+            <a class="rail-btn" href="#packet-section">Packet</a>
+          </div>
+        </div>
+
+        <div class="rail-body">
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Doc-First Process</div>
+              <div class="panel-sub">5-step mandatory lookup</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">1. Locate relevant documentation</div>
+              <div class="stack-item">2. Extract rules and constraints</div>
+              <div class="stack-item">3. Extract data formats and contracts</div>
+              <div class="stack-item">4. Extract canonical implementation</div>
+              <div class="stack-item">5. Only then generate output</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Creation Methods</div>
+              <div class="panel-sub">Label every deliverable</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">A - Script-Generated (full script steps)</div>
+              <div class="stack-item">B - Manual UI (click-by-click steps)</div>
+              <div class="stack-item">C - Hybrid (split tasks clearly)</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Task Documentation Map</div>
+              <div class="panel-sub">What to look up</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">Tables → Schema preflight, naming, audit</div>
+              <div class="stack-item">Fields → Conventions, types, indexing</div>
+              <div class="stack-item">Value Lists → Definition, fetch contracts</div>
+              <div class="stack-item">Custom Functions → Conventions, reuse</div>
+              <div class="stack-item">Links → Creation rules, routing</div>
+              <div class="stack-item">Pages → Generator patterns, SQL, UI</div>
+              <div class="stack-item">Auxiliary → Shared scripts, helpers</div>
+              <div class="stack-item">Edits → Edit patterns, prohibitions</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Phase Summary</div>
+              <div class="panel-sub">Updated workflow</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">Phase 1 - Schema (tables + fields)</div>
+              <div class="stack-item">Phase 2 - Pages inventory</div>
+              <div class="stack-item">Phase 3 - Links creation</div>
+              <div class="stack-item">Phase 4 - Page loop (one at a time)</div>
+              <div class="stack-item">Phase 5 - Script modifications</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Build Packet Structure</div>
+              <div class="panel-sub">Mandatory sections</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">5.1 - Header (phase, target, requirements)</div>
+              <div class="stack-item">5.2 - Doc References Used (required)</div>
+              <div class="stack-item">5.3 - Deliverables (name, type, method)</div>
+              <div class="stack-item">5.4 - Implementation (script + manual)</div>
+              <div class="stack-item">5.5 - Dependencies</div>
+              <div class="stack-item">5.6 - Verification Checklist</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Builder Commands</div>
+              <div class="panel-sub">How to drive the agent</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">"Phase 1 from these requirements"</div>
+              <div class="stack-item">"Phase 2: list all pages and modals"</div>
+              <div class="stack-item">"Phase 3: generate links and how to create"</div>
+              <div class="stack-item">"Phase 4: generate page X"</div>
+              <div class="stack-item">"Phase 5: modify script X with bullets"</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Critical Rules</div>
+              <div class="panel-sub">Never violate</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">❌ Never skip doc-first lookup</div>
+              <div class="stack-item">❌ Never assume script creation for all items</div>
+              <div class="stack-item">❌ Never quote entire documentation</div>
+              <div class="stack-item">❌ Never skip creation method labels</div>
+              <div class="stack-item">❌ Never skip verification checklists</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Key Concepts</div>
+              <div class="panel-sub">Important terms</div>
+            </div>
+            <div class="pill-row">
+              <span class="pill2">DOC-FIRST</span>
+              <span class="pill2">BUILD PACKET</span>
+              <span class="pill2">CREATION METHOD</span>
+              <span class="pill2">PHASE-BASED</span>
+              <span class="pill2">VERIFICATION</span>
+              <span class="pill2">CONTRACTS</span>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Related Documentation</div>
+              <div class="panel-sub">Other guides</div>
+            </div>
+            <div class="side-grid">
+              <a class="side-pill" href="#">Builder Guide</a>
+              <a class="side-pill" href="#">Schema Rules</a>
+              <a class="side-pill" href="#">Page Patterns</a>
+              <a class="side-pill" href="#">Link Creation</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="rail-bottom">
+          <div class="rail-foot">
+            <span class="rail-foot-dot right" aria-hidden="true"></span>
+            <span>Right panel • scroll inside</span>
+          </div>
+        </div>
+      </aside>
+      <!-- ========== END RIGHT PANEL ========== -->
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      var root = document.querySelector(".page");
+      var btnTheme = document.getElementById("btnTheme");
+      var btnMenu = document.getElementById("btnMenu");
+      var railLeft = document.getElementById("railLeft");
+      var railRight = document.getElementById("railRight");
+      var navSearch = document.getElementById("navSearch");
+      var navClear = document.getElementById("navClear");
+      var navTree = document.getElementById("navTree");
+
+      function setTheme(mode){
+        if (!root) return;
+        root.setAttribute("data-theme", mode);
+        try{ localStorage.setItem("cwf_theme", mode); } catch(e){}
+      }
+      function getTheme(){
+        try{ return localStorage.getItem("cwf_theme") || "auto"; } catch(e){ return "auto"; }
+      }
+      function toggleTheme(){
+        var cur = root.getAttribute("data-theme") || "auto";
+        if (cur === "auto") return setTheme("dark");
+        if (cur === "dark") return setTheme("light");
+        return setTheme("auto");
+      }
+      function toggleLeftRail(){
+        if (!railLeft) return;
+        railLeft.classList.toggle("open");
+      }
+      function closest(el, sel){
+        while(el && el !== document.documentElement){
+          if (el.matches && el.matches(sel)) return el;
+          el = el.parentNode;
+        }
+        return null;
+      }
+      function setOpen(panelEl, open){
+        if (!panelEl) return;
+        if (open) panelEl.classList.add("open");
+        else panelEl.classList.remove("open");
+      }
+      function filterNav(q){
+        if (!navTree) return;
+        var query = (q || "").trim().toLowerCase();
+        var items = navTree.querySelectorAll("[data-label]");
+        for (var i=0;i<items.length;i++){
+          var el = items[i];
+          var label = (el.getAttribute("data-label") || "").toLowerCase();
+          var hit = !query || label.indexOf(query) !== -1;
+          el.classList.toggle("is-hit", hit);
+          el.classList.toggle("is-dim", !!query && !hit);
+        }
+      }
+      function wireDisclosure(){
+        document.addEventListener("click", function(e){
+          var head = closest(e.target, "[data-toggle='group'], [data-toggle='subgroup']");
+          if (!head) return;
+          var wrap = head.parentNode;
+          if (!wrap) return;
+          wrap.classList.toggle("open");
+        });
+      }
+      function closeMobileRailsOnOutsideClick(e){
+        var isMobile = window.matchMedia("(max-width: 980px)").matches;
+        if (!isMobile) return;
+        if (!railLeft || !railRight) return;
+        var t = e.target;
+        var insideLeft = !!closest(t, "#railLeft");
+        var insideRight = !!closest(t, "#railRight");
+        var insideBtn = !!closest(t, "#btnMenu");
+        if (!insideLeft && !insideRight && !insideBtn){
+          setOpen(railLeft, false);
+          setOpen(railRight, false);
+        }
+      }
+
+      function init(){
+        setTheme(getTheme());
+        wireDisclosure();
+        if (btnTheme) btnTheme.addEventListener("click", toggleTheme);
+        if (btnMenu) btnMenu.addEventListener("click", function(){
+          var isMobile = window.matchMedia("(max-width: 980px)").matches;
+          if (isMobile){
+            toggleLeftRail();
+          } else {
+            document.body.classList.toggle("compact-rails");
+          }
+        });
+        if (navClear) navClear.addEventListener("click", function(){
+          if (!navSearch) return;
+          navSearch.value = "";
+          filterNav("");
+          navSearch.focus();
+        });
+        if (navSearch) navSearch.addEventListener("input", function(){
+          filterNav(navSearch.value || "");
+        });
+        document.addEventListener("click", closeMobileRailsOnOutsideClick, true);
+        filterNav("");
+      }
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+      else init();
+    })();
+  </script>
+
+  <style>
+    :root{
+      --slate-950:#0b1220;
+      --slate-900:#0f172a;
+      --slate-800:#1f2937;
+      --slate-700:#334155;
+      --slate-600:#475569;
+      --slate-500:#64748b;
+      --slate-400:#94a3b8;
+      --slate-300:#cbd5e1;
+      --slate-200:#e2e8f0;
+      --slate-100:#f1f5f9;
+      --slate-50:#f8fafc;
+
+      --caufero-900:#0b2a36;
+      --caufero-800:#0e3344;
+      --caufero-700:#124458;
+
+      --teal-700:#0f5e5b;
+      --teal-600:#147a74;
+      --teal-500:#1a9a93;
+
+      --sky-600:#2c97b9;
+      --sky-500:#41c5e0;
+
+      --violet-600:#5b49c8;
+      --amber-600:#b7791f;
+      --copper-600:#d8743d;
+      --rose-700:#b4233a;
+      --danger:#d5432e;
+
+      --bg:var(--slate-50);
+      --surface:rgba(255,255,255,.88);
+      --surface2:rgba(255,255,255,.78);
+      --elev:rgba(255,255,255,.70);
+
+      --line:rgba(15,23,42,.10);
+      --line2:rgba(15,23,42,.16);
+
+      --shadow-1:0 1px 0 rgba(15,23,42,.06),0 10px 22px rgba(15,23,42,.06);
+      --shadow-2:0 2px 0 rgba(15,23,42,.08),0 18px 36px rgba(15,23,42,.10);
+
+      --r-xs:8px;
+      --r-sm:10px;
+      --r-md:12px;
+      --r-lg:14px;
+      --r-xl:18px;
+
+      --topbarH:56px;
+      --railW:288px;
+      --railWCompact:228px;
+      --contentMax:1200px;
+
+      --focus:rgba(14,51,68,.22);
+      --focus2:rgba(216,116,61,.22);
+    }
+
+    *{box-sizing:border-box;}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      background:var(--bg);
+      color:var(--slate-900);
+      line-height:1.45;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--caufero-800);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    img{max-width:100%;}
+
+    .page{min-height:100vh;position:relative;}
+    .bg{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      background:
+        radial-gradient(900px 480px at 12% -10%, rgba(14,51,68,.14), transparent 58%),
+        radial-gradient(860px 520px at 100% 10%, rgba(216,116,61,.12), transparent 58%),
+        radial-gradient(900px 520px at 60% 110%, rgba(95,164,161,.10), transparent 60%),
+        var(--bg);
+    }
+
+    .page[data-theme="dark"]{
+      --bg:#070a12;
+      --surface:rgba(10,14,26,.82);
+      --surface2:rgba(10,14,26,.68);
+      --elev:rgba(10,14,26,.60);
+      --line:rgba(148,163,184,.14);
+      --line2:rgba(148,163,184,.22);
+      color:var(--slate-100);
+    }
+    .page[data-theme="dark"] a{color:#a7d7e3;}
+    .page[data-theme="dark"] .bg{
+      background:
+        radial-gradient(900px 480px at 12% -10%, rgba(65,197,224,.14), transparent 60%),
+        radial-gradient(860px 520px at 100% 10%, rgba(216,116,61,.10), transparent 60%),
+        radial-gradient(900px 520px at 60% 110%, rgba(95,164,161,.10), transparent 62%),
+        var(--bg);
+    }
+
+    .topbar{
+      position:fixed;
+      top:0;left:0;right:0;
+      height:var(--topbarH);
+      z-index:50;
+      border-bottom:1px solid var(--line);
+      backdrop-filter:saturate(140%) blur(10px);
+      background:linear-gradient(to bottom, rgba(248,250,252,.82), rgba(248,250,252,.62));
+    }
+    .page[data-theme="dark"] .topbar{
+      background:linear-gradient(to bottom, rgba(10,14,26,.84), rgba(10,14,26,.62));
+    }
+    .topbar-inner{
+      height:100%;
+      display:grid;
+      grid-template-columns:1fr auto 1fr;
+      align-items:center;
+      gap:12px;
+      padding:0 14px;
+      max-width:calc(var(--contentMax) + (var(--railW) * 2) + 72px);
+      margin:0 auto;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      text-decoration:none;
+    }
+    .brand:hover{text-decoration:none;}
+    .brand-text{min-width:0;}
+    .brand-name{
+      font-weight:750;
+      font-size:14px;
+      color:inherit;
+      line-height:1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .brand-sub{
+      font-size:12px;
+      color:var(--slate-600);
+      margin-top:2px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .page[data-theme="dark"] .brand-sub{color:rgba(241,245,249,.68);}
+
+    .topbar-left,.topbar-center,.topbar-right{display:flex;align-items:center;}
+    .topbar-left{justify-content:flex-start;min-width:0;}
+    .topbar-center{justify-content:center;}
+    .topbar-right{justify-content:flex-end;gap:8px;}
+
+    .page-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--line);
+      background:var(--surface2);
+      padding:7px 10px;
+      border-radius:999px;
+      box-shadow:0 1px 0 rgba(15,23,42,.04);
+    }
+    .page-chip-dot{
+      width:8px;height:8px;border-radius:999px;
+      background:linear-gradient(180deg, var(--copper-600), var(--teal-600));
+      box-shadow:0 0 0 3px rgba(216,116,61,.12);
+    }
+    .page-chip-text{font-size:12px;font-weight:650;letter-spacing:.1px;}
+
+    .icon-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:var(--surface);
+      color:inherit;
+      box-shadow:0 1px 0 rgba(15,23,42,.04);
+      cursor:pointer;
+      user-select:none;
+      transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .icon-btn:hover{
+      text-decoration:none;
+      box-shadow:var(--shadow-1);
+      transform:translateY(-1px);
+    }
+    .icon-btn:active{transform:translateY(0px);}
+    .icon-btn.ghost{
+      background:transparent;
+      border:1px solid var(--line);
+    }
+    .icon-btn.brand{
+      border-color:rgba(14,51,68,.22);
+      background:linear-gradient(180deg, rgba(14,51,68,.10), rgba(14,51,68,.06));
+    }
+    .icon-btn-text{font-size:12px;font-weight:650;}
+    .ico{width:18px;height:18px;display:block;}
+    .ico.sm{width:16px;height:16px;}
+
+    .shell{
+      padding-top:var(--topbarH);
+      display:grid;
+      grid-template-columns:var(--railW) 1fr var(--railW);
+      min-height:100vh;
+      gap:14px;
+      max-width:calc(var(--contentMax) + (var(--railW) * 2) + 72px);
+      margin:0 auto;
+      padding-left:14px;
+      padding-right:14px;
+    }
+    body.compact-rails .shell{grid-template-columns:var(--railWCompact) 1fr var(--railWCompact);}
+    body.compact-rails .rail{width:var(--railWCompact);}
+    body.compact-rails .nav-text{font-size:12px;}
+    body.compact-rails .rail-title{font-size:12px;}
+    body.compact-rails .rail-sub{font-size:11px;}
+
+    .rail{
+      position:sticky;
+      top:calc(var(--topbarH) + 14px);
+      height:calc(100vh - var(--topbarH) - 28px);
+      border:1px solid var(--line);
+      background:var(--surface);
+      border-radius:var(--r-xl);
+      box-shadow:var(--shadow-1);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .rail-top{
+      padding:14px 14px 12px 14px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,0));
+    }
+    .page[data-theme="dark"] .rail-top{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+    }
+    .rail-title{font-size:12px;font-weight:750;letter-spacing:.12px;}
+    .rail-sub{font-size:12px;color:var(--slate-600);margin-top:2px;}
+    .page[data-theme="dark"] .rail-sub{color:rgba(241,245,249,.70);}
+
+    .rail-search{
+      margin-top:10px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--line);
+      background:var(--surface2);
+      border-radius:12px;
+      padding:8px 10px;
+    }
+    .rail-search input{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      color:inherit;
+      font-size:12px;
+    }
+    .xbtn{
+      border:0;
+      background:transparent;
+      color:inherit;
+      padding:4px;
+      border-radius:10px;
+      cursor:pointer;
+      opacity:.75;
+    }
+    .xbtn:hover{opacity:1;background:rgba(15,23,42,.06);}
+    .page[data-theme="dark"] .xbtn:hover{background:rgba(241,245,249,.08);}
+
+    .rail-body{
+      padding:10px;
+      overflow:auto;
+      overscroll-behavior:contain;
+    }
+
+    .nav-item,
+    .nav-group-head,
+    .nav-subgroup-head{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:9px 10px;
+      border-radius:12px;
+      border:1px solid transparent;
+      color:inherit;
+      background:transparent;
+      cursor:pointer;
+      user-select:none;
+      text-align:left;
+    }
+    .nav-item:hover,
+    .nav-group-head:hover,
+    .nav-subgroup-head:hover{
+      background:rgba(15,23,42,.04);
+      border-color:rgba(15,23,42,.06);
+      text-decoration:none;
+    }
+    .page[data-theme="dark"] .nav-item:hover,
+    .page[data-theme="dark"] .nav-group-head:hover,
+    .page[data-theme="dark"] .nav-subgroup-head:hover{
+      background:rgba(241,245,249,.06);
+      border-color:rgba(241,245,249,.08);
+    }
+
+    .nav-item.sub{padding-left:34px;}
+    .nav-item.sub .dot{
+      width:6px;height:6px;border-radius:999px;
+      background:rgba(100,116,139,.55);
+      flex:0 0 auto;
+    }
+
+    .nav-ico{display:inline-flex;align-items:center;justify-content:center;color:inherit;opacity:.9;}
+    .nav-text{
+      flex:1 1 auto;
+      font-size:12.5px;
+      font-weight:650;
+      letter-spacing:.05px;
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .chev{
+      opacity:.65;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 auto;
+      transition:transform .14s ease;
+    }
+
+    .nav-group{margin-top:6px;}
+    .nav-group-body{
+      padding-left:6px;
+      margin-top:6px;
+      display:none;
+    }
+    .nav-group.open > .nav-group-body{display:block;}
+    .nav-group.open > .nav-group-head .chev{transform:rotate(90deg);}
+
+    .is-dim{opacity:.35;filter:saturate(.9);}
+    .is-hidden{display: none !important;}
+
+    .rail-bottom{
+      padding:10px 12px;
+      border-top:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.62));
+    }
+    .page[data-theme="dark"] .rail-bottom{
+      background:linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.06));
+    }
+    .rail-foot{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--slate-600);
+      font-size:11px;
+      justify-content:center;
+    }
+    .page[data-theme="dark"] .rail-foot{color:rgba(241,245,249,.64);}
+    .rail-foot-dot{
+      width:8px;height:8px;border-radius:999px;
+      background:rgba(14,51,68,.55);
+      box-shadow:0 0 0 3px rgba(14,51,68,.10);
+    }
+    .rail-foot-dot.right{
+      background:rgba(216,116,61,.70);
+      box-shadow:0 0 0 3px rgba(216,116,61,.10);
+    }
+
+    .content{
+      min-width:0;
+      padding:14px 0 22px 0;
+    }
+    .content-inner{
+      max-width:var(--contentMax);
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .hero{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.70));
+      border-radius:var(--r-xl);
+      box-shadow:var(--shadow-2);
+      position:relative;
+      overflow:hidden;
+    }
+    .page[data-theme="dark"] .hero{
+      background:linear-gradient(180deg, rgba(10,14,26,.88), rgba(10,14,26,.66));
+    }
+    .hero-glow{
+      position:absolute;
+      inset:-80px -120px auto -120px;
+      height:220px;
+      background:radial-gradient(closest-side, rgba(65,197,224,.20), transparent 68%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .hero-inner{padding:18px 18px 16px 18px;position:relative;}
+    .hero-top{display:flex;flex-direction:column;gap:6px;}
+    .hero-title{
+      font-size:18px;
+      font-weight:850;
+      letter-spacing:.2px;
+    }
+    .hero-sub{
+      font-size:13px;
+      color:var(--slate-600);
+      max-width:100ch;
+    }
+    .page[data-theme="dark"] .hero-sub{color:rgba(241,245,249,.68);}
+
+    .hero-actions{
+      margin-top:14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(14,51,68,.18);
+      background:linear-gradient(180deg, rgba(14,51,68,.12), rgba(14,51,68,.06));
+      color:inherit;
+      font-weight:750;
+      font-size:12.5px;
+      box-shadow:0 1px 0 rgba(15,23,42,.04);
+      cursor:pointer;
+    }
+    .cta:hover{
+      text-decoration:none;
+      box-shadow:var(--shadow-1);
+      transform:translateY(-1px);
+      transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .cta:active{transform:translateY(0px);}
+    .cta-ico{display:inline-flex;align-items:center;justify-content:center;}
+
+    .hero-meta{
+      margin-top:14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.55);
+      font-size:11px;
+      font-weight:750;
+      color:var(--slate-700);
+    }
+    .page[data-theme="dark"] .chip{
+      background:rgba(255,255,255,.06);
+      color:rgba(241,245,249,.78);
+    }
+    .chip.violet{border-color:rgba(91,73,200,.22);background:rgba(91,73,200,.10);color:var(--violet-600);}
+    .chip.amber{border-color:rgba(183,121,31,.22);background:rgba(183,121,31,.10);color:var(--amber-600);}
+    .chip.copper{border-color:rgba(216,116,61,.22);background:rgba(216,116,61,.10);color:var(--copper-600);}
+
+    .card{
+      border:1px solid var(--line);
+      background:var(--surface);
+      border-radius:var(--r-xl);
+      box-shadow:var(--shadow-1);
+    }
+    .section{padding:16px;}
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:850;
+      letter-spacing:.12px;
+      font-size:14px;
+      min-width:0;
+    }
+    .section-emoji{font-size:18px;}
+    .section-sub{font-size:12px;color:var(--slate-600);font-weight:650;}
+    .page[data-theme="dark"] .section-sub{color:rgba(241,245,249,.68);}
+
+    .footer{
+      border:1px solid var(--line);
+      background:var(--surface);
+      border-radius:var(--r-xl);
+      box-shadow:var(--shadow-1);
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .footer-title{font-weight:950;letter-spacing:.2px;}
+    .footer-sub{font-size:12px;color:var(--slate-600);margin-top:2px;}
+    .page[data-theme="dark"] .footer-sub{color:rgba(241,245,249,.66);}
+    .footer-right{display:flex;gap:12px;flex-wrap:wrap;}
+    .footer-link{
+      font-size:12px;
+      font-weight:800;
+      color:inherit;
+      text-decoration:none;
+      padding:7px 10px;
+      border-radius:12px;
+      border:1px solid transparent;
+    }
+    .footer-link:hover{
+      text-decoration:none;
+      border-color:var(--line);
+      background:var(--surface2);
+    }
+
+    .rail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+    .rail-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:var(--surface2);
+      font-size:12px;
+      font-weight:800;
+      color:inherit;
+      text-decoration:none;
+    }
+    .rail-btn:hover{text-decoration:none;box-shadow:0 1px 0 rgba(15,23,42,.04);}
+
+    .panel-card{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.60));
+      border-radius:16px;
+      padding:14px;
+      box-shadow:0 1px 0 rgba(15,23,42,.04);
+      margin-bottom:12px;
+    }
+    .page[data-theme="dark"] .panel-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
+    }
+    .panel-head{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;}
+    .panel-title{font-weight:950;letter-spacing:.15px;display:flex;align-items:center;gap:10px;}
+    .panel-sub{font-size:12px;color:var(--slate-600);line-height:1.35;}
+    .page[data-theme="dark"] .panel-sub{color:rgba(241,245,249,.66);}
+
+    .pill-row{display:flex;flex-wrap:wrap;gap:8px;}
+    .pill2{
+      font-size:11px;
+      font-weight:850;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:var(--surface2);
+      color:inherit;
+    }
+
+    .side-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:10px;
+    }
+    .side-pill{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:10px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:var(--surface2);
+      font-size:12px;
+      font-weight:850;
+      color:inherit;
+      text-decoration:none;
+      min-height:42px;
+    }
+    .side-pill:hover{text-decoration:none;box-shadow:0 1px 0 rgba(15,23,42,.04);transform:translateY(-1px);transition:transform .12s ease;}
+    .side-pill:active{transform:translateY(0px);}
+
+    .stack{display:flex;flex-direction:column;gap:8px;}
+    .stack-item{
+      border:1px solid var(--line);
+      background:var(--surface2);
+      border-radius:14px;
+      padding:10px 12px;
+      font-size:12.5px;
+      font-weight:800;
+      color:inherit;
+    }
+
+    code{
+      background:rgba(15,23,42,.06);
+      padding:2px 6px;
+      border-radius:4px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:12px;
+    }
+    .page[data-theme="dark"] code{
+      background:rgba(241,245,249,.08);
+    }
+
+    :focus{outline:none;}
+    :focus-visible{
+      box-shadow:0 0 0 3px var(--focus), 0 0 0 6px rgba(255,255,255,.12);
+      border-radius:12px;
+    }
+    .page[data-theme="dark"] :focus-visible{
+      box-shadow:0 0 0 3px rgba(65,197,224,.22), 0 0 0 6px rgba(10,14,26,.40);
+    }
+
+    @media (max-width: 980px){
+      .shell{
+        grid-template-columns:1fr;
+        gap:12px;
+      }
+      .rail{
+        position:fixed;
+        top:var(--topbarH);
+        height:calc(100vh - var(--topbarH));
+        border-radius:18px;
+        z-index:60;
+        width:min(92vw, 340px);
+        box-shadow:var(--shadow-2);
+        transform:translateX(-110%);
+        transition:transform .18s ease;
+      }
+      .rail-right{
+        right:12px;
+        left:auto;
+        transform:translateX(110%);
+      }
+      .rail-left{
+        left:12px;
+        right:auto;
+      }
+      .rail.open{transform:translateX(0%);}
+      .content{padding:12px 0 18px 0;}
+      .side-grid{grid-template-columns:1fr;}
+      .topbar-inner{grid-template-columns:1fr auto;gap:10px;}
+      .topbar-center{display:none;}
+      .brand-sub{display:none;}
+    }
+    @media (max-width: 560px){
+      .icon-btn-text{display:none;}
+      .topbar-right{gap:6px;}
+    }
+  </style>
+</body>
+</html>

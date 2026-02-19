@@ -1,0 +1,426 @@
+# Splash Screen Page Documentation (CauferoAppStarter)
+Version: 2.0  
+Objective: Train an AI Agent to generate the Splash Screen HTML page in CauferoAppStarter using FileMaker scripts, consistent variable contracts, and a CSS-first architecture.  
+Output: A complete HTML document stored in `$$Splash`, rendered by the Startup script in the Web Viewer object named `Splash`.
+
+---
+
+## 1) Page Identity
+- Page Name: Splash Screen
+- Output Variable: `$$Splash`
+- Rendering Target: Web Viewer object name `Splash`
+- Rendering Ownership: Startup script (Startup loads `$$Splash` into the Web Viewer)
+- JavaScript: None (Splash contains no JavaScript)
+
+---
+
+## 2) Hard Rules (Non-Negotiable)
+
+### 2.1 Storage and Rendering
+- The generator script must write the final HTML document into `$$Splash`.
+- The splash Web Viewer content must be `$$Splash` only.
+- The generator script is called by Startup.
+- The generator script does not rely on JavaScript to navigate or run actions.
+
+### 2.2 CSS Source
+- Splash CSS must be obtained by running:
+  - `Perform Script [ “🖌️ Use Splash Screen CSS” ]`
+  - `Set Variable [ $styles ; Get ( ScriptResult ) ]`
+- The CSS script must return its CSS as Script Result (Exit Script with Text Result).
+
+### 2.3 PNG Handling
+- Splash background photo is always a PNG base64 string that is injected as:
+  - `data:image/png;base64,` + `$$Splash Background Photo`
+- The AI Agent must not assume JPEG or any other mime type for the splash background.
+
+### 2.4 No JavaScript
+- Do not generate `$Scripts`.
+- Do not add `<script>` tags.
+- Do not add click handlers or fmp URLs.
+
+### 2.5 Global Variable Contract
+The Splash page depends on specific global variables already set by Startup.  
+The generator must treat them as required inputs and must not set them here.
+
+---
+
+## 3) Splash Generator Script (Canonical Behavior)
+
+### 3.1 Script Purpose
+Generate and store the splash HTML document in `$$Splash`.  
+Startup will render it after generation.
+
+### 3.2 Canonical Step Order
+The AI Agent must generate the script in this exact sequence:
+
+1. CSS
+2. HTML Fragment (banner block)
+3. JavaScript section comment (explicitly none)
+4. Full HTML Document (assigned to `$$Splash`)
+5. WebDirect Pause
+6. Refresh Window
+
+---
+
+## 4) Required Scripts
+
+### 4.1 CSS Script
+- `🖌️ Use Splash Screen CSS`  
+Returns CSS through Script Result.
+
+### 4.2 WebDirect Script
+- `WebDirect Pause`  
+Used to stabilize page load.
+
+---
+
+## 5) Required Global Variables (Set By Startup)
+These variables must exist before the splash generator runs.
+
+### 5.1 Branding
+- `$$App Name`  
+Displayed in banner and in main center title.
+- `$$App Slogan`  
+Displayed in banner and in main center subtitle.
+
+### 5.2 Layout / Context
+- `$$Layout Name`  
+Displayed in the banner title area.
+
+### 5.3 Splash Visual Assets
+- `$$Splash Background Photo`  
+Base64 PNG string used for the `<img class='background'>`.
+
+### 5.4 Partnerships
+- `$$Partners`  
+Optional text. If not empty, the splash shows the partnership line.
+
+### 5.5 Loading Message
+- `$$Splash Screen Loading Statement`  
+Text displayed under the loading bar.
+
+### 5.6 Footer Metadata
+- `$$App Launch Year`  
+Used in the copyright.
+
+---
+
+## 6) HTML Fragment ($HTML) Specification
+`$HTML` is a banner block used by this page pattern.  
+It is defined exactly as follows:
+
+~~~filemaker
+Set Variable [ $HTML ; Value:
+"
+<div class='banner'>
+  <!-- Logo Section -->
+  <div class='banner-logo'>
+    <div>
+      <div class='logo-text'>" & $$App Name & "</div>
+      <div class='logo-subtitle'>" & $$App Slogan & "</div>
+    </div>
+  </div>
+  <!-- Page Title -->
+  <div class='banner-title'>" & $$Layout Name & "</div>
+</div>
+"
+]
+~~~
+
+### 6.1 Rules For $HTML
+- Keep single quotes inside HTML attributes.
+- Inject FileMaker globals by concatenation using `&`.
+- Preserve the HTML comment labels (they guide human maintainers and AI training).
+- Do not add click handlers.
+- Do not add additional sections unless the system defines them.
+
+---
+
+## 7) Full HTML Document ($$Splash) Specification
+The full document stored in `$$Splash` is defined exactly as follows:
+
+~~~filemaker
+Set Variable [ $$Splash ; Value:
+"<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Splash Screen</title>
+    <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap' rel='stylesheet'>
+    <style> " & $styles & " </style>
+</head>
+<body>
+
+    <!-- Background image -->
+    <img class='background' src='data:image/png;base64," & $$Splash Background Photo & "' alt='Background'>
+
+    <!-- Overlay -->
+    <div class='overlay'></div>
+
+    <!-- Gradient overlay -->
+    <div class='colour'></div>
+
+    <!-- Content -->
+    <div class='container'>
+        <div class='title'>" & $$App Name & "</div>
+        <div class='subtitle'>" & $$App Slogan & "</div>
+        <div class='partners'>
+            Developed by <span class='developers'>Caufero Inc.</span><br>
+            " & If ( not IsEmpty ( $$Partners ) ; "In partnership with <span class='developers'>" & $$Partners & "</span>" ) & "
+        </div>
+    </div>
+    <div class='loading-bar'>
+        <div class='loading-bar-inner'></div>
+    </div>
+    <div class='loading-message'>" & $$Splash Screen Loading Statement & "</div>
+    <div class='footer'>
+        &copy; " & $$App Launch Year & " Caufero Inc" & If ( not IsEmpty ( $$Partners ) ; " & " & $$Partners ) & ". All rights reserved.
+    </div>
+
+</body>
+</html>
+"
+]
+~~~
+
+### 7.1 Rules For $$Splash Assembly
+- Must include the Google Fonts Montserrat link exactly as shown.
+- Must inject `$styles` inside `<style> ... </style>`.
+- Must embed the background image as a base64 PNG using:
+  - `src='data:image/png;base64," & $$Splash Background Photo & "'`
+- Must include the overlay layers:
+  - `.overlay`
+  - `.colour`
+- Must include:
+  - `.container` with title, subtitle, partners
+  - `.loading-bar` with `.loading-bar-inner`
+  - `.loading-message`
+  - `.footer`
+
+### 7.2 Conditional Partnership Rendering
+Two separate `$$Partners` conditions exist and must remain exactly as designed:
+
+1) Partnership line in the content:
+~~~filemaker
+If ( not IsEmpty ( $$Partners ) ;
+  "In partnership with <span class='developers'>" & $$Partners & "</span>"
+)
+~~~
+
+2) Partnership append in the footer:
+~~~filemaker
+If ( not IsEmpty ( $$Partners ) ;
+  " & " & $$Partners
+)
+~~~
+
+The AI Agent must not “simplify” these unless instructed, because they express the precise intended rendering.
+
+---
+
+## 8) CSS Script Requirements (🖌️ Use Splash Screen CSS)
+
+### 8.1 CSS Contract
+The CSS script must:
+- Produce a single CSS string
+- Exit with `Text Result` so the caller can read it using `Get ( ScriptResult )`
+
+### 8.2 CSS Must Style These Classes
+The CSS returned by the script must define styling for:
+
+Banner:
+- `.banner`
+- `.banner-logo`
+- `.logo-text`
+- `.logo-subtitle`
+- `.banner-title`
+
+Background layers:
+- `.background`
+- `.overlay`
+- `.colour`
+
+Main content:
+- `.container`
+- `.title`
+- `.subtitle`
+- `.partners`
+- `.developers`
+
+Loading:
+- `.loading-bar`
+- `.loading-bar-inner`
+- `.loading-message`
+
+Footer:
+- `.footer`
+
+### 8.3 Font Consistency
+Because the `<head>` links Montserrat, CSS should set:
+- `font-family: 'Montserrat', ...`
+
+If external fonts later become disallowed, change must be made in the shared template or by replacing the `<link>` in `$$Splash`. The AI Agent must not change it independently.
+
+---
+
+## 9) Generator Script Full Implementation (Training Reference)
+This is the recommended full script layout for training the AI Agent.  
+Keep section labels and sequence exactly.
+
+~~~filemaker
+# ******************************************
+# ******************************************
+# GENERATE PAGE (START)
+# ******************************************
+# ******************************************
+# 
+# CSS
+Perform Script [ Specified: From list ; “🖌️ Use Splash Screen CSS” ; Parameter:    ]
+Set Variable [ $styles ; Value: Get ( ScriptResult ) ]
+# 
+# 
+# HTML
+Set Variable [ $HTML ; Value:
+"
+<div class='banner'>
+  <!-- Logo Section -->
+  <div class='banner-logo'>
+    <div>
+      <div class='logo-text'>" & $$App Name & "</div>
+      <div class='logo-subtitle'>" & $$App Slogan & "</div>
+    </div>
+  </div>
+  <!-- Page Title -->
+  <div class='banner-title'>" & $$Layout Name & "</div>
+</div>
+"
+]
+# 
+# 
+# Javascript (No JavaScript on this page)
+# 
+# 
+# Full Page
+Set Variable [ $$Splash ; Value:
+"<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Splash Screen</title>
+    <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap' rel='stylesheet'>
+    <style> " & $styles & " </style>
+</head>
+<body>
+
+    <!-- Background image -->
+    <img class='background' src='data:image/png;base64," & $$Splash Background Photo & "' alt='Background'>
+
+    <!-- Overlay -->
+    <div class='overlay'></div>
+
+    <!-- Gradient overlay -->
+    <div class='colour'></div>
+
+    <!-- Content -->
+    <div class='container'>
+        <div class='title'>" & $$App Name & "</div>
+        <div class='subtitle'>" & $$App Slogan & "</div>
+        <div class='partners'>
+            Developed by <span class='developers'>Caufero Inc.</span><br>
+            " & If ( not IsEmpty ( $$Partners ) ; "In partnership with <span class='developers'>" & $$Partners & "</span>" ) & "
+        </div>
+    </div>
+    <div class='loading-bar'>
+        <div class='loading-bar-inner'></div>
+    </div>
+    <div class='loading-message'>" & $$Splash Screen Loading Statement & "</div>
+    <div class='footer'>
+        &copy; " & $$App Launch Year & " Caufero Inc" & If ( not IsEmpty ( $$Partners ) ; " & " & $$Partners ) & ". All rights reserved.
+    </div>
+
+</body>
+</html>
+"
+]
+# 
+# 
+# ******************************************
+# ******************************************
+# GENERATE PAGE (END)
+# ******************************************
+# ******************************************
+# 
+# 
+Perform Script [ Specified: From list ; “WebDirect Pause” ; Parameter:    ]
+Refresh Window [ Flush cached join results ; Flush cached external data ]
+~~~
+
+---
+
+## 10) Startup Script Integration Rules (What Startup Must Guarantee)
+Startup must set all global variables first, then call splash generation, then render.
+
+### 10.1 Required Startup Order
+1. Set:
+   - `$$App Name`
+   - `$$App Slogan`
+   - `$$Layout Name`
+   - `$$Splash Background Photo`
+   - `$$Splash Screen Loading Statement`
+   - `$$App Launch Year`
+   - `$$Partners` (optional)
+
+2. Run the generator script.
+
+3. Render in Web Viewer `Splash` using `$$Splash`.
+
+If Startup renders directly, the canonical rendering step is:
+
+~~~filemaker
+Set Web Viewer [
+  Object Name: "Splash" ;
+  Action: "Set HTML" ;
+  HTML: $$Splash
+]
+~~~
+
+---
+
+## 11) QA Checklist (AI Agent Must Validate)
+
+### 11.1 Data Presence Checks
+- `$$Splash Background Photo` is not empty (else background will be broken image).
+- `$$App Launch Year` is not empty (else footer may show blank year).
+- `$$Splash Screen Loading Statement` is not empty (else loading message shows blank).
+
+### 11.2 Render Checks
+- `$$Splash` contains `<!DOCTYPE html>` and closes `</html>`.
+- `<style>` contains non-empty `$styles`.
+- Background image loads visually.
+- Overlay and gradient layers render above background.
+- Title and subtitle render on top of overlays.
+- Loading bar appears.
+- Footer appears.
+
+### 11.3 Conditional Checks For Partners
+- If `$$Partners` is empty:
+  - The partnership line inside `.partners` must not render extra text.
+  - The footer must not append `" & "`.
+- If `$$Partners` has text:
+  - Both partnership locations render correctly.
+
+---
+
+## 12) Known Constraints (Do Not Break)
+- No JavaScript on splash.
+- Must remain fast: no heavy libraries.
+- Background must remain base64 PNG.
+- The overlay stack order must remain:
+  1) `.background`
+  2) `.overlay`
+  3) `.colour`
+  4) `.container` + loading + footer
+
+The CSS must enforce that stacking order (usually via positioning and z-index).

@@ -1,0 +1,926 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Elime's Outfit Software Requirements Document (SRD)</title>
+</head>
+<body>
+<!--
+CAUFERO HIGH-END DOCUMENT SKIN
+- Print-friendly multi-page SRD layout
+- Keep content true to provided outline
+-->
+<div class="doc">
+  <!-- COVER -->
+  <section class="doc-cover doc-cover--serious page-break-after">
+    <div class="cover-top">
+      <div class="brand">
+        <img class="brand-logo-img" src="https://caufero.github.io/projects/Apps/CarePort/Screenshots/caufero.png" alt="Caufero logo" />
+        <div class="brand-meta">
+          <div class="brand-name">Caufero</div>
+          <div class="brand-sub">Software Requirements Document (SRD)</div>
+        </div>
+      </div>
+      <div class="cover-right">
+        <div class="doc-id">Document ID: CAU-SRD-ELIMES-001</div>
+        <div class="doc-class">Client Copy</div>
+      </div>
+    </div>
+    <div class="cover-hero">
+      <div class="cover-title">Elime's Outfit</div>
+      <div class="cover-desc">
+        Software Requirements Document (SRD)
+      </div>
+    </div>
+    <div class="cover-meta">
+      <div class="meta-item">
+        <div class="meta-k">Version</div>
+        <div class="meta-v">v1</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-k">Status</div>
+        <div class="meta-v"><span class="pill pill-ok">Requirements</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-k">Prepared by</div>
+        <div class="meta-v">Caufero</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-k">Prepared for</div>
+        <div class="meta-v">Elime's Outfit</div>
+      </div>
+    </div>
+    <div class="cover-rule"></div>
+    <div class="cover-bottom">
+      <div class="cover-stamp">
+        <div class="stamp-row">
+          <span class="stamp-pill">Print-friendly</span>
+          <span class="stamp-pill">Multi-page layout</span>
+          <span class="stamp-pill">SRD</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- BODY -->
+  <section class="doc-body">
+    <!-- Title + Key Info -->
+    <header class="doc-header">
+      <div class="doc-header-left">
+        <h1>Elime's Outfit Software Requirements Document (SRD)</h1>
+        <p class="lead">
+          This document captures the required operational areas, workflows, modules, reports, and non-negotiable requirements for the Elime's Outfit system.
+        </p>
+      </div>
+      <div class="doc-header-right">
+        <div class="kv-grid">
+          <div class="kv">
+            <div class="k">Prepared for</div>
+            <div class="v">Elime's Outfit</div>
+          </div>
+          <div class="kv">
+            <div class="k">Prepared by</div>
+            <div class="v">Caufero</div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- TOC -->
+    <section class="toc card">
+      <div class="card-title-row">
+        <div class="card-title">Contents</div>
+        <div class="card-badge">SRD</div>
+      </div>
+      <div class="toc-grid">
+        <a class="toc-item" href="#s1">
+          <span class="toc-num">1</span>
+          <span class="toc-text">Administrative</span>
+        </a>
+        <a class="toc-item" href="#s2">
+          <span class="toc-num">2</span>
+          <span class="toc-text">Daily Operational Workflow</span>
+        </a>
+        <a class="toc-item" href="#s3">
+          <span class="toc-num">3</span>
+          <span class="toc-text">Core System Modules</span>
+        </a>
+      </div>
+    </section>
+    <!-- Section 1 -->
+    <section id="s1" class="section">
+      <div class="section-head">
+        <div class="section-kicker">Section 1</div>
+        <h2>Administrative</h2>
+        <p class="section-sub">
+          The operational and administrative areas the system must support.
+        </p>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Administrative Needs</div>
+        <div class="list-cols">
+          <ul class="clean">
+            <li>Inventory Management</li>
+            <li>Bespoke orders</li>
+            <li>Production Tasks</li>
+            <li>Daily logging</li>
+            <li>Store Sales</li>
+            <li>Stock Control</li>
+            <li>Finance</li>
+            <li>Productivity &amp; Performance Records</li>
+          </ul>
+          <div class="subpanel">
+            <div class="subpanel-title">Commission</div>
+            <ul class="clean">
+              <li>Sales People</li>
+              <li>Production Staff</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Section 2 -->
+    <section id="s2" class="section page-break-before">
+      <div class="section-head">
+        <div class="section-kicker">Section 2</div>
+        <h2>Daily Operational Workflow</h2>
+        <p class="section-sub">
+          The end-to-end daily flow across inventory, bespoke, production, store actions, and payroll.
+        </p>
+      </div>
+      <div class="workflow-grid">
+        <article class="workflow card">
+          <div class="card-title-row">
+            <div class="card-title">Inventory Flow</div>
+            <div class="card-badge">Workflow</div>
+          </div>
+          <div class="mini-split">
+            <div class="mini">
+              <div class="mini-title">Store Management</div>
+              <ol class="steps">
+                <li>Enter new stock</li>
+                <li>Assign to Store</li>
+                <li>Sales / Transfer / Adjustments</li>
+                <li>Closing Stock</li>
+              </ol>
+            </div>
+            <div class="mini">
+              <div class="mini-title">Warehouse Management</div>
+              <ol class="steps">
+                <li>Enter new stock</li>
+              </ol>
+            </div>
+          </div>
+        </article>
+        <article class="workflow card">
+          <div class="card-title-row">
+            <div class="card-title">Bespoke Order + Production Flow</div>
+            <div class="card-badge">Workflow</div>
+          </div>
+          <div class="flow-rows">
+            <div class="flow-row">
+              <div class="flow-role">Sales Rep / Store</div>
+              <ul class="clean">
+                <li>Create bespoke order</li>
+                <li>Measurements + Deposits</li>
+                <li>Assign production job</li>
+              </ul>
+            </div>
+            <div class="flow-row">
+              <div class="flow-role">Factory / Admin</div>
+              <ul class="clean">
+                <li>Assign Tailor</li>
+                <li>Issue Materials to Tailors</li>
+              </ul>
+            </div>
+            <div class="flow-row">
+              <div class="flow-role">Tailor</div>
+              <ul class="clean">
+                <li>Daily work log</li>
+                <li>Update job statuses</li>
+                <li>Make completion</li>
+              </ul>
+            </div>
+            <div class="flow-row">
+              <div class="flow-role">Store</div>
+              <ul class="clean">
+                <li>Receive outfits</li>
+                <li>Customer Pickup</li>
+                <li>Sell</li>
+                <li>Close Order</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+        <article class="workflow card">
+          <div class="card-title-row">
+            <div class="card-title">Commission &amp; Payroll Flow</div>
+            <div class="card-badge">Workflow</div>
+          </div>
+          <div class="mini-split">
+            <div class="mini">
+              <div class="mini-title">System</div>
+              <ol class="steps">
+                <li>Generate monthly sales</li>
+                <li>Apply commission rules</li>
+                <li>Generate salary due</li>
+              </ol>
+            </div>
+            <div class="mini">
+              <div class="mini-title">Admin / Finance</div>
+              <ol class="steps">
+                <li>Review and approve</li>
+                <li>Record payment of salaries</li>
+              </ol>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <!-- Section 3 -->
+    <section id="s3" class="section page-break-before">
+      <div class="section-head">
+        <div class="section-kicker">Section 3</div>
+        <h2>Core System Modules</h2>
+        <p class="section-sub">
+          The modules and report requirements the system must include, plus non-negotiable constraints.
+        </p>
+      </div>
+      <div class="module-grid">
+        <article class="card">
+          <div class="card-title-row">
+            <div class="card-title">Modules</div>
+            <div class="card-badge">Core</div>
+          </div>
+          <ul class="clean">
+            <li>User Roles / Permissions</li>
+            <li>Inventory Management
+              <ul class="clean">
+                <li>Material costing</li>
+              </ul>
+            </li>
+            <li>Bespoke Orders + Customer Measurements</li>
+            <li>Production Task Management + Tailor Daily Logs</li>
+            <li>Sales Recording + Store Level Inventory</li>
+            <li>Commission &amp; Salary Automation</li>
+            <li>Financial Tracking
+              <ul class="clean">
+                <li>Revenue</li>
+                <li>Expenses</li>
+                <li>Profits</li>
+                <li>Reports &amp; Analytics (Monthly &amp; Generate)</li>
+                <li>Audit Trail &amp; Approval Workflow</li>
+              </ul>
+            </li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="card-title-row">
+            <div class="card-title">Key Reports Required</div>
+            <div class="card-badge">Reports</div>
+          </div>
+          <ol class="steps">
+            <li>Production Distribution (Abidjan, Ghana [Shop1 + Shop2 + Others])</li>
+            <li>Bespoke vs Ready-to-wear production counts</li>
+            <li>Bespoke vs Ready-to-wear revenue comparisons</li>
+            <li>Store performance rankings</li>
+            <li>Tailor productivity + Delivery timelines</li>
+            <li>Sales staff commission and salary due list</li>
+            <li>Monthly and yearly financial summaries</li>
+          </ol>
+        </article>
+        <article class="card">
+          <div class="card-title-row">
+            <div class="card-title">Non-negotiable System Requirements</div>
+            <div class="card-badge badge-danger">Must-have</div>
+          </div>
+          <ul class="clean checks">
+            <li>Multi-store support with centralized control</li>
+            <li>Role-based access and approvals</li>
+            <li>Automated commission &amp; salary computations</li>
+            <li>Inventory traceability per store</li>
+            <li>Exportable reports</li>
+            <li>Secure audit logs for all actions</li>
+            <li>Dashboard for management performance tracking</li>
+          </ul>
+        </article>
+      </div>
+      <footer class="doc-footer">
+        <div class="footer-left">
+          <div class="footer-brand">Caufero</div>
+          <div class="footer-sub">Elime's Outfit SRD (v1)</div>
+        </div>
+      </footer>
+    </section>
+  </section>
+</div>
+<style>
+  :root{
+    --brand-950:#071a22;
+    --brand-900:#0E3344;
+    --brand-700:#17556f;
+    --brand-500:#2a7a8a;
+    --accent-600:#D8743D;
+    --accent-500:#E38A55;
+    --mint-500:#5FA4A1;
+    --cyan-500:#41C5E0;
+    --red-600:#D5432E;
+    --slate-950:#020617;
+    --slate-900:#0f172a;
+    --slate-800:#1e293b;
+    --slate-700:#334155;
+    --slate-600:#475569;
+    --slate-500:#64748b;
+    --slate-400:#94a3b8;
+    --slate-300:#cbd5e1;
+    --slate-200:#e2e8f0;
+    --slate-100:#f1f5f9;
+    --slate-50:#f8fafc;
+    --paper:#ffffff;
+    --ink:#0b1220;
+    --radius-lg:16px;
+    --radius-md:12px;
+    --radius-sm:10px;
+    --border: rgba(15, 23, 42, 0.14);
+    --border-soft: rgba(15, 23, 42, 0.10);
+    --shadow-1: 0 1px 0 rgba(2, 6, 23, 0.04), 0 6px 18px rgba(2, 6, 23, 0.06);
+    --shadow-2: 0 1px 0 rgba(2, 6, 23, 0.06), 0 10px 28px rgba(2, 6, 23, 0.08);
+    --focus: 0 0 0 3px rgba(65, 197, 224, 0.25);
+    --t: 180ms cubic-bezier(.2,.8,.2,1);
+  }
+  html, body{
+    margin:0;
+    padding:0;
+    background: linear-gradient(180deg, #f6f8fc, #ffffff 38%);
+    color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    text-rendering: geometricPrecision;
+  }
+  .doc{
+    max-width: 980px;
+    margin: 22px auto 60px;
+    padding: 0 18px;
+  }
+  /* Typography tuned for print */
+  h1{
+    font-size: 26px;
+    line-height: 1.16;
+    letter-spacing: -0.03em;
+    margin: 0 0 6px;
+    font-weight: 950;
+    color: var(--slate-900);
+  }
+  h2{
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 950;
+    letter-spacing: -0.015em;
+    color: var(--slate-900);
+  }
+  p{
+    margin: 8px 0;
+    font-size: 13.5px;
+    line-height: 1.62;
+    color: rgba(15,23,42,0.78);
+  }
+  .lead{
+    margin: 8px 0 0;
+    font-size: 13.5px;
+    line-height: 1.62;
+    color: rgba(15,23,42,0.72);
+    max-width: 80ch;
+  }
+  strong{
+    color: rgba(15,23,42,0.92);
+    font-weight: 900;
+  }
+  hr{
+    border: none;
+    height: 1px;
+    background: rgba(15,23,42,0.10);
+    margin: 18px 0;
+  }
+  a{
+    color: var(--brand-700);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(23,85,111,0.18);
+    transition: box-shadow var(--t), border-color var(--t), color var(--t);
+  }
+  a:hover{
+    color: var(--brand-900);
+    border-bottom-color: rgba(23,85,111,0.42);
+  }
+  a:focus{
+    outline: none;
+    box-shadow: var(--focus);
+    border-radius: 6px;
+  }
+  /* Lists */
+  ul, ol{
+    margin: 8px 0;
+    padding-left: 18px;
+    color: rgba(15,23,42,0.80);
+    font-size: 13.5px;
+    line-height: 1.62;
+  }
+  li{ margin: 4px 0; }
+  ul.clean, ol.clean{
+    list-style: none;
+    padding-left: 0;
+  }
+  ul.clean li, ol.clean li{
+    padding-left: 0;
+  }
+  /* Page break helpers */
+  .page-break-after{ page-break-after: always; break-after: page; }
+  .page-break-before{ page-break-before: always; break-before: page; }
+  /* Cover */
+  .doc-cover{
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: #fff;
+    box-shadow: 0 1px 0 rgba(2,6,23,0.03);
+    padding: 18px 18px 14px;
+    margin: 0 0 18px;
+  }
+  .cover-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(15,23,42,0.10);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-width: 0;
+  }
+  .brand-logo-img{
+    width:44px;
+    height:44px;
+    border-radius: 12px;
+    object-fit: contain;
+    background: #fff;
+    border: 1px solid rgba(15,23,42,0.12);
+    box-shadow: 0 6px 16px rgba(2,6,23,0.08);
+    display:block;
+  }
+  .brand-meta{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .brand-name{
+    font-weight: 900;
+    letter-spacing:-0.02em;
+    font-size:14px;
+    line-height:1.1;
+    color: var(--slate-900);
+  }
+  .brand-sub{
+    font-size:12px;
+    line-height:1.2;
+    color: rgba(15,23,42,0.70);
+  }
+  .cover-right{
+    text-align:right;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    align-items:flex-end;
+  }
+  .doc-id{
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: rgba(15,23,42,0.72);
+  }
+  .doc-class{
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 7px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(15,23,42,0.14);
+    background: rgba(248,250,252,0.9);
+    color: rgba(15,23,42,0.82);
+  }
+  .cover-hero{
+    padding: 14px 0 10px;
+  }
+  .cover-title{
+    font-size: 30px;
+    line-height: 1.10;
+    letter-spacing: -0.03em;
+    font-weight: 950;
+    color: var(--slate-900);
+  }
+  .cover-desc{
+    margin-top: 8px;
+    max-width: 78ch;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: rgba(15,23,42,0.72);
+  }
+  .cover-meta{
+    margin-top: 10px;
+    display:grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap:10px;
+  }
+  .meta-item{
+    border: 1px solid rgba(15,23,42,0.10);
+    background: rgba(248,250,252,0.7);
+    border-radius: 12px;
+    padding: 10px 10px;
+  }
+  .meta-k{
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    font-weight: 950;
+    color: rgba(15,23,42,0.60);
+  }
+  .meta-v{
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 900;
+    color: rgba(15,23,42,0.86);
+  }
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 950;
+    letter-spacing: 0.03em;
+    border: 1px solid rgba(15,23,42,0.12);
+    background: #fff;
+  }
+  .pill-ok{
+    border-color: rgba(95, 164, 161, 0.45);
+    background: rgba(95, 164, 161, 0.10);
+    color: rgba(15,23,42,0.85);
+  }
+  .cover-rule{
+    margin-top: 12px;
+    height: 1px;
+    background: rgba(15,23,42,0.10);
+  }
+  .cover-bottom{
+    margin-top: 12px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .cover-note{
+    border: 1px solid rgba(15,23,42,0.10);
+    background: rgba(248,250,252,0.65);
+    border-radius: 12px;
+    padding: 10px 12px;
+    min-width: 240px;
+  }
+  .cover-note-k{
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    font-weight: 950;
+    color: rgba(15,23,42,0.60);
+  }
+  .cover-note-v{
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 900;
+    color: rgba(15,23,42,0.86);
+  }
+  .stamp-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+  .stamp-pill{
+    font-size: 11px;
+    font-weight: 900;
+    padding: 7px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(15,23,42,0.12);
+    background: rgba(248,250,252,0.9);
+    color: rgba(15,23,42,0.78);
+  }
+  /* Header layout */
+  .doc-header{
+    display:grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 14px;
+    align-items:start;
+    padding: 2px 0 6px;
+  }
+  .kv-grid{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .kv{
+    border: 1px solid rgba(15,23,42,0.10);
+    background: rgba(248,250,252,0.65);
+    border-radius: 12px;
+    padding: 10px 10px;
+  }
+  .kv .k{
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    font-weight: 950;
+    color: rgba(15,23,42,0.60);
+  }
+  .kv .v{
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 900;
+    color: rgba(15,23,42,0.86);
+  }
+  /* Cards */
+  .card{
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px 14px;
+    box-shadow: var(--shadow-1);
+  }
+  .card-title-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom: 10px;
+  }
+  .card-title{
+    font-size: 13px;
+    font-weight: 950;
+    letter-spacing: 0.01em;
+    color: rgba(15,23,42,0.88);
+  }
+  .card-badge{
+    font-size: 11px;
+    font-weight: 950;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(15,23,42,0.12);
+    background: rgba(248,250,252,0.9);
+    color: rgba(15,23,42,0.76);
+    white-space: nowrap;
+  }
+  .badge-danger{
+    border-color: rgba(213,67,46,0.30);
+    background: rgba(213,67,46,0.08);
+    color: rgba(15,23,42,0.82);
+  }
+  /* TOC */
+  .toc{
+    margin-top: 14px;
+  }
+  .toc-grid{
+    display:grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .toc-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding: 10px 10px;
+    border: 1px solid rgba(15,23,42,0.10);
+    background: rgba(248,250,252,0.65);
+    border-radius: 12px;
+    text-decoration:none;
+  }
+  .toc-num{
+    width: 28px;
+    height: 28px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius: 10px;
+    background: rgba(14,51,68,0.08);
+    border: 1px solid rgba(14,51,68,0.12);
+    color: rgba(15,23,42,0.85);
+    font-weight: 950;
+    font-size: 12px;
+  }
+  .toc-text{
+    font-size: 13px;
+    font-weight: 900;
+    color: rgba(15,23,42,0.84);
+    border-bottom: 1px solid rgba(23,85,111,0.0);
+  }
+  /* Sections */
+  .section{
+    margin-top: 16px;
+  }
+  .section-head{
+    padding: 14px 14px;
+    border: 1px solid rgba(15,23,42,0.10);
+    background: linear-gradient(180deg, rgba(248,250,252,0.85), rgba(248,250,252,0.55));
+    border-radius: 14px;
+    box-shadow: 0 1px 0 rgba(2,6,23,0.02);
+  }
+  .section-kicker{
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 950;
+    color: rgba(15,23,42,0.62);
+    margin-bottom: 6px;
+  }
+  .section-sub{
+    margin: 8px 0 0;
+    font-size: 13.5px;
+    color: rgba(15,23,42,0.72);
+  }
+  /* Panels */
+  .panel{
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px 14px;
+    box-shadow: var(--shadow-1);
+  }
+  .panel-title{
+    font-size: 13px;
+    font-weight: 950;
+    letter-spacing: 0.01em;
+    color: rgba(15,23,42,0.88);
+    margin-bottom: 10px;
+  }
+  .list-cols{
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 12px;
+    align-items:start;
+  }
+  .subpanel{
+    border: 1px solid rgba(15,23,42,0.10);
+    background: rgba(248,250,252,0.70);
+    border-radius: 14px;
+    padding: 12px 12px;
+  }
+  .subpanel-title{
+    font-size: 12px;
+    font-weight: 950;
+    color: rgba(15,23,42,0.86);
+    margin-bottom: 8px;
+  }
+  /* Workflow */
+  .workflow-grid{
+    margin-top: 12px;
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .mini-split{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .mini{
+    border: 1px solid rgba(15,23,42,0.10);
+    background: rgba(248,250,252,0.65);
+    border-radius: 14px;
+    padding: 12px 12px;
+  }
+  .mini-title{
+    font-size: 12px;
+    font-weight: 950;
+    color: rgba(15,23,42,0.86);
+    margin-bottom: 8px;
+  }
+  .steps{
+    margin: 0;
+    padding-left: 18px;
+  }
+  .flow-rows{
+    display:grid;
+    gap: 10px;
+  }
+  .flow-row{
+    border: 1px solid rgba(15,23,42,0.10);
+    background: rgba(248,250,252,0.65);
+    border-radius: 14px;
+    padding: 12px 12px;
+  }
+  .flow-role{
+    font-size: 12px;
+    font-weight: 950;
+    color: rgba(15,23,42,0.86);
+    margin-bottom: 8px;
+  }
+  /* Modules section grid */
+  .module-grid{
+    margin-top: 12px;
+    display:grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    align-items:start;
+  }
+  /* Non-negotiable list styling */
+  .checks li{
+    position: relative;
+    padding-left: 22px;
+    margin: 6px 0;
+  }
+  .checks li:before{
+    content: "";
+    position:absolute;
+    left:0;
+    top: 7px;
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(213,67,46,0.25);
+    background: rgba(213,67,46,0.10);
+  }
+  /* Footer */
+  .doc-footer{
+    margin-top: 14px;
+    border-top: 1px solid rgba(15,23,42,0.10);
+    padding-top: 12px;
+    display:flex;
+    justify-content:space-between;
+    gap: 12px;
+    align-items:flex-end;
+  }
+  .footer-brand{
+    font-weight: 950;
+    color: rgba(15,23,42,0.86);
+    font-size: 12.5px;
+  }
+  .footer-sub{
+    font-size: 12px;
+    color: rgba(15,23,42,0.70);
+    margin-top: 2px;
+  }
+  .footer-owner{
+    font-size: 12px;
+    color: rgba(15,23,42,0.70);
+  }
+  /* Responsive */
+  @media (max-width: 980px){
+    .cover-meta{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .doc-header{ grid-template-columns: 1fr; }
+    .toc-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .list-cols{ grid-template-columns: 1fr; }
+    .mini-split{ grid-template-columns: 1fr; }
+    .module-grid{ grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px){
+    .cover-top{ flex-direction: column; align-items:flex-start; }
+    .cover-right{ align-items:flex-start; text-align:left; }
+    .toc-grid{ grid-template-columns: 1fr; }
+  }
+  /* Print */
+  @media print{
+    html, body{
+      background: #ffffff !important;
+    }
+    .doc{
+      max-width: none;
+      margin: 0;
+      padding: 0;
+    }
+    @page{
+      margin: 18mm 16mm 18mm 16mm;
+    }
+    /* Avoid ugly breaks */
+    h1, h2{
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    .card, .panel, .section-head, .doc-footer{
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .flow-row, .mini{
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    /* Keep links clean in print */
+    a{
+      border-bottom: none !important;
+      color: rgba(15,23,42,0.86) !important;
+      text-decoration: none !important;
+    }
+    /* Shadows off for crisp PDF */
+    .doc-cover, .card, .panel{
+      box-shadow: none !important;
+    }
+  }
+</style>
+</body>
+</html>

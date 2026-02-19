@@ -1,0 +1,551 @@
+# Banner Page Documentation (CauferoAppStarter)
+Version: 1.0  
+Purpose: Train an AI Agent to generate the Banner page used in CauferoAppStarter (HTML + CSS + JavaScript bridge + FileMaker scripts).  
+Scope: Banner page only. This page is rendered inside a Web Viewer and communicates with FileMaker via `FileMaker.PerformScript()`.
+
+---
+
+## 1) What the Banner Page Is
+The Banner page is a reusable HTML component that sits at the top of layouts.
+
+It typically contains:
+- A left section (branding or app identity).
+- A center section (layout title or context title).
+- A right section (icon buttons that trigger FileMaker scripts).
+- An optional marquee at the bottom of the banner (only shown for specific dev conditions).
+
+The Banner page is generated fully in FileMaker as a single HTML document string and stored in a global variable (commonly `$$Banner`). The calling layout then loads `$$Banner` into a Web Viewer.
+
+---
+
+## 2) Design Goals
+The AI Agent must generate Banner code that is:
+1. Deterministic: same inputs produce same HTML output.
+2. Scriptable: every interactive element calls a named FileMaker script.
+3. Maintainable: CSS is centralized and reusable.
+4. Safe: no script name injection, no broken JS, no broken HTML.
+5. Responsive: works on FileMaker Pro and FileMaker Go (iPhone and iPad).
+
+---
+
+## 3) Dependencies and Assumptions
+### 3.1 FileMaker Environment
+- Banner renders in a Web Viewer object.
+- JavaScript must be enabled in Web Viewer.
+- `FileMaker.PerformScript(scriptName, parameter)` must be available inside the Web Viewer context.
+
+### 3.2 Required Scripts (FileMaker)
+The Banner generator script calls:
+- `🖌️ Use Banner CSS` to fetch base banner CSS.
+- `Get Alerts` to update alerts state before rendering.
+
+The Banner must also be able to call these scripts via buttons:
+- `Go Back To App`
+- `Go To Claris`
+- `Go To Claris Partners`
+- `Go To Mail`
+- `Go To Google` (if used)
+- `Go To Canva`
+- `Go To Globe`
+- `Go To YT`
+- `Go To IG`
+- `Go To Fb`
+- `Go To LI`
+- `Go To WA`
+- `Go To NF`
+- `Go To Music`
+- `Click On Alerts Icon`
+- `Show Notes`
+- `Go To Notes`
+- `Show More`
+- `Go To Menu`
+
+If any of these scripts do not exist in the file, the UI action will fail. The AI Agent must treat this as a strict dependency.
+
+### 3.3 Required Globals (FileMaker)
+The sample code references:
+- `$$Currently Playing Song Title`
+
+The banner may also rely on additional globals from your system (branding, current layout name, etc). If so, those must be declared explicitly in this document and set before rendering.
+
+---
+
+## 4) Inputs, Outputs, and State
+### 4.1 Inputs (what the generator uses)
+The generator script uses:
+- Device context: `Get ( Device )`
+- Account context: `Get ( UserName )`
+- File context: `Get ( FileName )`
+- Optional text content: `$$Currently Playing Song Title`
+- Script names to call when icons are clicked
+
+### 4.2 Output
+The generator sets:
+- `$$Banner` = Full HTML document (includes CSS and JavaScript).
+
+### 4.3 Side Effects
+- Runs `Get Alerts` (likely sets alert-related globals or fields).
+- No records should be created or modified by the Banner generator itself, unless your alert logic requires it.
+
+---
+
+## 5) Banner Generation Pipeline (Exact Build Order)
+The AI Agent must follow this order. Do not shuffle it.
+
+1. Resolve username logic (dev-only logic can alter what renders).
+2. Set FileMaker script name variables (strings).
+3. Refresh alerts state by calling `Get Alerts`.
+4. Fetch base CSS from `🖌️ Use Banner CSS`.
+5. Append additional CSS overrides that belong to the banner instance (example: marquee CSS).
+6. Build the banner HTML fragment (`$HTML`).
+7. Build JavaScript bridge functions. Each function calls a FileMaker script.
+8. Concatenate everything into a full HTML document and store in `$$Banner`.
+
+---
+
+## 6) Canonical Script Skeleton (FileMaker Pseudocode)
+This is the minimum structure the AI Agent must produce when building the Banner generator script.
+
+~~~filemaker
+# ------------------------------------------------------------
+# Banner Generator (Canonical Structure)
+# ------------------------------------------------------------
+
+# 1) Context
+Set Variable [ $The Username ; Value: If ( Get ( Device ) = 4 ; "iPhone" ; "Cyril Amegah" ) ]
+Set Variable [ $Click On Alerts Icon Script ; Value: "Click On Alerts Icon" ]
+Set Variable [ $Open Show Notes FM Script ; Value: "Show Notes" ]
+Set Variable [ $Open Show More FM Script ; Value: "Show More" ]
+
+# 2) Refresh state (alerts)
+Perform Script [ Specified: From list ; “Get Alerts” ; Parameter: "" ]
+
+# 3) CSS (central + appended overrides)
+Perform Script [ Specified: From list ; “🖌️ Use Banner CSS” ; Parameter: "" ]
+Set Variable [ $styles ; Value: Get ( ScriptResult ) ]
+
+# Append banner-specific CSS overrides (example: marquee)
+Set Variable [ $styles ; Value:
+    $styles &
+    " .marquee { ... } " &
+    " .marquee .track { ... } "
+]
+
+# 4) HTML fragment (banner structure)
+Set Variable [ $HTML ; Value:
+    "<div class='banner'>" &
+        ... &
+    "</div>"
+]
+
+# 5) JavaScript bridge (FileMaker.PerformScript wrappers)
+Set Variable [ $Go Back To App Script ; Value: "function goBackToApp(){ FileMaker.PerformScript('Go Back To App'); }" ]
+... more function strings ...
+
+# Combine all JS functions into one <script> block
+Set Variable [ $Scripts ; Value: "<script>" & $Go Back To App Script & " " & ... & "</script>" ]
+
+# 6) Full document
+Set Variable [ $$Banner ; Value:
+    "<!DOCTYPE html>" &
+    "<html lang='en'>" &
+    "<head>" &
+        "<meta charset='UTF-8'>" &
+        "<meta name='viewport' content='width=device-width, initial-scale=1.0'>" &
+        "<title>Banner</title>" &
+        "<link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap' rel='stylesheet'>" &
+        "<style>" & $styles & "</style>" &
+    "</head>" &
+    "<body>" &
+        $HTML &
+        $Scripts &
+    "</body>" &
+    "</html>"
+]
+~~~
+
+
+---
+
+## 7) Banner HTML Structure (Recommended)
+The Banner must use stable class names so CSS can target them reliably.
+
+### 7.1 Required container
+- `.banner` is the root of the UI.
+
+### 7.2 Suggested internal layout
+Use three zones:
+- `.banner-left`
+- `.banner-center`
+- `.banner-right`
+
+Example skeleton:
+
+~~~html
+<div class="banner">
+  <div class="banner-left">
+    <!-- Brand area -->
+  </div>
+
+  <div class="banner-center">
+    <!-- Page title or context -->
+  </div>
+
+  <div class="banner-right">
+    <!-- Icon buttons -->
+  </div>
+
+  <!-- Optional: marquee -->
+  <div class="marquee">
+    <div class="track" data-text="..."></div>
+  </div>
+</div>
+~~~
+
+### 7.3 Buttons and click bindings
+Each clickable icon must map to a JavaScript function, and that function must call a FileMaker script.
+
+Example:
+
+~~~html
+<button class="icon-btn" onclick="goToMail()" title="Mail">
+  <span class="icon">✉️</span>
+</button>
+~~~
+
+---
+
+## 8) Conditional Marquee Logic (Dev-Only Display)
+The sample shows marquee only when:
+- `Get ( UserName ) = $The Username`
+- `Lower ( Get ( FileName ) ) = "cauferoappstarter"`
+
+This is a dev-only visual that should not appear for other users or other file names.
+
+### 8.1 Canonical condition
+The AI Agent must implement it exactly as defined in your system.
+
+~~~filemaker
+If ( Get ( UserName ) = $The Username and Lower ( Get ( FileName ) ) = "cauferoappstarter" ;
+    /* include marquee HTML */
+    "" /* else */
+)
+~~~
+
+### 8.2 Marquee content
+The sample uses:
+- A fixed phrase: `I want to do too many apps`
+- A music glyph
+- `$$Currently Playing Song Title`
+
+Example construction pattern:
+
+~~~filemaker
+"<div class='marquee'>" &
+  "<div class='track' data-text='I want to do too many apps  [ ♫ " & $$Currently Playing Song Title & " ]'></div>" &
+"</div>"
+~~~
+
+### 8.3 Why `data-text`
+A common marquee pattern duplicates the same text repeatedly via JS or CSS. Using `data-text` allows JS to read it and generate repeated spans if needed.
+
+If your current banner uses a JS-based marquee animation, document the exact algorithm here.
+
+---
+
+## 9) CSS Architecture
+### 9.1 Central CSS retrieval
+Banner CSS is retrieved via:
+
+~~~filemaker
+Perform Script [ Specified: From list ; “🖌️ Use Banner CSS” ; Parameter: "" ]
+Set Variable [ $styles ; Value: Get ( ScriptResult ) ]
+~~~
+
+The AI Agent must treat `🖌️ Use Banner CSS` as the source of truth for core banner styles.
+
+### 9.2 Local overrides
+After fetching core CSS, append instance-specific styles.
+
+The sample appends marquee CSS:
+
+~~~filemaker
+Set Variable [ $styles ; Value:
+  $styles &
+  " .marquee { position:absolute; left:24px; right:24px; bottom:24px; height:28px; display:flex; align-items:center; overflow:hidden; pointer-events:none; background:transparent; } "
+]
+~~~
+
+### 9.3 Recommended CSS rules
+Minimum recommended rule categories:
+1. Layout: flex rows, spacing, alignment
+2. Typography: font family, weight, size
+3. Buttons: hit area, hover states, active states
+4. Dark mode or theme tokens (if your app uses them)
+5. Responsive scaling for iPhone and iPad
+6. Z-index layering and safe padding
+
+---
+
+## 10) JavaScript Bridge (FileMaker.PerformScript Wrappers)
+### 10.1 Rule
+Do not call `FileMaker.PerformScript()` inline inside HTML. Wrap it in named functions. This keeps HTML clean and makes debugging easier.
+
+### 10.2 Canonical function pattern
+Each function must:
+- Be named clearly
+- Call a single FileMaker script
+- Pass parameters only if needed
+
+Example:
+
+~~~js
+function goToMail() {
+  FileMaker.PerformScript('Go To Mail');
+}
+~~~
+
+### 10.3 Script name variables (when required)
+The sample sometimes stores script names in FileMaker variables and injects them into JS.
+
+Example:
+
+~~~filemaker
+Set Variable [ $Click On Alerts Icon Script ; Value: "Click On Alerts Icon" ]
+Set Variable [ $Click On Alerts Icon Script ; Value:
+  "function clickOnAlertsIcon(){ FileMaker.PerformScript('" & $Click On Alerts Icon Script & "'); }"
+]
+~~~
+
+This pattern reuses the same variable name for two different meanings:
+1. Script name
+2. Function source code string
+
+This is risky. The AI Agent should prefer separate variables:
+
+- `$FM_ClickOnAlerts_ScriptName`
+- `$JS_ClickOnAlerts_Function`
+
+Example improved pattern:
+
+~~~filemaker
+Set Variable [ $FM_ClickOnAlerts_ScriptName ; Value: "Click On Alerts Icon" ]
+Set Variable [ $JS_ClickOnAlerts_Function ; Value:
+  "function clickOnAlertsIcon(){ FileMaker.PerformScript('" & $FM_ClickOnAlerts_ScriptName & "'); }"
+]
+~~~
+
+If you want the AI Agent to preserve your current style, say so explicitly. Otherwise, adopt the safer naming convention.
+
+### 10.4 JS concatenation strategy
+The sample concatenates function strings separated by `¶¶`.
+
+The AI Agent can use:
+- literal spaces
+- line breaks
+- `Char ( 10 )` for newlines
+
+Example:
+
+~~~filemaker
+Set Variable [ $Scripts ; Value:
+  "<script>" &
+  $JS_GoBackToApp_Function & Char ( 10 ) &
+  $JS_GoToMail_Function & Char ( 10 ) &
+  "</script>"
+]
+~~~
+
+---
+
+## 11) Full HTML Document Assembly
+The AI Agent must generate a complete HTML document, not a fragment.
+
+Minimum required head elements:
+- `meta charset`
+- `meta viewport`
+- `title`
+- font include (Montserrat 600 as shown)
+- `<style>` block with `$styles`
+
+Minimum required body elements:
+- `$HTML` banner fragment
+- `$Scripts` script block
+
+Example assembly (pattern):
+
+~~~filemaker
+Set Variable [ $$Banner ; Value:
+  "<!DOCTYPE html>" &
+  "<html lang='en'>" &
+  "<head>" &
+    "<meta charset='UTF-8'>" &
+    "<meta name='viewport' content='width=device-width, initial-scale=1.0'>" &
+    "<title>Banner</title>" &
+    "<link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap' rel='stylesheet'>" &
+    "<style>" & $styles & "</style>" &
+  "</head>" &
+  "<body>" &
+    $HTML &
+    $Scripts &
+  "</body>" &
+  "</html>"
+]
+~~~
+
+---
+
+## 12) Web Viewer Integration (How the Banner is Loaded)
+Your layout must have a Web Viewer object dedicated to the banner.
+
+Recommended object name:
+- `wvBanner`
+
+Common load options:
+1. Set Web Viewer to `$$Banner` (HTML)
+2. Set Web Viewer to a calculation that returns `$$Banner`
+
+Example:
+
+~~~filemaker
+Set Web Viewer [ Object Name: "wvBanner" ; Action: "Set HTML" ; HTML: $$Banner ]
+~~~
+
+If your system uses a different mechanism, document it here explicitly.
+
+---
+
+## 13) Test Plan (AI Agent Must Validate These)
+The AI Agent should verify:
+
+### 13.1 Rendering
+- Banner loads without blank screen.
+- No broken HTML (missing closing tags).
+- CSS applies (fonts, spacing, alignment).
+
+### 13.2 Script bindings
+Click each icon and confirm the FileMaker script runs:
+- Mail icon triggers `Go To Mail`
+- Menu icon triggers `Go To Menu`
+- Alerts icon triggers `Click On Alerts Icon`
+- Notes icon triggers `Show Notes` or `Go To Notes`
+- Show More triggers `Show More`
+
+### 13.3 Dev-only marquee
+- Marquee appears only when condition is true.
+- Marquee does not block clicks (`pointer-events:none` should ensure that).
+- Marquee text includes `$$Currently Playing Song Title` when available.
+
+### 13.4 Device checks
+- iPhone sizing looks correct.
+- iPad sizing looks correct.
+- If the UI scales, confirm it does not overflow.
+
+---
+
+## 14) Troubleshooting Guide
+### 14.1 Banner is blank
+Likely causes:
+- Web Viewer did not load `$$Banner`
+- HTML string is malformed
+- Quotes were not escaped correctly
+- CSS script returned empty result
+
+Actions:
+- Temporarily set Web Viewer HTML to a simple `<div>Test</div>`
+- Show `Length ( $$Banner )` in a field to confirm content exists
+- Log `$styles` length and preview it
+
+### 14.2 Clicking buttons does nothing
+Likely causes:
+- Web Viewer context does not support `FileMaker.PerformScript`
+- Function name mismatch in `onclick`
+- Script name mismatch in FileMaker
+
+Actions:
+- Add a JS test: `alert('clicked')` to confirm click fires
+- Confirm script exists and runs from Script Workspace
+- Confirm spelling and casing
+
+### 14.3 Fonts do not load
+Likely causes:
+- No internet access to Google Fonts
+- Network restrictions
+
+Actions:
+- Bundle fonts locally if required, or choose a fallback stack.
+
+---
+
+## 15) Implementation Rules for the AI Agent
+When the AI Agent is asked to build or modify the Banner generator, it must:
+1. Identify all scripts the banner calls.
+2. Confirm which are called from FileMaker (pre-render) vs from Web Viewer (on click).
+3. Keep CSS centralized and append only banner-specific overrides.
+4. Generate full HTML document and store it in `$$Banner`.
+5. Avoid variable name reuse that changes meaning mid-script, unless your standard requires it.
+6. Keep conditions explicit, especially dev-only UI.
+
+---
+
+## 16) Ambiguities, Contradictions, and Clarifications Needed
+These items must be clarified to make the documentation fully deterministic for the AI Agent.
+
+### 16.1 `Get ( Device ) = 4` meaning
+- You used: `If ( Get ( Device ) = 4 ; "iPhone" ; "Cyril Amegah" )`
+Questions:
+- What does value `4` represent in your environment?
+- Is it always iPhone, or could it represent FileMaker Go generally?
+
+### 16.2 Username logic looks inverted or unclear
+- `$The Username` becomes `"iPhone"` on one branch and `"Cyril Amegah"` on the other.
+Questions:
+- Do you really want `Get ( UserName ) = "iPhone"` to ever be true?
+- Is `"iPhone"` intended to match `Get ( UserName )` on FileMaker Go devices in your setup?
+- If this is a dev hack, what is the exact goal?
+
+### 16.3 `$Go To Google Script` is referenced but not defined in the sample
+In your `$Scripts` concatenation you include `$Go To Google Script`, but the sample does not show it being set.
+Questions:
+- Is there a `Go To Google` script and JS function?
+- If yes, provide the exact JS wrapper string you expect.
+
+### 16.4 `Set Variable []` appears as an empty step
+The sample shows `Set Variable []` after `Perform Script [ “Get Alerts” ]`.
+Questions:
+- Is this a copy artifact, or is there a real variable that should be set here?
+- If real, what variable and what value?
+
+### 16.5 Marquee CSS string is truncated
+The sample shows the appended CSS cut off:
+- `"background: transparen…"`
+Questions:
+- Provide the full marquee CSS you want appended.
+- Confirm if marquee animation is CSS-only or JS-assisted.
+
+### 16.6 HTML fragment is truncated
+The sample `$HTML` value is cut off mid-string:
+- `"<div class='marquee'>   <div class='track' data-text='I want to do too many apps  [ ♫ " & $$Currently Playing Song Title & " …" ]`
+Questions:
+- Provide the full intended banner HTML structure.
+- List all icons and their exact class names and click functions.
+
+### 16.7 Script name variables are reused for function strings
+Example:
+- `$Click On Alerts Icon Script` is first a script name, then becomes function source code.
+Questions:
+- Do you want to keep this pattern as your standard?
+- Or do you want separate variables for script names vs JS function strings?
+
+### 16.8 Where does layout title come from
+The banner usually shows a title (layout name or section name). The sample does not show how that title is inserted.
+Questions:
+- Do you want to use `$$Layout Name`, `Get ( LayoutName )`, or something else?
+- What is the exact field or global variable?
+
+### 16.9 Alerts UI state
+You run `Get Alerts` before rendering.
+Questions:
+- What does `Get Alerts` output or set that the banner needs?
+- Does the banner show an unread count badge?
+- If yes, what variable or field contains the count?

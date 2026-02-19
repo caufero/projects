@@ -1,0 +1,2171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ExecuteSQL Patterns Prompt</title>
+</head>
+<body>
+  <div class="page" data-theme="auto">
+    <div class="bg" aria-hidden="true"></div>
+
+    <header class="topbar" role="banner">
+      <div class="topbar-inner">
+        <div class="topbar-left">
+          <a class="brand" href="https://caufero.github.io/projects/_Misc/_/_Stuff.md#">
+            <img src="https://caufero.github.io/projects/Apps/CarePort/Screenshots/caufero_logo.png" alt="4KPAINT" style="width:37px;height:37px;object-fit:cover;margin-right:-3px;" />
+            <div class="brand-text">
+              <div class="brand-name">Caufero Workspace</div>
+              <div class="brand-sub">Your control room for apps, prompts, chats, and modular blocks</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="topbar-center">
+          <div class="page-chip">
+            <span class="page-chip-dot" aria-hidden="true"></span>
+            <span class="page-chip-text">AI Prompts › Development</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="icon-btn ghost" id="btnTheme" type="button" title="Toggle theme" aria-label="Toggle theme">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>
+            </svg>
+            <span class="icon-btn-text">Theme</span>
+          </button>
+
+          <button class="icon-btn ghost" id="btnMenu" type="button" title="Toggle menu" aria-label="Toggle menu">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 6h16"/>
+              <path d="M4 12h16"/>
+              <path d="M4 18h16"/>
+            </svg>
+            <span class="icon-btn-text">Menu</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell" id="shell">
+      <aside class="rail rail-left" id="railLeft" aria-label="Side menu">
+        <div class="rail-top">
+          <div class="rail-title">Navigation</div>
+          <div class="rail-sub">Search to jump fast</div>
+
+          <div class="rail-search">
+            <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M21 21l-4.3-4.3"></path>
+            </svg>
+            <input id="navSearch" type="search" placeholder="Search links..." autocomplete="off" />
+            <button class="xbtn" id="navClear" type="button" title="Clear" aria-label="Clear">
+              <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 6L6 18"></path>
+                <path d="M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="rail-hint" id="navHint">Tip: type "invoice", "kooltool", "xml", "careport"</div>
+        </div>
+
+        <nav class="rail-body" id="navTree">
+          <a class="nav-item" href="https://caufero.github.io/projects/_Misc/_/_Stuff.md#" data-label="Home">
+            <span class="nav-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 10.5L12 3l9 7.5"></path>
+                <path d="M5 10v11h14V10"></path>
+              </svg>
+            </span>
+            <span class="nav-text">Home</span>
+          </a>
+
+          <div class="nav-group" data-label="Apps">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 7h16"></path>
+                  <path d="M4 12h16"></path>
+                  <path d="M4 17h16"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Apps</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/4KPAINT/_NewAdditions.md" data-label="Apps 4KPAINT"><span class="dot" aria-hidden="true"></span><span class="nav-text">4KPAINT</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CarePort/_NewAdditions.md" data-label="Apps CarePort"><span class="dot" aria-hidden="true"></span><span class="nav-text">CarePort</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/Elimes%20Outfit/_NewAdditions.md" data-label="Apps Elimes Outfit"><span class="dot" aria-hidden="true"></span><span class="nav-text">Elimes Outfit</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/Giftera/_NewAdditions.md" data-label="Apps Giftera"><span class="dot" aria-hidden="true"></span><span class="nav-text">Giftera</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/I2D/_NewAdditions.md" data-label="Apps I2D"><span class="dot" aria-hidden="true"></span><span class="nav-text">I2D</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/KoolTool/_NewAdditions.md" data-label="Apps KoolTool"><span class="dot" aria-hidden="true"></span><span class="nav-text">KoolTool</span></a>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Temp Text Files">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <path d="M14 2v6h6"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Temp Text Files</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub danger" href="https://caufero.github.io/projects/_Misc/_/Temp1.md" data-label="Temp Text Files Temp 1"><span class="dot"></span><span class="nav-text">Temp 1</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp2.md" data-label="Temp Text Files Temp 2"><span class="dot"></span><span class="nav-text">Temp 2</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp3.md" data-label="Temp Text Files Temp 3"><span class="dot"></span><span class="nav-text">Temp 3</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp4.md" data-label="Temp Text Files Temp 4"><span class="dot"></span><span class="nav-text">Temp 4</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp5.md" data-label="Temp Text Files Temp 5"><span class="dot"></span><span class="nav-text">Temp 5</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp6.md" data-label="Temp Text Files Temp 6"><span class="dot"></span><span class="nav-text">Temp 6</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp7.md" data-label="Temp Text Files Temp 7"><span class="dot"></span><span class="nav-text">Temp 7</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp8.md" data-label="Temp Text Files Temp 8"><span class="dot"></span><span class="nav-text">Temp 8</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp9.md" data-label="Temp Text Files Temp 9"><span class="dot"></span><span class="nav-text">Temp 9</span></a>
+              <a class="nav-item sub danger" href="https://caufero.github.io/projects/_Misc/_/Temp10.md" data-label="Temp Text Files Temp 10"><span class="dot"></span><span class="nav-text">Temp 10</span></a>
+            </div>
+          </div>
+
+          <div class="nav-group open" data-label="AI Prompts">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a4 4 0 0 0-4 4v1H7a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1v1a4 4 0 1 0 8 0v-1h1a3 3 0 0 0 3-3V10a3 3 0 0 0-3-3h-1V6a4 4 0 0 0-4-4z"></path>
+                  <path d="M9 12h6"></path>
+                  <path d="M12 9v6"></path>
+                </svg>
+              </span>
+              <span class="nav-text">AI Prompts</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+
+            <div class="nav-group-body">
+              <div class="nav-subgroup" data-label="AI Prompts CSS">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill">CSS</span>
+                  <span class="nav-text">CSS</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Convert%20Current%20CSS%20To%20Tailwind%20CSS.md" data-label="AI Prompts CSS Convert Current CSS to Tailwind CSS"><span class="dot"></span><span class="nav-text">Convert Current CSS to Tailwind CSS</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/CSS_Theme_Mapper_Prompt.md" data-label="AI Prompts CSS Map CSS To Some Theme"><span class="dot"></span><span class="nav-text">Map CSS To Some Theme</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts Development">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill violet">DEV</span>
+                  <span class="nav-text">Development</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/Build%20Apps%20With%20CauferoAppStarter.md" data-label="AI Prompts Development Build App In CauferoAppStarter"><span class="dot"></span><span class="nav-text">Build App In CauferoAppStarter</span></a>
+                  
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/_Entity%20Filter%20Page.md" data-label="AI Prompts Development Build List Filter Page"><span class="dot"></span><span class="nav-text">Build List Filter Page</span></a>
+
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20List%20Page.md" data-label="AI Prompts Development Build List Page"><span class="dot"></span><span class="nav-text">Build List Page</span></a>
+
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++ Report%20Filter%20Page.md" data-label="AI Prompts Development Build Report Filter Page"><span class="dot"></span><span class="nav-text">Build Report Filter Page</span></a>
+
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Build%20Totally%20New%20Page.md" data-label="AI Prompts Development Build Totally New Page"><span class="dot"></span><span class="nav-text">Build Totally New Page</span></a>
+                  
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Do%20Changes%20In%20Solution%20Based%20On%20Development%20Documentation.md" data-label="AI Prompts Development Do Changes In Solution Based On Development Documentation"><span class="dot"></span><span class="nav-text">Do Changes In Solution Based On Development Documentation</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/How%20To%20Go%20About%20Some%20Development%20Task.md" data-label="AI Prompts Development How To Go About Some Development Task"><span class="dot"></span><span class="nav-text">How To Go About Some Development Task</span></a>
+
+                  <div class="nav-subgroup" data-label="AI Prompts Development Make Page Generation Better">
+                    <button class="nav-subgroup-head inner" type="button" data-toggle="subgroup">
+                      <span class="mini-pill teal">GEN</span>
+                      <span class="nav-text">Make Page Generation Better</span>
+                      <span class="chev" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </button>
+                    <div class="nav-subgroup-body">
+                      <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Make%20A%20Page%20ChatGPT%20Generated%20Become%20Better/Format%20JS%20Of%20Working%20FM%20Script%20Into%20Preferred%20Components.md" data-label="AI Prompts Development Make Page Generation Better Format JS Of Working FM Script Into Preferred Components"><span class="dot"></span><span class="nav-text">Format JS Of Working FM Script Into Preferred Components</span></a>
+                      <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Make%20A%20Page%20ChatGPT%20Generated%20Become%20Better/Make%20A%20Page%20ChatGPT%20Generated%20Become%20Better.md" data-label="AI Prompts Development Make Page Generation Better Make A Page ChatGPT Generated Become Better"><span class="dot"></span><span class="nav-text">Make A Page ChatGPT Generated Become Better</span></a>
+                    </div>
+                  </div>
+
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Mimic%20Caufero%20Workspace%20Page.md" data-label="AI Prompts Development Mimic Caufero Workspace Page"><span class="dot"></span><span class="nav-text">Mimic Caufero Workspace Page</span></a>
+
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Update%20ExecuteSQL%20Query.md" data-label="AI Prompts Development Update ExecuteSQL Query"><span class="dot"></span><span class="nav-text">Update ExecuteSQL Query</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup open" data-label="AI Prompts Documents">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill amber">DOC</span>
+                  <span class="nav-text">Documents</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Contract.md" data-label="AI Prompts Documents Software Contract"><span class="dot"></span><span class="nav-text">Software Contract</span></a>
+                  <a class="nav-item sub active" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Software%20Features%20Document%20_%20Based%20On%20DDR%20_n_%20Sample%20Features%20Doc.md" data-label="AI Prompts Documents Software Features Document"><span class="dot"></span><span class="nav-text">Software Features Document</span></a>
+                  <a class="nav-item sub muted" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Invoice.md" data-label="AI Prompts Documents Invoice"><span class="dot"></span><span class="nav-text">⏳ Invoice</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Software%20Proposal.md" data-label="AI Prompts Documents Software Proposal"><span class="dot"></span><span class="nav-text">Software Proposal</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts FM Script <-> XML">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill slate">XML</span>
+                  <span class="nav-text">FM Script &lt;-&gt; XML</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/XML:FM%20Scripts%20Convertions/Convert%20FM%20Script%20To%20XML.md" data-label="AI Prompts FM Script XML FM Script To XML"><span class="dot"></span><span class="nav-text">FM Script To XML</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/XML:FM%20Scripts%20Convertions/Convert%20XML%20To%20FM%20Script.md" data-label="AI Prompts FM Script XML XML To FM Script"><span class="dot"></span><span class="nav-text">XML To FM Script</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts Docs">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill teal">DOCS</span>
+                  <span class="nav-text">Docs</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Documentations/AI_AgentTraining.md" data-label="AI Prompts Docs Documentation To Train Agent To Do Something"><span class="dot"></span><span class="nav-text">Documentation To Train Agent To Do Something</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Documentations/FM%20App%20Documentation.md" data-label="AI Prompts Docs Documentation For A FileMaker Application"><span class="dot"></span><span class="nav-text">Documentation For A FileMaker Application</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts Explain">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill rose">WHY</span>
+                  <span class="nav-text">Explain</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/What%20Is%20It%20Doing/What%20Is%20This%20FM%20App%20Doing.md" data-label="AI Prompts Explain What Is This FileMaker Application Doing"><span class="dot"></span><span class="nav-text">What Is This FileMaker Application Doing?</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/What%20Is%20It%20Doing/What%20Is%20This%20FM%20Script%20Doing.md" data-label="AI Prompts Explain What Is This FileMaker Script Doing"><span class="dot"></span><span class="nav-text">What Is This FileMaker Script Doing?</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Modular Solutions">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h7v7H4z"></path>
+                  <path d="M13 4h7v7h-7z"></path>
+                  <path d="M4 13h7v7H4z"></path>
+                  <path d="M13 13h7v7h-7z"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Modular Solutions</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+
+            <div class="nav-group-body">
+              <div class="nav-subgroup" data-label="Modular Solutions Blue Collar">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill">BC</span>
+                  <span class="nav-text">Blue Collar</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/barcode_test.md" data-label="Modular Solutions Blue Collar barcode_test"><span class="dot"></span><span class="nav-text">barcode_test</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/Coffee%20Break.md" data-label="Modular Solutions Blue Collar Coffee Break"><span class="dot"></span><span class="nav-text">Coffee Break</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/Item%20Collection.md" data-label="Modular Solutions Blue Collar Item Collection"><span class="dot"></span><span class="nav-text">Item Collection</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/Time_Picker.md" data-label="Modular Solutions Blue Collar Time_Picker"><span class="dot"></span><span class="nav-text">Time_Picker</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Modular Solutions PerformanceBTS">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill amber">PB</span>
+                  <span class="nav-text">PerformanceBTS</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/ActionTrack_R1.md" data-label="Modular Solutions PerformanceBTS ActionTrack_R1"><span class="dot"></span><span class="nav-text">ActionTrack_R1</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/BCS_d1.md" data-label="Modular Solutions PerformanceBTS BCS_d1"><span class="dot"></span><span class="nav-text">BCS_d1</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/BCS_StyleSheetTheme.md" data-label="Modular Solutions PerformanceBTS BCS_StyleSheetTheme"><span class="dot"></span><span class="nav-text">BCS_StyleSheetTheme</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/FM%20Virtual%20Menu%20List.md" data-label="Modular Solutions PerformanceBTS FM Virtual Menu List"><span class="dot"></span><span class="nav-text">FM Virtual Menu List</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/InfoTools%20Helper.md" data-label="Modular Solutions PerformanceBTS InfoTools Helper"><span class="dot"></span><span class="nav-text">InfoTools Helper</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/Task_List.md" data-label="Modular Solutions PerformanceBTS Task_List"><span class="dot"></span><span class="nav-text">Task_List</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Modular Solutions Geist">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill violet">G</span>
+                  <span class="nav-text">Geist</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/FMSVGInator.md" data-label="Modular Solutions Geist FMSVGInator"><span class="dot"></span><span class="nav-text">FMSVGInator</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/LedgerLink.md" data-label="Modular Solutions Geist LedgerLink"><span class="dot"></span><span class="nav-text">LedgerLink</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/ModLog.md" data-label="Modular Solutions Geist ModLog"><span class="dot"></span><span class="nav-text">ModLog</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/OttoDeploy.md" data-label="Modular Solutions Geist OttoDeploy"><span class="dot"></span><span class="nav-text">OttoDeploy</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/OttoFMS.md" data-label="Modular Solutions Geist OttoFMS"><span class="dot"></span><span class="nav-text">OttoFMS</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/ProofChat.md" data-label="Modular Solutions Geist ProofChat"><span class="dot"></span><span class="nav-text">ProofChat</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/Raycast.md" data-label="Modular Solutions Geist Raycast"><span class="dot"></span><span class="nav-text">Raycast</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/SimpleQ.md" data-label="Modular Solutions Geist SimpleQ"><span class="dot"></span><span class="nav-text">SimpleQ</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Modular Solutions Monkeybread">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill slate">MB</span>
+                  <span class="nav-text">Monkeybread</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/CodeSnips.md" data-label="Modular Solutions Monkeybread CodeSnips"><span class="dot"></span><span class="nav-text">CodeSnips</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Modular Solutions Others">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill teal">+</span>
+                  <span class="nav-text">Others</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/JSONQuery%202.1.md" data-label="Modular Solutions Others JSONQuery 2.1"><span class="dot"></span><span class="nav-text">JSONQuery 2.1</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/OData%20Examples.md" data-label="Modular Solutions Others OData Examples"><span class="dot"></span><span class="nav-text">OData Examples</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/ModularSolutions/TaskControl.md" data-label="Modular Solutions Others TaskControl"><span class="dot"></span><span class="nav-text">TaskControl</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Tailwind-Designed Websites">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 12c2-6 6-6 8 0s6 6 8 0"></path>
+                  <path d="M4 18c2-6 6-6 8 0s6 6 8 0"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Tailwind-Designed Websites</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/_Stuff.md#tailwind-designed-websites" data-label="Tailwind-Designed Websites Jump To Section"><span class="dot"></span><span class="nav-text">Jump to Sites section</span></a>
+              <div class="nav-subgroup" data-label="Tailwind-Designed Websites AI Agents and Automation">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill teal">AI</span>
+                  <span class="nav-text">AI Agents &amp; Automation</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/AgentMail.md" data-label="Tailwind-Designed Websites AI AgentMail"><span class="dot"></span><span class="nav-text">AgentMail</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/AI%20Agents%20Hub.md" data-label="Tailwind-Designed Websites AI AI Agents Hub"><span class="dot"></span><span class="nav-text">AI Agents Hub</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/AI%20Agents%20List.md" data-label="Tailwind-Designed Websites AI AI Agents List"><span class="dot"></span><span class="nav-text">AI Agents List</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/AllGPTs.md" data-label="Tailwind-Designed Websites AI AllGPTs"><span class="dot"></span><span class="nav-text">AllGPTs</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/AutoGPT.md" data-label="Tailwind-Designed Websites AI AutoGPT"><span class="dot"></span><span class="nav-text">AutoGPT</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Best%20AI%20Agents.md" data-label="Tailwind-Designed Websites AI Best AI Agents"><span class="dot"></span><span class="nav-text">Best AI Agents</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Browser%20Use.md" data-label="Tailwind-Designed Websites AI Browser Use"><span class="dot"></span><span class="nav-text">Browser Use</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Composio.md" data-label="Tailwind-Designed Websites AI Composio"><span class="dot"></span><span class="nav-text">Composio</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Continuum.md" data-label="Tailwind-Designed Websites AI Continuum"><span class="dot"></span><span class="nav-text">Continuum</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Cranston%20AI.md" data-label="Tailwind-Designed Websites AI Cranston AI"><span class="dot"></span><span class="nav-text">Cranston AI</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/CrewAI.md" data-label="Tailwind-Designed Websites AI CrewAI"><span class="dot"></span><span class="nav-text">CrewAI</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Dify.md" data-label="Tailwind-Designed Websites AI Dify"><span class="dot"></span><span class="nav-text">Dify</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Flowise.md" data-label="Tailwind-Designed Websites AI Flowise"><span class="dot"></span><span class="nav-text">Flowise</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/LlamaIndex.md" data-label="Tailwind-Designed Websites AI LlamaIndex"><span class="dot"></span><span class="nav-text">LlamaIndex</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Subconscious.md" data-label="Tailwind-Designed Websites AI Subconscious"><span class="dot"></span><span class="nav-text">Subconscious</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Tavily.md" data-label="Tailwind-Designed Websites AI Tavily"><span class="dot"></span><span class="nav-text">Tavily</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/TaskMaster.md" data-label="Tailwind-Designed Websites AI TaskMaster"><span class="dot"></span><span class="nav-text">TaskMaster</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Tailwind-Designed Websites Builders and Platforms">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill violet">BLD</span>
+                  <span class="nav-text">Builders &amp; Platforms</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Bolt.new.md" data-label="Tailwind-Designed Websites Builders Bolt.new"><span class="dot"></span><span class="nav-text">Bolt.new</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Cofondr.md" data-label="Tailwind-Designed Websites Builders Cofondr"><span class="dot"></span><span class="nav-text">Cofondr</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Factory.md" data-label="Tailwind-Designed Websites Builders Factory"><span class="dot"></span><span class="nav-text">Factory</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Lovable.md" data-label="Tailwind-Designed Websites Builders Lovable"><span class="dot"></span><span class="nav-text">Lovable</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/MarsX.md" data-label="Tailwind-Designed Websites Builders MarsX"><span class="dot"></span><span class="nav-text">MarsX</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Unicorn%20Platform.md" data-label="Tailwind-Designed Websites Builders Unicorn Platform"><span class="dot"></span><span class="nav-text">Unicorn Platform</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Zuludesk.md" data-label="Tailwind-Designed Websites Builders Zuludesk"><span class="dot"></span><span class="nav-text">Zuludesk</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Tailwind-Designed Websites Dev Tools and Docs">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill">DEV</span>
+                  <span class="nav-text">Dev Tools &amp; Docs</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Cursor.md" data-label="Tailwind-Designed Websites Dev Cursor"><span class="dot"></span><span class="nav-text">Cursor</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Decipher%20AI.md" data-label="Tailwind-Designed Websites Dev Decipher AI"><span class="dot"></span><span class="nav-text">Decipher AI</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Dev%20Hunt.md" data-label="Tailwind-Designed Websites Dev Dev Hunt"><span class="dot"></span><span class="nav-text">Dev Hunt</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Graphed.md" data-label="Tailwind-Designed Websites Dev Graphed"><span class="dot"></span><span class="nav-text">Graphed</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Gravity.md" data-label="Tailwind-Designed Websites Dev Gravity"><span class="dot"></span><span class="nav-text">Gravity</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Make.md" data-label="Tailwind-Designed Websites Dev Make"><span class="dot"></span><span class="nav-text">Make</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/NextJs%20Starters%20&%20Boilerplates.md" data-label="Tailwind-Designed Websites Dev NextJs Starters & Boilerplates"><span class="dot"></span><span class="nav-text">NextJs Starters &amp; Boilerplates</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Open%20Source%20Software.md" data-label="Tailwind-Designed Websites Dev Open Source Software"><span class="dot"></span><span class="nav-text">Open Source Software</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Tailwind%20CSS.md" data-label="Tailwind-Designed Websites Dev Tailwind CSS"><span class="dot"></span><span class="nav-text">Tailwind CSS</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/UI%20Generator.md" data-label="Tailwind-Designed Websites Dev UI Generator"><span class="dot"></span><span class="nav-text">UI Generator</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Tailwind-Designed Websites Marketing and Growth">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill amber">GRW</span>
+                  <span class="nav-text">Marketing &amp; Growth</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/CountVisits.md" data-label="Tailwind-Designed Websites Marketing CountVisits"><span class="dot"></span><span class="nav-text">CountVisits</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Fast%20Search%20Engine%20Indexing.md" data-label="Tailwind-Designed Websites Marketing Fast Search Engine Indexing"><span class="dot"></span><span class="nav-text">Fast Search Engine Indexing</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/InboxBott.md" data-label="Tailwind-Designed Websites Marketing InboxBott"><span class="dot"></span><span class="nav-text">InboxBott</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/ListingBott.md" data-label="Tailwind-Designed Websites Marketing ListingBott"><span class="dot"></span><span class="nav-text">ListingBott</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Marketsy.ai.md" data-label="Tailwind-Designed Websites Marketing Marketsy.ai"><span class="dot"></span><span class="nav-text">Marketsy.ai</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Saas%20Emailer.md" data-label="Tailwind-Designed Websites Marketing Saas Emailer"><span class="dot"></span><span class="nav-text">Saas Emailer</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Secondly.md" data-label="Tailwind-Designed Websites Marketing Secondly"><span class="dot"></span><span class="nav-text">Secondly</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/SEObot.md" data-label="Tailwind-Designed Websites Marketing SEObot"><span class="dot"></span><span class="nav-text">SEObot</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/StartClaw.md" data-label="Tailwind-Designed Websites Marketing StartClaw"><span class="dot"></span><span class="nav-text">StartClaw</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Startups%20Tools.md" data-label="Tailwind-Designed Websites Marketing Startups Tools"><span class="dot"></span><span class="nav-text">Startups Tools</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/TinyAdz.md" data-label="Tailwind-Designed Websites Marketing TinyAdz"><span class="dot"></span><span class="nav-text">TinyAdz</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="Tailwind-Designed Websites Misc and Reference">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill slate">MISC</span>
+                  <span class="nav-text">Misc &amp; Reference</span>
+                  <span class="chev" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Butter.md" data-label="Tailwind-Designed Websites Misc Butter"><span class="dot"></span><span class="nav-text">Butter</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Filmgrail.md" data-label="Tailwind-Designed Websites Misc Filmgrail"><span class="dot"></span><span class="nav-text">Filmgrail</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Jack&Jill.md" data-label="Tailwind-Designed Websites Misc Jack&Jill"><span class="dot"></span><span class="nav-text">Jack&amp;Jill</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/John%20Rush.md" data-label="Tailwind-Designed Websites Misc John Rush"><span class="dot"></span><span class="nav-text">John Rush</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Kortix.md" data-label="Tailwind-Designed Websites Misc Kortix"><span class="dot"></span><span class="nav-text">Kortix</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Lorem.space.md" data-label="Tailwind-Designed Websites Misc Lorem.space"><span class="dot"></span><span class="nav-text">Lorem.space</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Mem0.md" data-label="Tailwind-Designed Websites Misc Mem0"><span class="dot"></span><span class="nav-text">Mem0</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/MyMeet.md" data-label="Tailwind-Designed Websites Misc MyMeet"><span class="dot"></span><span class="nav-text">MyMeet</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Naologic.md" data-label="Tailwind-Designed Websites Misc Naologic"><span class="dot"></span><span class="nav-text">Naologic</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Pally.md" data-label="Tailwind-Designed Websites Misc Pally"><span class="dot"></span><span class="nav-text">Pally</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/Sites/Qurrent.md" data-label="Tailwind-Designed Websites Misc Qurrent"><span class="dot"></span><span class="nav-text">Qurrent</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Chats">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Chats</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/_Stuff.md" data-label="Chats Jump To Panel"><span class="dot"></span><span class="nav-text">Jump to Chats panel</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/_To%20Dos%20From%20Chats.md" data-label="Chats _To Dos From Chats"><span class="dot"></span><span class="nav-text">_To Dos From Chats</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/4K.md" data-label="Chats 4K"><span class="dot"></span><span class="nav-text">4K</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/AI.md" data-label="Chats AI"><span class="dot"></span><span class="nav-text">AI</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/APIs%20&%20Webhooks.md" data-label="Chats APIs & Webhooks"><span class="dot"></span><span class="nav-text">APIs &amp; Webhooks</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Caufero%20.md" data-label="Chats Caufero"><span class="dot"></span><span class="nav-text">Caufero</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Deployment.md" data-label="Chats Deployment"><span class="dot"></span><span class="nav-text">Deployment</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Design%20UI_UX.md" data-label="Chats Design UI_UX"><span class="dot"></span><span class="nav-text">Design UI_UX</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/DEV.md" data-label="Chats DEV"><span class="dot"></span><span class="nav-text">DEV</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Discussion.md" data-label="Chats Discussion"><span class="dot"></span><span class="nav-text">Discussion</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Files%20Shared.md" data-label="Chats Files Shared"><span class="dot"></span><span class="nav-text">Files Shared</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/General.md" data-label="Chats General"><span class="dot"></span><span class="nav-text">General</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Goodies%204U.md" data-label="Chats Goodies 4U"><span class="dot"></span><span class="nav-text">Goodies 4U</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Javascript%20in%20FileMaker.md" data-label="Chats Javascript in FileMaker"><span class="dot"></span><span class="nav-text">Javascript in FileMaker</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/JSON.md" data-label="Chats JSON"><span class="dot"></span><span class="nav-text">JSON</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/JS%20In%20FM.md" data-label="Chats JS In FM"><span class="dot"></span><span class="nav-text">JS In FM</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Mobile.md" data-label="Chats Mobile"><span class="dot"></span><span class="nav-text">Mobile</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Model%20Context%20Protocol%20(MCP).md" data-label="Chats Model Context Protocol (MCP)"><span class="dot"></span><span class="nav-text">Model Context Protocol (MCP)</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/ModularFM.md" data-label="Chats ModularFM"><span class="dot"></span><span class="nav-text">ModularFM</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/OData.md" data-label="Chats OData"><span class="dot"></span><span class="nav-text">OData</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/OTTO.md" data-label="Chats OTTO"><span class="dot"></span><span class="nav-text">OTTO</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Performance.md" data-label="Chats Performance"><span class="dot"></span><span class="nav-text">Performance</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Raycast.md" data-label="Chats Raycast"><span class="dot"></span><span class="nav-text">Raycast</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/ScriptsCalcs.md" data-label="Chats ScriptsCalcs"><span class="dot"></span><span class="nav-text">ScriptsCalcs</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Security%20Items.md" data-label="Chats Security Items"><span class="dot"></span><span class="nav-text">Security Items</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Server.md" data-label="Chats Server"><span class="dot"></span><span class="nav-text">Server</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/SQL.md" data-label="Chats SQL"><span class="dot"></span><span class="nav-text">SQL</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Team%20Meetings.md" data-label="Chats Team Meetings"><span class="dot"></span><span class="nav-text">Team Meetings</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/TipsTricksTraps.md" data-label="Chats TipsTricksTraps"><span class="dot"></span><span class="nav-text">TipsTricksTraps</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Tools.md" data-label="Chats Tools"><span class="dot"></span><span class="nav-text">Tools</span></a>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Actions To Automate">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18h6"></path>
+                  <path d="M10 22h4"></path>
+                  <path d="M12 2a7 7 0 0 0-4 12c.6.5 1 1.2 1.1 2h5.8c.1-.8.5-1.5 1.1-2A7 7 0 0 0 12 2z"></path>
+                </svg>
+              </span>
+              <span class="nav-text">Actions To Automate</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="#actions" data-label="Actions To Automate Jump To Panel"><span class="dot"></span><span class="nav-text">Jump to Actions panel</span></a>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="YouTube">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 15l5-3-5-3z"></path>
+                  <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+                </svg>
+              </span>
+              <span class="nav-text">YouTube</span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="#youtube" data-label="YouTube Jump To Panel"><span class="dot"></span><span class="nav-text">Jump to YouTube panel</span></a>
+              <a class="nav-item sub" href="#yt-ghana" data-label="YouTube Ghana Anchors"><span class="dot"></span><span class="nav-text">Open Ghana list</span></a>
+              <a class="nav-item sub" href="#yt-sports" data-label="YouTube Sports Anchors"><span class="dot"></span><span class="nav-text">Open Sports list</span></a>
+              <a class="nav-item sub" href="#yt-babies" data-label="YouTube Babies Anchors"><span class="dot"></span><span class="nav-text">Open Babies &amp; Animals list</span></a>
+              <a class="nav-item sub" href="#yt-tea" data-label="YouTube Streamer Tea Anchors"><span class="dot"></span><span class="nav-text">Open Streamer Tea list</span></a>
+              <a class="nav-item sub" href="#yt-politics" data-label="YouTube Politics Anchors"><span class="dot"></span><span class="nav-text">Open Politics list</span></a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="rail-bottom">
+          <div class="rail-foot">
+            <span class="rail-foot-dot" aria-hidden="true"></span>
+            <span>Fixed menu • scroll inside</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ========== MAIN CONTENT CANVAS (CENTER COLUMN) ========== -->
+      <main class="content" id="content" role="main">
+        <div class="content-inner">
+          <section class="hero">
+            <div class="hero-glow" aria-hidden="true"></div>
+            <div class="hero-inner">
+              <div class="hero-top">
+                <div class="hero-title">ExecuteSQL Patterns Prompt</div>
+                <div class="hero-sub">Canonical prompt for generating FileMaker ExecuteSQL queries in CauferoAppStarter. Enforces strict formatting rules: quoted table/field names, uppercase keywords, clean clause spacing, Let pattern, safe parameter binding, and proper result parsing. No guessing, no shortcuts.</div>
+              </div>
+              <div class="hero-actions">
+                <button class="cta" id="heroCopyBtn" type="button">
+                  <span class="cta-ico" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                  </span>
+                  Copy prompt
+                </button>
+              </div>
+              <div class="hero-meta">
+                <span class="chip">AI Prompt</span>
+                <span class="chip violet">FileMaker</span>
+                <span class="chip amber">ExecuteSQL</span>
+                <span class="chip copper">Code Generation</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="card section" id="prompt-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">📋</span>
+                <span>Prompt</span>
+                <span class="section-sub">Goal in, formatted ExecuteSQL script out.</span>
+              </div>
+              <div class="section-actions">
+                <div class="copy-status" id="copyStatus" aria-live="polite"></div>
+                <button class="btn primary" id="copyBtn" type="button">Copy</button>
+              </div>
+            </div>
+
+            <div class="prompt-wrap">
+              <textarea class="prompt-box" id="promptBox" readonly spellcheck="false"># ExecuteSQL Patterns in CauferoAppStarter
+## Generate ExecuteSQL Queries and Save Returned Results in Variables
+
+## Purpose
+This document defines the canonical way CauferoAppStarter scripts:
+1. build an `ExecuteSQL()` query that matches the goal of the script,
+2. run it safely with parameters,
+3. store the raw result in a variable,
+4. parse the result into individual variables for use in UI, logic, and WebViewer payloads.
+
+The AI Agent must generate scripts that follow these formatting and parsing rules exactly.
+
+---
+
+## Hard Rules (Non Negotiable)
+
+### 1. Always Quote All Table Names and Field Names
+All table names and field names in the SQL string must be wrapped in escaped quotes: `\"...\"`.
+
+Examples:
+- Table: `\"Departments\"`
+- Field: `t1.\"Department ID\"`
+- ID field: `t1.\"ID\"`
+
+Hard rule:
+- Quote everything, even if there are no spaces.
+
+### 2. Reserved SQL Syntax Words Must Be Uppercase
+Examples:
+- `SELECT`, `FROM`, `LEFT JOIN`, `INNER JOIN`, `WHERE`, `AND`, `OR`, `GROUP BY`, `ORDER BY`, `HAVING`, `AS`
+
+Hard rule:
+- Do not lowercase these keywords.
+
+### 3. SQL Clause Spacing and Arrangement Must Be Predictable
+The SQL string must be arranged with clear spacing between major sections:
+- Space between selected fields and tables: between `SELECT ...` and `FROM ...`
+- Space between tables and conditions: between `FROM ...` and `WHERE ...`
+- Space between `WHERE ...` and later clauses like `GROUP BY`, `HAVING`, `ORDER BY`
+
+Hard rule:
+- There must be at least one whitespace character separating each major clause boundary: `SELECT ... FROM ... WHERE ...`
+- The final SQL must read cleanly with single spaces separating major clauses.
+
+### 4. GROUP BY and ORDER BY Spacing Rule
+Special rule:
+- `GROUP BY` and `ORDER BY` do not require an extra blank line or "visual spacing separation" between them in the SQL string layout.
+- They can be adjacent clauses in the same concatenated segment, or in consecutive segments, without inserting an extra "spacer segment".
+
+Hard rule:
+- Do not insert any extra spacing-only segments between `GROUP BY` and `ORDER BY`.
+- Normal clause separation still applies: the end of the `GROUP BY` clause must include a space (or the next clause must begin with a leading space) so the SQL remains valid.
+
+### 5. The Query Must Match the Goal
+Conditions could be anything. The query structure must be based on what it is trying to achieve.
+The only hard rules are the formatting rules above and the Let pattern below.
+
+### 6. Let Pattern Must Match CauferoAppStarter Style
+All ExecuteSQL blocks must follow the Let pattern used in your examples:
+- `sql = "..." ;`
+- `fieldseparator = "|" ;`
+- `rowseparator = "¶" ;`
+- parameters assigned as Let variables
+- `result = ExecuteSQL ( sql ; fieldseparator ; rowseparator ; ...params... )`
+- return `result`
+
+---
+
+## FileMaker ExecuteSQL Contract
+
+### Function Signature
+`ExecuteSQL ( sql ; fieldSeparator ; rowSeparator ; parameter1 ; parameter2 ; ... )`
+
+### Separators Contract
+- `fieldseparator = "|"`
+- `rowseparator = "¶"`
+
+Return format:
+- Each row separated by `¶`
+- Each column separated by `|`
+
+---
+
+## Canonical Script Flow
+1. Run `ExecuteSQL()` inside a `Let()` block.
+2. Save the returned result into `$List`.
+3. Compute `$Total = ValueCount ( $List )`.
+4. If `$Total > 0`, loop through rows and parse into variables.
+5. Else, set defaults (if needed).
+
+Canonical shell:
+~~~filemaker
+Set Variable [ $List ; Value: Let ( 
+[
+  sql = "SELECT ... FROM ... WHERE ... = ?" ;
+  fieldseparator = "|" ;
+  rowseparator = "¶" ;
+  p1 = $$Some ID ;
+  result = ExecuteSQL ( sql ; fieldseparator ; rowseparator ; p1 )
+] ;
+result
+) ]
+
+Set Variable [ $Total ; Value: ValueCount ( $List ) ]
+
+If [ $Total > 0 ]
+  Set Variable [ $i ; Value: 0 ]
+  Loop [ Flush: Always ]
+    Set Variable [ $i ; Value: $i + 1 ]
+    Set Variable [ $Row ; Value: GetValue ( $List ; $i ) ]
+    Set Variable [ $RowAsList ; Value: Substitute ( $Row ; "|" ; ¶ ) ]
+
+    /* Map columns to variables here */
+
+    Exit Loop If [ $i ≥ $Total ]
+  End Loop
+Else
+  /* Defaults here */
+End If
+~~~
+
+Hard rule:
+- Always initialize `$i` to 0 before the loop.
+
+---
+
+## SQL Formatting Template (Mandatory Style)
+
+### Recommended Clause Layout
+Build the SQL string in segments so the final output always has correct spacing for:
+- `SELECT` to `FROM`
+- `FROM` to `WHERE`
+- `WHERE` to subsequent clauses
+
+At the same time, do not insert any extra spacing-only segments between `GROUP BY` and `ORDER BY`.
+
+~~~filemaker
+sql =
+  "SELECT " &
+    "t1.\"Field 1\", " &
+    "t1.\"Field 2\", " &
+    "t2.\"Field 3\" " &
+
+  "FROM \"Table 1\" t1 " &
+  "LEFT JOIN \"Table 2\" t2 ON t1.\"Link Field\" = t2.\"ID\" " &
+
+  "WHERE t1.\"ID\" = ? " &
+
+  "GROUP BY t1.\"Field 1\", t1.\"Field 2\", t2.\"Field 3\" " &
+  "ORDER BY t1.\"Field 1\" ASC"
+~~~
+
+Hard rules enforced by this template:
+- Keywords uppercase
+- Table and field names quoted with `\"...\"`
+- Major clause spacing is clean
+- No extra spacer segments between `GROUP BY` and `ORDER BY`
+
+---
+
+## Conditions and Parameters (Flexible, Goal Driven)
+
+### WHERE Conditions Can Be Anything
+The AI Agent can generate any valid condition set based on the goal, for example:
+- Single ID filter
+- Multi condition filters with `AND` and `OR`
+- Date range filters
+- Status filters
+- Search text filters
+- Null checks
+
+Examples (all valid patterns):
+
+#### A. Single parameter
+~~~sql
+WHERE t1.\"ID\" = ?
+~~~
+
+#### B. Multiple parameters
+~~~sql
+WHERE t1.\"Department ID\" = ? AND t1.\"Status\" = ?
+~~~
+
+#### C. OR logic
+~~~sql
+WHERE t1.\"Status\" = ? OR t1.\"Status\" = ?
+~~~
+
+#### D. Date range
+~~~sql
+WHERE t1.\"Date Created\" >= ? AND t1.\"Date Created\" <= ?
+~~~
+
+#### E. Search style filter
+~~~sql
+WHERE t1.\"Name\" LIKE ?
+~~~
+
+### Parameter Binding Rules
+Hard rules:
+- Every `?` must have a matching parameter passed into `ExecuteSQL()`, in the exact order the `?` placeholders appear.
+- Never inject values directly into the SQL string.
+
+Example with multiple parameters:
+~~~filemaker
+Set Variable [ $List ; Value: Let ( 
+[
+  sql =
+    "SELECT " &
+      "t1.\"ID\", " &
+      "t1.\"Name\" " &
+    "FROM \"Departments\" t1 " &
+    "WHERE t1.\"Status\" = ? AND t1.\"Date Created\" >= ? " &
+    "ORDER BY t1.\"Name\" ASC" ;
+
+  fieldseparator = "|" ;
+  rowseparator = "¶" ;
+
+  pStatus = $$Status ;
+  pStartDate = $$Start Date ;
+
+  result = ExecuteSQL ( sql ; fieldseparator ; rowseparator ; pStatus ; pStartDate )
+] ;
+result
+) ]
+~~~
+
+---
+
+## Parsing Rules
+
+### Row and Column Parsing
+1. Get row N:
+- `$Row = GetValue ( $List ; $i )`
+
+2. Convert `|` into returns so each column becomes a line:
+- `$RowAsList = Substitute ( $Row ; "|" ; ¶ )`
+
+3. Extract columns by position:
+- `GetValue ( $RowAsList ; 1 )`
+- `GetValue ( $RowAsList ; 2 )`
+- etc.
+
+Hard rule:
+- Column order is controlled only by the `SELECT` order.
+
+### Description Field Cleanup (Always)
+Hard rule:
+- Every Description field must be converted consistently:
+
+~~~filemaker
+Set Variable [ $Description ; Value: ConvertLineBreakMarkersToReturns ( GetValue ( $RowAsList ; N ) ) ]
+~~~
+
+---
+
+## Aggregate Rules (COUNT, DISTINCT, GROUP BY)
+
+### When to Use COUNT(DISTINCT)
+Use `COUNT(DISTINCT ...)` when you want a unique entity count and joins can multiply rows.
+
+Example:
+~~~sql
+COUNT(DISTINCT t4.\"Staff ID\") AS TotalStaff
+~~~
+
+### When to Use COUNT (Non Distinct)
+Use `COUNT(...)` when you want row counts (events, notches, logs, line items).
+
+Example:
+~~~sql
+COUNT(t4.\"ID\") AS TotalNotches
+~~~
+
+### GROUP BY Rule
+If `SELECT` contains aggregates, every non aggregate selected field must appear in `GROUP BY`.
+
+---
+
+## Date Handling Rule
+Dates are stored as FileMaker dates, then returned by ExecuteSQL as MySQL style date text.
+
+Hard rule:
+- Convert when you need FileMaker date logic.
+- Keep SQL text when you need `YYYY-MM-DD` as text.
+
+Canonical pattern:
+~~~filemaker
+Set Variable [ $Sql Some Date ; Value: GetValue ( $RowAsList ; N ) ]
+Set Variable [ $Some Date ; Value: MySQLDateToFMPDateText ( $Sql Some Date ) ]
+~~~
+
+---
+
+## Canonical Example Snippet (Matches All Hard Rules)
+This snippet demonstrates the formatting rules clearly, including `GROUP BY` followed immediately by `ORDER BY` with no extra spacing-only segments.
+
+~~~filemaker
+Set Variable [ $List ; Value: Let ( 
+[
+  sql =
+    "SELECT " &
+      "t1.\"Name\", " &
+      "t1.\"Description\", " &
+      "COUNT(DISTINCT t2.\"ID\") AS TotalRelated " &
+
+    "FROM \"Departments\" t1 " &
+    "LEFT JOIN \"Staff\" t2 ON t1.\"HOD Staff ID\" = t2.\"ID\" " &
+
+    "WHERE t1.\"ID\" = ? " &
+
+    "GROUP BY t1.\"Name\", t1.\"Description\" " &
+    "ORDER BY t1.\"Name\" ASC" ;
+
+  fieldseparator = "|" ;
+  rowseparator = "¶" ;
+
+  pID = $$Department ID ;
+
+  result = ExecuteSQL ( sql ; fieldseparator ; rowseparator ; pID )
+] ;
+result
+) ]
+
+Set Variable [ $Total ; Value: ValueCount ( $List ) ]
+
+If [ $Total > 0 ]
+  Set Variable [ $i ; Value: 0 ]
+  Loop [ Flush: Always ]
+    Set Variable [ $i ; Value: $i + 1 ]
+    Set Variable [ $Row ; Value: GetValue ( $List ; $i ) ]
+    Set Variable [ $RowAsList ; Value: Substitute ( $Row ; "|" ; ¶ ) ]
+
+    Set Variable [ $Name ; Value: GetValue ( $RowAsList ; 1 ) ]
+    Set Variable [ $Description ; Value: ConvertLineBreakMarkersToReturns ( GetValue ( $RowAsList ; 2 ) ) ]
+    Set Variable [ $Total Related ; Value: GetValue ( $RowAsList ; 3 ) ]
+
+    Exit Loop If [ $i ≥ $Total ]
+  End Loop
+Else
+  /* Defaults if needed */
+End If
+~~~
+
+---
+
+## Agent Output Checklist
+Before finalizing any generated ExecuteSQL script, the AI Agent must verify:
+- Every table name is wrapped in `\"...\"`
+- Every field name is wrapped in `\"...\"`
+- All SQL keywords are uppercase
+- SQL has clean clause spacing between `SELECT`, `FROM`, `WHERE`, and later clauses
+- `GROUP BY` and `ORDER BY` are consecutive without any extra spacing-only segments
+- SQL is built using the Let pattern used in CauferoAppStarter
+- `$i` is initialized to 0 before looping
+- Every `?` has a bound parameter in the correct order
+- Every Description field is assigned using `ConvertLineBreakMarkersToReturns()`
+- Date conversion is applied only when FileMaker date logic is needed</textarea>
+            </div>
+          </section>
+
+          <footer class="footer">
+            <div class="footer-left">
+              <div class="footer-title">Caufero Workspace</div>
+              <div class="footer-sub">Built like Tailwind. Stored like Markdown.</div>
+            </div>
+            <div class="footer-right">
+              <a class="footer-link" href="#">Apps</a>
+              <a class="footer-link" href="#">Chats</a>
+              <a class="footer-link" href="#">Modular Solutions</a>
+            </div>
+          </footer>
+        </div>
+      </main>
+      <!-- ========== END MAIN CONTENT CANVAS ========== -->
+
+      <!-- ========== RIGHT PANEL ========== -->
+      <aside class="rail rail-right" id="railRight" aria-label="Right panel">
+        <div class="rail-top">
+          <div class="rail-title">Prompt Details</div>
+          <div class="rail-sub">ExecuteSQL Patterns</div>
+          <div class="rail-actions">
+            <a class="rail-btn" href="#">Home</a>
+            <a class="rail-btn" href="#prompt-section">Prompt</a>
+          </div>
+        </div>
+
+        <div class="rail-body">
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">About this prompt</div>
+              <div class="panel-sub">Canonical ExecuteSQL generation for FileMaker</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">Paste this prompt into your AI agent along with your query goal</div>
+              <div class="stack-item">AI generates FileMaker scripts with strict formatting rules enforced</div>
+              <div class="stack-item">All table and field names quoted, keywords uppercase, clean spacing</div>
+              <div class="stack-item">Safe parameter binding with ? placeholders</div>
+              <div class="stack-item">Proper Let pattern and result parsing with loop initialization</div>
+              <div class="stack-item">Output is production-ready FileMaker script code</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Hard Rules (Non-Negotiable)</div>
+              <div class="panel-sub">6 mandatory formatting rules</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">1. Quote all table and field names with \"...\"</div>
+              <div class="stack-item">2. SQL keywords UPPERCASE (SELECT, FROM, WHERE, etc.)</div>
+              <div class="stack-item">3. Clean clause spacing (SELECT...FROM...WHERE...)</div>
+              <div class="stack-item">4. No extra spacing between GROUP BY and ORDER BY</div>
+              <div class="stack-item">5. Query must match the stated goal</div>
+              <div class="stack-item">6. Use CauferoAppStarter Let pattern</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">SQL Clauses</div>
+              <div class="panel-sub">Main components</div>
+            </div>
+            <div class="pill-row">
+              <span class="pill2">SELECT</span>
+              <span class="pill2">FROM</span>
+              <span class="pill2">LEFT JOIN</span>
+              <span class="pill2">WHERE</span>
+              <span class="pill2">GROUP BY</span>
+              <span class="pill2">ORDER BY</span>
+              <span class="pill2">HAVING</span>
+              <span class="pill2">COUNT</span>
+              <span class="pill2">DISTINCT</span>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Canonical Flow</div>
+              <div class="panel-sub">5-step pattern</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">1. Run ExecuteSQL() inside Let block</div>
+              <div class="stack-item">2. Save result into $List variable</div>
+              <div class="stack-item">3. Compute $Total = ValueCount($List)</div>
+              <div class="stack-item">4. If $Total &gt; 0, loop and parse rows</div>
+              <div class="stack-item">5. Else, set defaults if needed</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Separators Contract</div>
+              <div class="panel-sub">Fixed delimiters</div>
+            </div>
+            <div class="side-grid">
+              <span class="side-pill">fieldseparator = "|"</span>
+              <span class="side-pill">rowseparator = "¶"</span>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Key Concepts</div>
+              <div class="panel-sub">Important terms</div>
+            </div>
+            <div class="pill-row">
+              <span class="pill2">QUOTED NAMES</span>
+              <span class="pill2">UPPERCASE KEYWORDS</span>
+              <span class="pill2">PARAMETER BINDING</span>
+              <span class="pill2">LET PATTERN</span>
+              <span class="pill2">$i = 0</span>
+              <span class="pill2">GetValue()</span>
+              <span class="pill2">Substitute()</span>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">WHERE Condition Examples</div>
+              <div class="panel-sub">Flexible, goal-driven patterns</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">Single ID: WHERE t1.\"ID\" = ?</div>
+              <div class="stack-item">Multiple: WHERE t1.\"Dept\" = ? AND t1.\"Status\" = ?</div>
+              <div class="stack-item">OR logic: WHERE t1.\"Status\" = ? OR t1.\"Status\" = ?</div>
+              <div class="stack-item">Date range: WHERE t1.\"Date\" &gt;= ? AND t1.\"Date\" &lt;= ?</div>
+              <div class="stack-item">Search: WHERE t1.\"Name\" LIKE ?</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Special Field Handling</div>
+              <div class="panel-sub">Required conversions</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">Description fields: ConvertLineBreakMarkersToReturns()</div>
+              <div class="stack-item">Dates: MySQLDateToFMPDateText() when needed</div>
+              <div class="stack-item">Keep MySQL date text for YYYY-MM-DD format</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Related Prompts</div>
+              <div class="panel-sub">Other development prompts</div>
+            </div>
+            <div class="side-grid">
+              <a class="side-pill" href="#">Build Totally New Page</a>
+              <a class="side-pill" href="#">How To Go About Dev Task</a>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">How to use</div>
+              <div class="panel-sub">Steps</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">1. Copy the prompt above</div>
+              <div class="stack-item">2. Paste into your AI agent</div>
+              <div class="stack-item">3. Add your specific query goal (e.g., "Get all departments with HOD name and staff count")</div>
+              <div class="stack-item">4. AI generates formatted FileMaker script with ExecuteSQL</div>
+              <div class="stack-item">5. Review the output against the checklist at the bottom of the prompt</div>
+              <div class="stack-item">6. Copy and paste into FileMaker Script Workspace</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rail-bottom">
+          <div class="rail-foot">
+            <span class="rail-foot-dot right" aria-hidden="true"></span>
+            <span>Right panel • scroll inside</span>
+          </div>
+        </div>
+      </aside>
+      <!-- ========== END RIGHT PANEL ========== -->
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      var root = document.querySelector(".page");
+      var btnTheme = document.getElementById("btnTheme");
+      var btnMenu = document.getElementById("btnMenu");
+      var railLeft = document.getElementById("railLeft");
+      var railRight = document.getElementById("railRight");
+      var navSearch = document.getElementById("navSearch");
+      var navClear = document.getElementById("navClear");
+      var navTree = document.getElementById("navTree");
+
+      function setTheme(mode){
+        if (!root) return;
+        root.setAttribute("data-theme", mode);
+        try{ localStorage.setItem("cwf_theme", mode); } catch(e){}
+      }
+      function getTheme(){
+        try{ return localStorage.getItem("cwf_theme") || "auto"; } catch(e){ return "auto"; }
+      }
+      function toggleTheme(){
+        var cur = root.getAttribute("data-theme") || "auto";
+        if (cur === "auto") return setTheme("dark");
+        if (cur === "dark") return setTheme("light");
+        return setTheme("auto");
+      }
+      function toggleLeftRail(){
+        if (!railLeft) return;
+        railLeft.classList.toggle("open");
+      }
+      function closest(el, sel){
+        while(el && el !== document.documentElement){
+          if (el.matches && el.matches(sel)) return el;
+          el = el.parentNode;
+        }
+        return null;
+      }
+      function setOpen(panelEl, open){
+        if (!panelEl) return;
+        if (open) panelEl.classList.add("open");
+        else panelEl.classList.remove("open");
+      }
+function filterNav(q){
+  if (!navTree) return;
+  var query = (q || "").trim().toLowerCase();
+  var items = navTree.querySelectorAll("[data-label]");
+  for (var i=0;i<items.length;i++){
+    var el = items[i];
+    var label = (el.getAttribute("data-label") || "").toLowerCase();
+    var hit = !query || label.indexOf(query) !== -1;
+    el.classList.toggle("is-hit", hit);
+    el.classList.toggle("is-hidden", !!query && !hit);  // ← CHANGED: is-dim → is-hidden
+  }
+  var groups = navTree.querySelectorAll(".nav-group, .nav-subgroup");
+  for (var g=0; g<groups.length; g++){
+    var group = groups[g];
+    var all = group.querySelectorAll("[data-label]");
+    var anyHit = false;
+    for (var j=0;j<all.length;j++){
+      if (all[j].classList.contains("is-hit")) { anyHit = true; break; }
+    }
+    group.classList.toggle("is-hidden", !!query && !anyHit);  // ← CHANGED: is-dim → is-hidden
+    if (query && anyHit){
+      group.classList.add("forced-open");
+    } else {
+      group.classList.remove("forced-open");
+    }
+  }
+}
+      function wireDisclosure(){
+        document.addEventListener("click", function(e){
+          var head = closest(e.target, "[data-toggle='group'], [data-toggle='subgroup']");
+          if (!head) return;
+          var wrap = head.parentNode;
+          if (!wrap) return;
+          wrap.classList.toggle("open");
+        });
+      }
+      function closeMobileRailsOnOutsideClick(e){
+        var isMobile = window.matchMedia("(max-width: 980px)").matches;
+        if (!isMobile) return;
+        if (!railLeft || !railRight) return;
+        var t = e.target;
+        var insideLeft = !!closest(t, "#railLeft");
+        var insideRight = !!closest(t, "#railRight");
+        var insideBtn = !!closest(t, "#btnMenu");
+        if (!insideLeft && !insideRight && !insideBtn){
+          setOpen(railLeft, false);
+          setOpen(railRight, false);
+        }
+      }
+
+      /* ---- Copy prompt logic ---- */
+      var copyBtn = document.getElementById("copyBtn");
+      var heroCopyBtn = document.getElementById("heroCopyBtn");
+      var promptBox = document.getElementById("promptBox");
+      var copyStatus = document.getElementById("copyStatus");
+
+      function setStatus(msg){
+        if (!copyStatus) return;
+        copyStatus.textContent = msg || "";
+        if (!msg) return;
+        window.setTimeout(function(){ copyStatus.textContent = ""; }, 1400);
+      }
+      function selectAll(){
+        if (!promptBox) return;
+        promptBox.focus();
+        promptBox.select();
+        try{ promptBox.setSelectionRange(0, promptBox.value.length); } catch(e){}
+      }
+      function execCopyFallback(text){
+        try{
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly","");
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          ta.style.top = "0";
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          try{ ta.setSelectionRange(0, ta.value.length); } catch(e){}
+          var ok = document.execCommand("copy");
+          document.body.removeChild(ta);
+          return ok;
+        } catch(e){
+          return false;
+        }
+      }
+      function doCopy(){
+        var text = promptBox ? promptBox.value : "";
+        if (!text){ setStatus("Nothing to copy"); return; }
+        selectAll();
+        if (navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(function(){ setStatus("Copied!"); }).catch(function(){
+            var ok = execCopyFallback(text);
+            setStatus(ok ? "Copied!" : "Selected — press Cmd+C");
+          });
+        } else {
+          var ok = execCopyFallback(text);
+          setStatus(ok ? "Copied!" : "Selected — press Cmd+C");
+        }
+      }
+      if (copyBtn) copyBtn.addEventListener("click", doCopy);
+      if (heroCopyBtn) heroCopyBtn.addEventListener("click", doCopy);
+
+      function init(){
+        setTheme(getTheme());
+        wireDisclosure();
+        if (btnTheme) btnTheme.addEventListener("click", toggleTheme);
+        if (btnMenu) btnMenu.addEventListener("click", function(){
+          var isMobile = window.matchMedia("(max-width: 980px)").matches;
+          if (isMobile){
+            toggleLeftRail();
+          } else {
+            document.body.classList.toggle("compact-rails");
+          }
+        });
+        if (navClear) navClear.addEventListener("click", function(){
+          if (!navSearch) return;
+          navSearch.value = "";
+          filterNav("");
+          navSearch.focus();
+        });
+        if (navSearch) navSearch.addEventListener("input", function(){
+          filterNav(navSearch.value || "");
+        });
+        document.addEventListener("click", closeMobileRailsOnOutsideClick, true);
+        filterNav("");
+      }
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+      else init();
+    })();
+  </script>
+
+  <style>
+    :root{
+      --slate-950:#0b1220;
+      --slate-900:#0f172a;
+      --slate-800:#1f2937;
+      --slate-700:#334155;
+      --slate-600:#475569;
+      --slate-500:#64748b;
+      --slate-400:#94a3b8;
+      --slate-300:#cbd5e1;
+      --slate-200:#e2e8f0;
+      --slate-100:#f1f5f9;
+      --slate-50:#f8fafc;
+
+      --caufero-900:#0b2a36;
+      --caufero-800:#0e3344;
+      --caufero-700:#124458;
+
+      --teal-700:#0f5e5b;
+      --teal-600:#147a74;
+      --teal-500:#1a9a93;
+
+      --sky-600:#2c97b9;
+      --sky-500:#41c5e0;
+
+      --violet-600:#5b49c8;
+      --amber-600:#b7791f;
+      --copper-600:#d8743d;
+      --rose-700:#b4233a;
+      --danger:#d5432e;
+
+      --bg:var(--slate-50);
+      --surface:rgba(255,255,255,.88);
+      --surface2:rgba(255,255,255,.78);
+      --elev:rgba(255,255,255,.70);
+
+      --line:rgba(15,23,42,.10);
+      --line2:rgba(15,23,42,.16);
+
+      --shadow-1:0 1px 0 rgba(15,23,42,.06),0 10px 22px rgba(15,23,42,.06);
+      --shadow-2:0 2px 0 rgba(15,23,42,.08),0 18px 36px rgba(15,23,42,.10);
+
+      --r-xs:8px;
+      --r-sm:10px;
+      --r-md:12px;
+      --r-lg:14px;
+      --r-xl:18px;
+
+      --topbarH:56px;
+      --railW:288px;
+      --railWCompact:228px;
+      --contentMax:1200px;
+
+      --focus:rgba(14,51,68,.22);
+      --focus2:rgba(216,116,61,.22);
+    }
+
+    *{box-sizing:border-box;}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      background:var(--bg);
+      color:var(--slate-900);
+      line-height:1.45;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--caufero-800);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    img{max-width:100%;}
+
+    .page{min-height:100vh;position:relative;}
+    .bg{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      background:
+        radial-gradient(900px 480px at 12% -10%, rgba(14,51,68,.14), transparent 58%),
+        radial-gradient(860px 520px at 100% 10%, rgba(216,116,61,.12), transparent 58%),
+        radial-gradient(900px 520px at 60% 110%, rgba(95,164,161,.10), transparent 60%),
+        var(--bg);
+    }
+
+    .page[data-theme="dark"]{
+      --bg:#070a12;
+      --surface:rgba(10,14,26,.82);
+      --surface2:rgba(10,14,26,.68);
+      --elev:rgba(10,14,26,.60);
+      --line:rgba(148,163,184,.14);
+      --line2:rgba(148,163,184,.22);
+      color:var(--slate-100);
+    }
+    .page[data-theme="dark"] a{color:#a7d7e3;}
+    .page[data-theme="dark"] .bg{
+      background:
+        radial-gradient(900px 480px at 12% -10%, rgba(65,197,224,.14), transparent 60%),
+        radial-gradient(860px 520px at 100% 10%, rgba(216,116,61,.10), transparent 60%),
+        radial-gradient(900px 520px at 60% 110%, rgba(95,164,161,.10), transparent 62%),
+        var(--bg);
+    }
+
+    .topbar{
+      position:fixed;
+      top:0;left:0;right:0;
+      height:var(--topbarH);
+      z-index:50;
+      border-bottom:1px solid var(--line);
+      backdrop-filter:saturate(140%) blur(10px);
+      background:linear-gradient(to bottom, rgba(248,250,252,.82), rgba(248,250,252,.62));
+    }
+    .page[data-theme="dark"] .topbar{
+      background:linear-gradient(to bottom, rgba(10,14,26,.84), rgba(10,14,26,.62));
+    }
+    .topbar-inner{
+      height:100%;
+      display:grid;
+      grid-template-columns:1fr auto 1fr;
+      align-items:center;
+      gap:12px;
+      padding:0 14px;
+      max-width:calc(var(--contentMax) + (var(--railW) * 2) + 72px);
+      margin:0 auto;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      text-decoration:none;
+    }
+    .brand:hover{text-decoration:none;}
+    .brand-text{min-width:0;}
+    .brand-name{
+      font-weight:750;
+      font-size:14px;
+      color:inherit;
+      line-height:1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .brand-sub{
+      font-size:12px;
+      color:var(--slate-600);
+      margin-top:2px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .page[data-theme="dark"] .brand-sub{color:rgba(241,245,249,.68);}
+
+    .topbar-left,.topbar-center,.topbar-right{display:flex;align-items:center;}
+    .topbar-left{justify-content:flex-start;min-width:0;}
+    .topbar-center{justify-content:center;}
+    .topbar-right{justify-content:flex-end;gap:8px;}
+
+    .page-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--line);
+      background:var(--surface2);
+      padding:7px 10px;
+      border-radius:999px;
+      box-shadow:0 1px 0 rgba(15,23,42,.04);
+    }
+    .page-chip-dot{
+      width:8px;height:8px;border-radius:999px;
+      background:linear-gradient(180deg, var(--copper-600), var(--teal-600));
+      box-shadow:0 0 0 3px rgba(216,116,61,.12);
+    }
+    .page-chip-text{font-size:12px;font-weight:650;letter-spacing:.1px;}
+
+    .icon-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:var(--surface);
+      color:inherit;
+      box-shadow:0 1px 0 rgba(15,23,42,.04);
+      cursor:pointer;
+      user-select:none;
+    }
+    .icon-btn:hover{
+      text-decoration:none;
+      box-shadow:var(--shadow-1);
+      transform:translateY(-1px);
+      transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .icon-btn:active{transform:translateY(0px);}
+    .icon-btn.ghost{
+      background:transparent;
+      border:1px solid var(--line);
+    }
+    .icon-btn-text{font-size:12px;font-weight:650;}
+    .ico{width:18px;height:18px;display:block;}
+    .ico.sm{width:16px;height:16px;}
+
+    .shell{
+      padding-top:var(--topbarH);
+      display:grid;
+      grid-template-columns:var(--railW) 1fr var(--railW);
+      min-height:100vh;
+      gap:14px;
+      max-width:calc(var(--contentMax) + (var(--railW) * 2) + 72px);
+      margin:0 auto;
+      padding-left:14px;
+      padding-right:14px;
+    }
+    body.compact-rails .shell{grid-template-columns:var(--railWCompact) 1fr var(--railWCompact);}
+    body.compact-rails .rail{width:var(--railWCompact);}
+    body.compact-rails .nav-text{font-size:12px;}
+    body.compact-rails .rail-title{font-size:12px;}
+    body.compact-rails .rail-sub{font-size:11px;}
+
+    .rail{
+      position:sticky;
+      top:calc(var(--topbarH) + 14px);
+      height:calc(100vh - var(--topbarH) - 28px);
+      border:1px solid var(--line);
+      background:var(--surface);
+      border-radius:var(--r-xl);
+      box-shadow:var(--shadow-1);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .rail-top{
+      padding:14px 14px 12px 14px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,0));
+    }
+    .page[data-theme="dark"] .rail-top{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+    }
+    .rail-title{font-size:12px;font-weight:750;letter-spacing:.12px;}
+    .rail-sub{font-size:12px;color:var(--slate-600);margin-top:2px;}
+    .page[data-theme="dark"] .rail-sub{color:rgba(241,245,249,.70);}
+
+    .rail-search{
+      margin-top:10px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--line);
+      background:var(--surface2);
+      border-radius:12px;
+      padding:8px 10px;
+    }
+    .rail-search input{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      color:inherit;
+      font-size:12px;
+    }
+    .xbtn{
+      border:0;
+      background:transparent;
+      color:inherit;
+      padding:4px;
+      border-radius:10px;
+      cursor:pointer;
+      opacity:.75;
+    }
+    .xbtn:hover{opacity:1;background:rgba(15,23,42,.06);}
+    .page[data-theme="dark"] .xbtn:hover{background:rgba(241,245,249,.08);}
+
+    .rail-hint{
+      margin-top:10px;
+      font-size:11px;
+      color:var(--slate-500);
+    }
+    .page[data-theme="dark"] .rail-hint{color:rgba(241,245,249,.58);}
+
+    .rail-body{
+      padding:10px;
+      overflow:auto;
+      overscroll-behavior:contain;
+    }
+
+    .nav-item,
+    .nav-group-head,
+    .nav-subgroup-head{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:9px 10px;
+      border-radius:12px;
+      border:1px solid transparent;
+      color:inherit;
+      background:transparent;
+      cursor:pointer;
+      user-select:none;
+      text-align:left;
+    }
+    .nav-item:hover,
+    .nav-group-head:hover,
+    .nav-subgroup-head:hover{
+      background:rgba(15,23,42,.04);
+      border-color:rgba(15,23,42,.06);
+      text-decoration:none;
+    }
+    .page[data-theme="dark"] .nav-item:hover,
+    .page[data-theme="dark"] .nav-group-head:hover,
+    .page[data-theme="dark"] .nav-subgroup-head:hover{
+      background:rgba(241,245,249,.06);
+      border-color:rgba(241,245,249,.08);
+    }
+
+    .nav-item.active{
+      background:linear-gradient(180deg, rgba(14,51,68,.10), rgba(14,51,68,.06));
+      border-color:rgba(14,51,68,.20);
+    }
+    .page[data-theme="dark"] .nav-item.active{
+      background:linear-gradient(180deg, rgba(65,197,224,.10), rgba(65,197,224,.06));
+      border-color:rgba(65,197,224,.22);
+    }
+
+    .nav-item.sub{padding-left:34px;}
+    .nav-item.sub .dot{
+      width:6px;height:6px;border-radius:999px;
+      background:rgba(100,116,139,.55);
+      flex:0 0 auto;
+    }
+    .nav-item.sub.danger .dot{background:rgba(213,67,46,.70);}
+    .nav-item.sub.muted{opacity:.65;cursor:default;}
+
+    .nav-ico{display:inline-flex;align-items:center;justify-content:center;color:inherit;opacity:.9;}
+    .nav-text{
+      flex:1 1 auto;
+      font-size:12.5px;
+      font-weight:650;
+      letter-spacing:.05px;
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .chev{
+      opacity:.65;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 auto;
+      transition:transform .14s ease;
+    }
+
+    .nav-group,.nav-subgroup{margin-top:6px;}
+    .nav-group-body,
+    .nav-subgroup-body{
+      padding-left:6px;
+      margin-top:6px;
+      display:none;
+    }
+    .nav-group.open > .nav-group-body{display:block;}
+    .nav-subgroup.open > .nav-subgroup-body{display:block;}
+    .nav-group.open > .nav-group-head .chev,
+    .nav-subgroup.open > .nav-subgroup-head .chev{transform:rotate(90deg);}
+
+    .nav-subgroup-head{
+      padding-left:12px;
+      gap:10px;
+    }
+    .nav-subgroup-head.inner{padding-left:22px;}
+
+    .mini-pill{
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.3px;
+      padding:3px 7px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(15,23,42,.02);
+      color:var(--slate-700);
+      flex:0 0 auto;
+    }
+    .page[data-theme="dark"] .mini-pill{
+      background:rgba(241,245,249,.06);
+      color:rgba(241,245,249,.78);
+    }
+    .mini-pill.teal{border-color:rgba(20,122,116,.25);background:rgba(20,122,116,.10);color:var(--teal-700);}
+    .mini-pill.violet{border-color:rgba(91,73,200,.22);background:rgba(91,73,200,.10);color:var(--violet-600);}
+    .mini-pill.amber{border-color:rgba(183,121,31,.22);background:rgba(183,121,31,.10);color:var(--amber-600);}
+    .mini-pill.slate{border-color:rgba(71,85,105,.22);background:rgba(71,85,105,.08);color:var(--slate-700);}
+    .mini-pill.rose{border-color:rgba(180,35,58,.22);background:rgba(180,35,58,.10);color:var(--rose-700);}
+
+    .is-dim{opacity:.35;filter:saturate(.9);}
+    .is-hidden{display: none !important;}
+    .forced-open > .nav-group-body,
+    .forced-open > .nav-subgroup-body{display:block;}
+
+    .rail-bottom{
+      padding:10px 12px;
+      border-top:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.62));
+    }
+    .page[data-theme="dark"] .rail-bottom{
+      background:linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.06));
+    }
+    .rail-foot{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--slate-600);
+      font-size:11px;
+      justify-content:center;
+    }
+    .page[data-theme="dark"] .rail-foot{color:rgba(241,245,249,.64);}
+    .rail-foot-dot{
+      width:8px;height:8px;border-radius:999px;
+      background:rgba(14,51,68,.55);
+      box-shadow:0 0 0 3px rgba(14,51,68,.10);
+    }
+    .rail-foot-dot.right{
+      background:rgba(216,116,61,.70);
+      box-shadow:0 0 0 3px rgba(216,116,61,.10);
+    }
+
+    .content{
+      min-width:0;
+      padding:14px 0 22px 0;
+    }
+    .content-inner{
+      max-width:var(--contentMax);
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .hero{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.70));
+      border-radius:var(--r-xl);
+      box-shadow:var(--shadow-2);
+      position:relative;
+      overflow:hidden;
+    }
+    .page[data-theme="dark"] .hero{
+      background:linear-gradient(180deg, rgba(10,14,26,.88), rgba(10,14,26,.66));
+    }
+    .hero-glow{
+      position:absolute;
+      inset:-80px -120px auto -120px;
+      height:220px;
+      background:radial-gradient(closest-side, rgba(65,197,224,.20), transparent 68%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .hero-inner{padding:18px 18px 16px 18px;position:relative;}
+    .hero-top{display:flex;flex-direction:column;gap:6px;}
+    .hero-title{
+      font-size:18px;
+      font-weight:850;
+      letter-spacing:.2px;
+    }
+    .hero-sub{
+      font-size:13px;
+      color:var(--slate-600);
+      max-width:100ch;
+    }
+    .page[data-theme="dark"] .hero-sub{color:rgba(241,245,249,.68);}
+
+    .hero-actions{
+      margin-top:14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(14,51,68,.18);
+      background:linear-gradient(180deg, rgba(14,51,68,.12), rgba(14,51,68,.06));
+      color:inherit;
+      font-weight:750;
+      font-size:12.5px;
+      box-shadow:0 1px 0 rgba(15,23,42,.04);
+      cursor:pointer;
+    }
+    .cta:hover{
+      text-decoration:none;
+      box-shadow:var(--shadow-1);
+      transform:translateY(-1px);
+      transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .cta:active{transform:translateY(0px);}
+    .cta-ico{display:inline-flex;align-items:center;justify-content:center;}
+
+    .hero-meta{
+      margin-top:14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.55);
+      font-size:11px;
+      font-weight:750;
+      color:var(--slate-700);
+    }
+    .page[data-theme="dark"] .chip{
+      background:rgba(255,255,255,.06);
+      color:rgba(241,245,249,.78);
+    }
+    .chip.violet{border-color:rgba(91,73,200,.22);background:rgba(91,73,200,.10);color:var(--violet-600);}
+    .chip.amber{border-color:rgba(183,121,31,.22);background:rgba(183,121,31,.10);color:var(--amber-600);}
+    .chip.copper{border-color:rgba(216,116,61,.22);background:rgba(216,116,61,.10);color:var(--copper-600);}
+
+    .card{
+      border:1px solid var(--line);
+      background:var(--surface);
+      border-radius:var(--r-xl);
+      box-shadow:var(--shadow-1);
+    }
+    .section{padding:16px;}
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:850;
+      letter-spacing:.12px;
+      font-size:14px;
+      min-width:0;
+    }
+    .section-emoji{font-size:18px;}
+    .section-sub{font-size:12px;color:var(--slate-600);font-weight:650;}
+    .page[data-theme="dark"] .section-sub{color:rgba(241,245,249,.68);}
+
+    .section-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:9px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:var(--surface2);
+      font-size:12px;
+      font-weight:750;
+      color:inherit;
+      text-decoration:none;
+      cursor:pointer;
+    }
+    .btn:hover{text-decoration:none;box-shadow:var(--shadow-1);transform:translateY(-1px);transition:transform .12s ease, box-shadow .12s ease;}
+    .btn:active{transform:translateY(0px);}
+    .btn.primary{
+      border-color:rgba(14,51,68,.22);
+      background:linear-gradient(180deg, rgba(14,51,68,.16), rgba(14,51,68,.08));
+    }
+
+    .copy-status{
+      font-size:12px;
+      font-weight:750;
+      color:var(--teal-600);
+      min-height:16px;
+    }
+
+    .prompt-wrap{
+      margin-top:4px;
+    }
+    .prompt-box{
+      width:100%;
+      height:calc(100vh - 340px);
+      min-height:500px;
+      resize:vertical;
+      border-radius:16px;
+      border:1px solid rgba(15,23,42,.12);
+      background:linear-gradient(to bottom, rgba(2,6,23,.92), rgba(2,6,23,.86));
+      color:#e5e7eb;
+      padding:14px 14px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      font-size:12px;
+      line-height:1.55;
+      outline:none;
+      box-shadow:0 14px 34px rgba(2,6,23,.18);
+      overflow:auto;
+      white-space:pre;
+    }
+    .prompt-box::selection{background:rgba(65,197,224,.35);}
+
+    .footer{
+      border:1px solid var(--line);
+      background:var(--surface);
+      border-radius:var(--r-xl);
+      box-shadow:var(--shadow-1);
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .footer-title{font-weight:950;letter-spacing:.2px;}
+    .footer-sub{font-size:12px;color:var(--slate-600);margin-top:2px;}
+    .page[data-theme="dark"] .footer-sub{color:rgba(241,245,249,.66);}
+    .footer-right{display:flex;gap:12px;flex-wrap:wrap;}
+    .footer-link{
+      font-size:12px;
+      font-weight:800;
+      color:inherit;
+      text-decoration:none;
+      padding:7px 10px;
+      border-radius:12px;
+      border:1px solid transparent;
+    }
+    .footer-link:hover{
+      text-decoration:none;
+      border-color:var(--line);
+      background:var(--surface2);
+    }
+
+    .rail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+    .rail-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:var(--surface2);
+      font-size:12px;
+      font-weight:800;
+      color:inherit;
+      text-decoration:none;
+    }
+    .rail-btn:hover{text-decoration:none;box-shadow:0 1px 0 rgba(15,23,42,.04);}
+
+    .panel-card{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.60));
+      border-radius:16px;
+      padding:14px;
+      box-shadow:0 1px 0 rgba(15,23,42,.04);
+      margin-bottom:12px;
+    }
+    .page[data-theme="dark"] .panel-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
+    }
+    .panel-head{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;}
+    .panel-title{font-weight:950;letter-spacing:.15px;display:flex;align-items:center;gap:10px;}
+    .panel-sub{font-size:12px;color:var(--slate-600);line-height:1.35;}
+    .page[data-theme="dark"] .panel-sub{color:rgba(241,245,249,.66);}
+
+    .pill-row{display:flex;flex-wrap:wrap;gap:8px;}
+    .pill2{
+      font-size:11px;
+      font-weight:850;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:var(--surface2);
+      color:inherit;
+    }
+
+    .side-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:10px;
+    }
+    .side-pill{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:10px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:var(--surface2);
+      font-size:12px;
+      font-weight:850;
+      color:inherit;
+      text-decoration:none;
+      min-height:42px;
+    }
+    .side-pill:hover{text-decoration:none;box-shadow:0 1px 0 rgba(15,23,42,.04);transform:translateY(-1px);transition:transform .12s ease;}
+    .side-pill:active{transform:translateY(0px);}
+
+    .stack{display:flex;flex-direction:column;gap:8px;}
+    .stack-item{
+      border:1px solid var(--line);
+      background:var(--surface2);
+      border-radius:14px;
+      padding:10px 12px;
+      font-size:12.5px;
+      font-weight:800;
+      color:inherit;
+    }
+
+    :focus{outline:none;}
+    :focus-visible{
+      box-shadow:0 0 0 3px var(--focus), 0 0 0 6px rgba(255,255,255,.12);
+      border-radius:12px;
+    }
+    .page[data-theme="dark"] :focus-visible{
+      box-shadow:0 0 0 3px rgba(65,197,224,.22), 0 0 0 6px rgba(10,14,26,.40);
+    }
+
+    @media (max-width: 980px){
+      .shell{
+        grid-template-columns:1fr;
+        gap:12px;
+      }
+      .rail{
+        position:fixed;
+        top:var(--topbarH);
+        height:calc(100vh - var(--topbarH));
+        border-radius:18px;
+        z-index:60;
+        width:min(92vw, 340px);
+        box-shadow:var(--shadow-2);
+        transform:translateX(-110%);
+        transition:transform .18s ease;
+      }
+      .rail-right{
+        right:12px;
+        left:auto;
+        transform:translateX(110%);
+      }
+      .rail-left{
+        left:12px;
+        right:auto;
+      }
+      .rail.open{transform:translateX(0%);}
+      .content{padding:12px 0 18px 0;}
+      .side-grid{grid-template-columns:1fr;}
+      .topbar-inner{grid-template-columns:1fr auto;gap:10px;}
+      .topbar-center{display:none;}
+      .brand-sub{display:none;}
+    }
+    @media (max-width: 560px){
+      .icon-btn-text{display:none;}
+      .topbar-right{gap:6px;}
+    }
+  </style>
+</body>
+</html>

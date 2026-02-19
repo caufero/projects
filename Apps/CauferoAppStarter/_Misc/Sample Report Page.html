@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Patient Billing Report</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 14mm;
+    }
+
+    :root{
+      --text:#111;
+      --muted:#666;
+      --line:#e6e6e6;
+      --soft:#f3f3f3;
+      --header:#000;
+      --paid:#2f6b2f;
+      --unpaid:#c62828;
+      --part:#c62828;
+      --overpaid:#111;
+    }
+
+    * { box-sizing: border-box; }
+
+    body{
+      margin:0;
+      padding: 18px 22px; /* Added: screen breathing space */
+      font-family: Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background:#fff;
+    }
+
+    @media print{
+      body{ padding:0; }
+    }
+
+    .page{
+      width: 100%;
+      min-height: 100%;
+    }
+
+    .top{
+      display:flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    .title{
+      line-height: 1.1;
+    }
+
+    .title h1{
+      font-size: 22px;
+      margin: 0 0 4px 0;
+      font-weight: 700;
+    }
+
+    .title .sub{
+      font-size: 13px;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .meta{
+      text-align: right;
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--text);
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+
+    .summary{
+      display:flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      margin: 10px 0 8px 0;
+      color: var(--text);
+    }
+
+    .summary b{ font-weight: 700; }
+
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 12px;
+    }
+
+    thead th{
+      background: var(--header);
+      color: #fff;
+      padding: 9px 10px;
+      text-align: left;
+      font-weight: 700;
+      border: 0;
+      white-space: nowrap;
+    }
+
+    tbody td{
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    .date-row td{
+      background: var(--soft);
+      font-weight: 700;
+      color: var(--text);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 10px;
+    }
+
+    .totals-row td{
+      background: #fff;
+      font-weight: 700;
+      border-bottom: 1px solid var(--line);
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+
+    .totals-label{
+      text-align: center;
+      color: var(--text);
+      font-weight: 700;
+      white-space: nowrap; /* Added: keep subtotal label on one line */
+    }
+
+    .money{
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .time{ width: 10%; }
+    .patno{ width: 12%; }
+    .patname{ width: 26%; }
+    .reason{ width: 20%; }
+    .bill{ width: 10%; }
+    .paid{ width: 10%; }
+    .bal{ width: 10%; }
+    .stat{ width: 12%; }
+
+    .status{
+      text-align: left;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .status.paid { color: var(--paid); }
+    .status.unpaid { color: var(--unpaid); }
+    .status.part { color: var(--part); }
+    .status.overpaid { color: var(--overpaid); }
+
+    .balance-ok{ color: var(--paid); font-weight: 700; }
+    .balance-bad{ color: var(--unpaid); font-weight: 700; }
+
+    .footer{
+      margin-top: 18px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="top">
+      <div class="title">
+        <h1>Patient Billing Report</h1>
+        <p class="sub">Caufero Inc, North Kaneshie, Accra</p>
+      </div>
+
+      <div class="meta">
+        <div><b>Period:</b> Jan 1, 2025 to Jan 24, 2026</div>
+        <div><b>Payment:</b> All</div>
+        <div><b>Visit Reason:</b> All</div>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div><b>Visits:</b> 106</div>
+      <div><b>Total Billed:</b> GHS 17,229.00</div>
+      <div><b>Total Paid:</b> GHS 11,374.00</div>
+      <div><b>Total Outstanding:</b> GHS 5,855.00</div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th class="time">Time</th>
+          <th class="patno">Patient No.</th>
+          <th class="patname">Patient Name</th>
+          <th class="reason">Visit Reason</th>
+          <th class="bill money">Bill</th>
+          <th class="paid money">Paid</th>
+          <th class="bal money">Balance</th>
+          <th class="stat">Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <!-- Date: Jan 20, 2025 -->
+        <tr class="date-row">
+          <td colspan="8">Date: Jan 20, 2025</td>
+        </tr>
+
+        <tr>
+          <td>12:09 PM</td>
+          <td>DCP0001</td>
+          <td>Mr. ALEX ADDAVE</td>
+          <td>Consultation</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money balance-ok">GHS 0.00</td>
+          <td class="status paid">Paid</td>
+        </tr>
+
+        <tr>
+          <td>2:02 PM</td>
+          <td>DCP0002</td>
+          <td>Mrs. REGINA TURKSON</td>
+          <td>Consultation</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money balance-ok">GHS 0.00</td>
+          <td class="status paid">Paid</td>
+        </tr>
+
+        <tr class="totals-row">
+          <td colspan="4"></td>
+          <td class="totals-label">Daily Totals (Jan 20, 2025)</td>
+          <td class="money">GHS 100.00</td>
+          <td class="money">GHS 100.00</td>
+          <td class="money">GHS 0.00</td>
+        </tr>
+
+        <!-- Date: Jan 21, 2025 -->
+        <tr class="date-row">
+          <td colspan="8">Date: Jan 21, 2025</td>
+        </tr>
+
+        <tr>
+          <td>9:45 AM</td>
+          <td>DCP0003</td>
+          <td>Mrs. DORCAS ROCKSON</td>
+          <td>Consultation</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money balance-ok">GHS 0.00</td>
+          <td class="status paid">Paid</td>
+        </tr>
+
+        <tr>
+          <td>11:13 AM</td>
+          <td>DCP0004</td>
+          <td>Mr. NICHOLAS KUDEDZI</td>
+          <td>Consultation</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money balance-ok">GHS 0.00</td>
+          <td class="status paid">Paid</td>
+        </tr>
+
+        <tr>
+          <td>12:00 PM</td>
+          <td>DCP0005</td>
+          <td>Mrs. FATI ALHASSAN</td>
+          <td>Consultation</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money balance-ok">GHS 0.00</td>
+          <td class="status paid">Paid</td>
+        </tr>
+
+        <tr>
+          <td>12:51 PM</td>
+          <td>DCP0006</td>
+          <td>Miss. REGINA AMOASI</td>
+          <td>Consultation</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money balance-ok">GHS 0.00</td>
+          <td class="status paid">Paid</td>
+        </tr>
+
+        <tr>
+          <td>2:41 PM</td>
+          <td>DCP0007</td>
+          <td>Mr. ERIC NYARKO</td>
+          <td>Consultation</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money balance-ok">GHS 0.00</td>
+          <td class="status paid">Paid</td>
+        </tr>
+
+        <tr>
+          <td>2:49 PM</td>
+          <td>DCP0008</td>
+          <td>Mr. FARHAN SULEMAN</td>
+          <td>Consultation</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money balance-ok">GHS 0.00</td>
+          <td class="status paid">Paid</td>
+        </tr>
+
+        <tr class="totals-row">
+          <td colspan="4"></td>
+          <td class="totals-label">Daily Totals (Jan 21, 2025)</td>
+          <td class="money">GHS 300.00</td>
+          <td class="money">GHS 300.00</td>
+          <td class="money">GHS 0.00</td>
+        </tr>
+
+        <!-- Date: Jan 22, 2025 -->
+        <tr class="date-row">
+          <td colspan="8">Date: Jan 22, 2025</td>
+        </tr>
+
+        <tr>
+          <td>11:25 AM</td>
+          <td>DCP0009</td>
+          <td>Miss. ELIZABETH QUARSHIE</td>
+          <td>Consultation</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money balance-ok">GHS 0.00</td>
+          <td class="status paid">Paid</td>
+        </tr>
+
+        <tr>
+          <td>12:26 PM</td>
+          <td>DCP0010</td>
+          <td>Mr. ENOCH PARDIE</td>
+          <td>Consultation</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money">GHS 50.00</td>
+          <td class="money balance-ok">GHS 0.00</td>
+          <td class="status paid">Paid</td>
+        </tr>
+
+        <tr class="totals-row">
+          <td colspan="4"></td>
+          <td class="totals-label">Daily Totals (Jan 22, 2025)</td>
+          <td class="money">GHS 100.00</td>
+          <td class="money">GHS 100.00</td>
+          <td class="money">GHS 0.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footer">Page 1</div>
+  </div>
+</body>
+</html>

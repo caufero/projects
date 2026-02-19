@@ -1,0 +1,365 @@
+# CauferoAppStarter Documentation
+## Alert Boxes and How They Are Implemented (WebViewer Pages)
+
+> Purpose of this doc  
+> Train an AI Agent to implement **Alert Boxes** in CauferoAppStarter WebViewer pages, using the provided sample as the reference pattern.  
+> In this codebase, the Alert Box is represented by a block like:
+> - `<div id='alertBox' class='alert'> ... </div>`  
+> and closed via:
+> - `function closeAlert() { document.getElementById('alertBox').style.display = 'none'; }`
+
+---
+
+## 1) What an Alert Box Means Here (CauferoAppStarter Definition)
+
+An **Alert Box** is an **inline, dismissible notification panel** that appears inside the page content.
+
+It is:
+- **visible inside the page layout** (not a browser alert dialog)
+- **dismissible** by clicking an X icon
+- **controlled by simple DOM show/hide**, not by reloading the page
+
+In the sample, it appears inside Tab 4 and communicates a short notice:
+- `"This application is being accessed on the server."`
+
+Reference block from the sample:
+
+~~~html
+<div id='alertBox' class='alert'>
+  <span class='alert-title'>Note:</span>This application is being accessed on the server.
+  <i class='fas fa-times' onclick="closeAlert()"></i>
+</div>
+~~~
+
+And the close handler:
+
+~~~javascript
+function closeAlert() {
+  document.getElementById('alertBox').style.display = 'none';
+}
+~~~
+
+---
+
+## 2) When to Use Alert Boxes
+
+Use an Alert Box when you need to display **short, important, time-relevant information** that:
+- should be seen immediately
+- is not a full-page error state
+- should not block the user
+- can be dismissed once understood
+
+Examples:
+- "You are currently on the server"
+- "Offline mode is active"
+- "Changes are not yet saved"
+- "This record is locked by another user"
+- "Readonly mode enabled"
+
+AI Agent rule:
+- If the message must interrupt the user, use a modal or a confirm flow instead.
+- If the message is just helpful background, use an Info Panel instead.
+
+---
+
+## 3) Core Components of the Alert Box Pattern
+
+An Alert Box implementation has 3 parts:
+
+1. **HTML container**
+2. **Close icon** (user action)
+3. **JavaScript close function** (behavior)
+
+### 3.1 HTML Container (Required)
+
+Minimum required structure:
+
+~~~html
+<div id='alertBox' class='alert'>
+  <span class='alert-title'>Note:</span> Alert message goes here.
+  <i class='fas fa-times' onclick="closeAlert()"></i>
+</div>
+~~~
+
+Required attributes:
+- `id='alertBox'`  
+- `class='alert'`
+
+Required inner elements:
+- A title label: `<span class='alert-title'>...</span>`
+- A dismiss icon: `<i class='fas fa-times' onclick="closeAlert()"></i>`
+
+AI Agent rules:
+- The id must match what JavaScript expects (`alertBox`), unless you also update the JS to match.
+- Keep content short (1 to 2 lines).
+- Do not place form fields inside alert boxes.
+
+---
+
+## 4) JavaScript Behavior
+
+### 4.1 Close Function (Required)
+
+The sample uses a simple hide approach:
+
+~~~javascript
+function closeAlert() {
+  document.getElementById('alertBox').style.display = 'none';
+}
+~~~
+
+AI Agent rules:
+- Use `style.display = 'none'` to close the alert.
+- Do not remove the element from the DOM unless required.
+- If multiple alerts are required, do not reuse a single fixed id (see Multi-Alert section).
+
+---
+
+## 5) CSS Contract (Styling Expectations)
+
+The sample uses:
+
+~~~filemaker
+Perform Script [ “🖌️ Use Details CSS” ]
+Set Variable [ $styles ; Value: Get ( ScriptResult ) ]
+~~~
+
+So the classes below are assumed to be defined in the shared CSS:
+- `.alert`
+- `.alert-title`
+
+AI Agent rules:
+- Do not invent new class names for alert styling unless explicitly requested.
+- If the alert does not look right, the fix is usually in the shared CSS script, not in random inline styles per page.
+
+---
+
+## 6) Placement Rules (Where to Put Alerts)
+
+Alerts should be placed:
+- near the top of the area they relate to
+- inside the relevant tab or section container
+- before the content the alert affects
+
+Sample placement is inside Tab 4 content, directly after breadcrumbs:
+
+~~~html
+<!-- BREADCRUMBS -->
+<div class='breadcrumbs'> ... </div>
+
+<!-- ALERT BOX -->
+<div id='alertBox' class='alert'> ... </div>
+~~~
+
+AI Agent rules:
+- Place alert boxes above the UI that is impacted by the alert message.
+- Avoid burying alert boxes at the bottom of long pages.
+
+---
+
+## 7) Dynamic Alert Content (Text Fields Only)
+
+This documentation is for **text content** only.
+
+### 7.1 Static alert message
+Hardcode the message text into the HTML string:
+
+~~~filemaker
+Set Variable [ $AlertHTML ; Value:
+"
+<div id='alertBox' class='alert'>
+  <span class='alert-title'>Note:</span>This application is being accessed on the server.
+  <i class='fas fa-times' onclick=\"closeAlert()\"></i>
+</div>
+" ]
+~~~
+
+### 7.2 Dynamic alert message (FileMaker variables/fields)
+Use FileMaker concatenation to inject the message:
+
+~~~filemaker
+Set Variable [ $AlertHTML ; Value:
+"
+<div id='alertBox' class='alert'>
+  <span class='alert-title'>" & $AlertTitle & ":</span>" & $AlertMessage & "
+  <i class='fas fa-times' onclick=\"closeAlert()\"></i>
+</div>
+" ]
+~~~
+
+AI Agent rules:
+- If `$AlertMessage` comes from user-entered text, it should be HTML-escaped to avoid breaking markup.
+- If no escaping utility exists, flag it as required (see Ambiguities).
+
+---
+
+## 8) Implementation Pattern Inside a Page Script
+
+Alert Boxes follow the same pattern as other HTML objects:
+1. Build the HTML chunk in a FileMaker variable
+2. Insert the chunk into the page (tab HTML or summary/content section)
+3. Ensure the JS function exists inside `$Scripts`
+
+Example (Tab 4 pattern):
+
+~~~filemaker
+Set Variable [ $Tab4 HTML ; Value:
+"
+<div id='tab4' class='content'" & If ( $$Tab To Show = 4 ; " style='display: block;'" ) & ">
+
+  <!-- ALERT BOX -->
+  <div id='alertBox' class='alert'>
+    <span class='alert-title'>Note:</span>This application is being accessed on the server.
+    <i class='fas fa-times' onclick=\"closeAlert()\"></i>
+  </div>
+
+</div>
+" ]
+~~~
+
+And the JavaScript must be included:
+
+~~~filemaker
+Set Variable [ $Close Alert Script ; Value:
+"function closeAlert() {
+  document.getElementById('alertBox').style.display = 'none';
+}" ]
+~~~
+
+Then `$Close Alert Script` must be appended into the page script bundle:
+
+~~~filemaker
+Set Variable [ $Scripts ; Value:
+"<script> " &
+  ... &
+  $Close Alert Script &
+" </script> " ]
+~~~
+
+AI Agent rules:
+- If you add the alert HTML, you must also ensure `closeAlert()` is present in the final JS bundle.
+- If the alert is inside a tab that can be switched to, the function must be available globally (page-level script bundle is fine).
+
+---
+
+## 9) Multi-Alert Support (Optional Extension)
+
+The sample implements one alert using a fixed id: `alertBox`.
+
+If the page needs multiple alerts simultaneously, fixed ids will collide.
+
+### 9.1 Multi-alert approach using unique ids
+Use unique ids and pass the id into the close function:
+
+~~~html
+<div id='alertBox_server' class='alert'>
+  <span class='alert-title'>Note:</span>Server access detected.
+  <i class='fas fa-times' onclick="closeAlertById('alertBox_server')"></i>
+</div>
+
+<div id='alertBox_readonly' class='alert'>
+  <span class='alert-title'>Warning:</span>Readonly mode enabled.
+  <i class='fas fa-times' onclick="closeAlertById('alertBox_readonly')"></i>
+</div>
+~~~
+
+~~~javascript
+function closeAlertById(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+}
+~~~
+
+AI Agent rule:
+- Only implement multi-alert support if required by the page spec.
+- If not required, default to the single-alert pattern from the sample.
+
+---
+
+## 10) Quality Rules for Alert Text
+
+Alert text must be:
+- short
+- specific
+- actionable when needed
+
+Guidelines:
+- Title should be a single word or short label: `Note`, `Warning`, `Error`, `Info`
+- Message should be one sentence or less when possible
+
+AI Agent rule:
+- If you need to explain a process, do not use an alert. Use an Info Panel.
+
+---
+
+## 11) Ambiguities and Clarifications Needed (Must Ask User)
+
+The sample shows one alert pattern, but it does not specify some system contracts.
+
+### 11.1 Are there multiple alert styles?
+- Do you have variants like `alert-warning`, `alert-error`, `alert-success`?
+- Or is everything `.alert` and the title changes only?
+
+### 11.2 Is there a standard rule for when alerts should appear automatically?
+- Should alerts appear based on FileMaker conditions (server vs local, permissions, record locked)?
+- If yes, do you have a naming convention for alert variables like `$AlertTitle`, `$AlertMessage`, `$ShowAlert`?
+
+### 11.3 Is there an HTML escaping utility in the codebase?
+If dynamic text is used:
+- What is the official escape/sanitize method to prevent HTML injection or broken markup?
+
+AI Agent default behavior if not clarified:
+- Implement a single `.alert` box with id `alertBox`
+- Use `closeAlert()` with `style.display='none'`
+- Keep content static or controlled by trusted variables only
+
+---
+
+## 12) Copy-Paste Templates (AI Agent Output Blocks)
+
+### 12.1 Template: Basic Alert (Single)
+~~~html
+<div id='alertBox' class='alert'>
+  <span class='alert-title'>Note:</span> Alert message goes here.
+  <i class='fas fa-times' onclick="closeAlert()"></i>
+</div>
+~~~
+
+~~~javascript
+function closeAlert() {
+  document.getElementById('alertBox').style.display = 'none';
+}
+~~~
+
+### 12.2 Template: Multi-Alert (Optional)
+~~~html
+<div id='alertBox_1' class='alert'>
+  <span class='alert-title'>Warning:</span> Message 1.
+  <i class='fas fa-times' onclick="closeAlertById('alertBox_1')"></i>
+</div>
+
+<div id='alertBox_2' class='alert'>
+  <span class='alert-title'>Info:</span> Message 2.
+  <i class='fas fa-times' onclick="closeAlertById('alertBox_2')"></i>
+</div>
+~~~
+
+~~~javascript
+function closeAlertById(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+}
+~~~
+
+---
+
+## 13) Minimal Acceptance Checklist (For the AI Agent)
+
+An Alert Box implementation is correct only if:
+
+- The HTML includes `class='alert'`
+- The container has an id that matches the JavaScript logic
+- The dismiss icon calls a close function
+- The close function hides the alert with `style.display = 'none'`
+- The alert is placed near the content it affects
+- The styling is assumed to be provided by the shared CSS script

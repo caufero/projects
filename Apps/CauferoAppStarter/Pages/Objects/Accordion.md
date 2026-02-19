@@ -1,0 +1,458 @@
+# CauferoAppStarter Documentation
+## Accordions and How They Are Implemented and Used (SRD Tab)
+
+> Purpose of this doc  
+> Train an AI Agent to correctly implement **accordions** inside CauferoAppStarter WebViewer pages, using the SRD tab implementation shown in the sample script.  
+> This doc focuses on the accordion container, headers, content blocks, toggle behavior, default open behavior, and how accordion content is assembled from FileMaker variables and subtables.
+
+---
+
+## 1) What an Accordion Means in CauferoAppStarter
+
+An accordion is a UI pattern used to:
+- group large content into collapsible sections
+- reduce scrolling and visual noise
+- allow focused reading and editing
+- optionally open a specific section by default
+
+In this framework:
+- accordion sections are generated as HTML strings inside FileMaker
+- each section has a header and a content block
+- clicking the header toggles the next content block
+- optional: a specific section can be auto-opened on page load using a FileMaker variable `$$Accordion Section`
+
+---
+
+## 2) Accordion Implementation Overview
+
+The implementation is split into 3 layers:
+
+1. **FileMaker Page Generator (HTML assembly)**
+   - builds `$Tab5 HTML` (the SRD tab) which includes the accordion markup
+   - inserts dynamic content (images, statements, paragraphs, subtable HTML, etc.)
+   - decides which accordion section should open by default using `$$Accordion Section`
+
+2. **CSS (accordion look and feel)**
+   - comes from theme script `🖌️ Use Details CSS`
+   - may be extended inside `$styles` with additional rules
+   - accordion-specific classes must exist in the base theme CSS or be added if missing
+
+3. **JavaScript (toggle logic + auto-open logic)**
+   - `toggleAccordion(element)` toggles the next sibling content block
+   - optional `DOMContentLoaded` handler opens a specific section by matching header text
+
+---
+
+## 3) Naming and Class Contracts (Must Be Followed)
+
+The accordion relies on these class names:
+
+- `.accordion`  
+  Wrapper around all accordion sections
+
+- `.accordion-item`  
+  A single accordion section (header + content)
+
+- `.accordion-header`  
+  The clickable header element
+
+- `.accordion-content`  
+  The collapsible block. It must be the *immediate next sibling* of `.accordion-header`
+
+### Why the “next sibling” rule matters
+The toggle function uses:
+`element.nextElementSibling`
+
+So the HTML must be:
+- header
+- then content
+- with nothing else between them
+
+Correct:
+~~~html
+<div class="accordion-item">
+  <div class="accordion-header" onclick="toggleAccordion(this)">Functional Requirements</div>
+  <div class="accordion-content"> ... </div>
+</div>
+~~~
+
+Incorrect:
+~~~html
+<div class="accordion-item">
+  <div class="accordion-header" onclick="toggleAccordion(this)">Functional Requirements</div>
+  <hr>
+  <div class="accordion-content"> ... </div>
+</div>
+~~~
+Because `nextElementSibling` would be the `<hr>`, not the content.
+
+---
+
+## 4) Accordion Markup Pattern (HTML)
+
+The SRD tab uses an accordion to present sections like:
+- Introduction
+- Business Context
+- System Overview
+- Functional Requirements
+- Non-Functional Requirements
+- UI Guidelines
+- Suggested Improvements
+- Customization Options
+- Phase Prioritization
+- Future Enhancements
+- Cost & Timelines
+- Payment Terms
+
+### Canonical HTML structure (repeat for each section)
+~~~html
+<div class="accordion">
+  
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      Introduction
+    </div>
+    <div class="accordion-content" style="display:none;">
+      <!-- content -->
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      Functional Requirements
+    </div>
+    <div class="accordion-content" style="display:none;">
+      <!-- content -->
+    </div>
+  </div>
+
+</div>
+~~~
+
+Notes:
+- `style="display:none;"` may be set inline or via CSS default
+- the sample JS toggles between `'block'` and `'none'`, so the “open” display type is `block`
+
+---
+
+## 5) JavaScript Toggle Logic
+
+The sample script defines:
+
+~~~js
+function toggleAccordion(element) {
+  const content = element.nextElementSibling;
+  content.style.display = content.style.display === 'block' ? 'none' : 'block';
+}
+~~~
+
+### Behavior contract
+- input: the clicked `.accordion-header` element
+- finds: its immediate next sibling element (must be `.accordion-content`)
+- toggles: `display` between `'block'` and `'none'`
+
+### Practical consequences
+- do not rely on CSS transitions unless you rewrite the toggle logic
+- if you want animations, you must implement a height-based transition pattern instead of simple display toggling
+
+---
+
+## 6) Default Open Section (Auto-Expand on Load)
+
+The page supports opening a specific accordion section by using:
+- FileMaker variable `$$Accordion Section`
+- JavaScript that runs on `DOMContentLoaded`
+- a text match against `.accordion-header` label
+
+Sample blocks:
+
+~~~js
+window.addEventListener('DOMContentLoaded', function () {
+  const headers = document.querySelectorAll('.accordion-header');
+  headers.forEach(function (header) {
+    if (header.textContent.trim() === 'Functional Requirements') {
+      const content = header.nextElementSibling;
+      if (content) {
+        content.style.display = 'block';
+      }
+    }
+  });
+});
+~~~
+
+And similarly for:
+- `Cost & Timelines`
+
+### How FileMaker chooses which section opens
+In the sample:
+- the `DOMContentLoaded` block is appended conditionally based on:
+
+- `If ( $$Accordion Section = "Functional Requirements" ; <open functional req section> )`
+- `If ( $$Accordion Section = "Cost & Timelines" ; <open cost section> )`
+
+### AI Agent rule
+When implementing a new default-open section:
+1. ensure the header’s visible text matches exactly the string being compared
+2. append another `DOMContentLoaded` block for that section, or generalize the logic (recommended)
+
+---
+
+## 7) Recommended Improvement (Generalize Default Open Logic)
+
+The current implementation repeats code for each section. The AI Agent may generate a general solution:
+
+### General solution pattern
+- store the desired header label in a JS variable injected from FileMaker
+- open only that label
+
+~~~js
+window.addEventListener('DOMContentLoaded', function () {
+  const target = '{{ACCORDION_SECTION}}'; /* injected from FileMaker */
+  if (!target) return;
+
+  const headers = document.querySelectorAll('.accordion-header');
+  headers.forEach(function (header) {
+    if (header.textContent.trim() === target) {
+      const content = header.nextElementSibling;
+      if (content) content.style.display = 'block';
+    }
+  });
+});
+~~~
+
+FileMaker injects:
+- `{{ACCORDION_SECTION}} = $$Accordion Section`
+
+This eliminates the duplicated `If ( $$Accordion Section = ... )` blocks.
+
+---
+
+## 8) Accordion Content Assembly (FileMaker)
+
+The accordion’s value is in how each `.accordion-content` block is generated from:
+- ExecuteSQL results stored in variables (e.g., `$Introduction_Background`)
+- default fallback values when no SRD record exists
+- subtables generated by `+++ Display Subtable HTML` scripts
+
+### Example content types used inside accordion sections
+1. **Hero image**
+   - uses URLs such as `$Cover Image URL`, `$Introduction_Image URL`, etc.
+   - each URL is defaulted via `DefaultIfEmpty(...)`
+
+2. **Section statement**
+   - single-paragraph summary like `$Business Context_Statement`
+
+3. **Bullet lists / paragraphs**
+   - fields converted with `ConvertLineBreakMarkersToReturns(...)`
+
+4. **Subtable HTML**
+   - functional requirements are rendered using a generated subtable:
+     - `$Functional Requirements Sub Table HTML`
+   - cost items rendered similarly:
+     - `$Price Breakdown Sub Table HTML`
+
+### AI Agent rule
+Accordion content must be built as HTML using already-available helper patterns:
+- image blocks
+- paragraph blocks
+- subtable blocks
+- button blocks (copy to clipboard, generate prompt, etc.)
+
+Do not place raw FileMaker returns inside HTML without conversion if the content is intended to preserve line breaks.
+
+---
+
+## 9) Accordion Section Labels Must Be Stable
+
+Because the default-open logic matches header text exactly, labels like:
+- `Functional Requirements`
+- `Cost & Timelines`
+
+must remain stable.
+
+### AI Agent rule
+If a label changes, you must also update:
+- the default-open matching string
+- any routing logic that sets `$$Accordion Section`
+
+---
+
+## 10) Accordion and Tabs Relationship
+
+The accordion is inside a tabbed page structure.
+
+Relevant pattern:
+- `$Tabs HTML` defines tabs
+- `$Tab5 HTML` contains the SRD tab content
+- the accordion exists inside `$Tab5 HTML`
+
+JavaScript:
+- `showContent(contentId, tabElement)` hides all `.content` blocks and shows the requested one
+
+### AI Agent rule
+If you want an accordion section to open by default, ensure:
+1. Tab 5 is visible (either active by default or selected)
+2. Accordion auto-open runs after DOM load
+3. The accordion markup exists inside the loaded DOM
+
+---
+
+## 11) Minimum CSS Requirements for Accordion
+
+The sample shows no explicit accordion CSS added in `$styles`. That means accordion styling is likely included in:
+- `🖌️ Use Details CSS`
+
+### AI Agent rule
+If accordion CSS is missing in a theme, add at least:
+
+~~~css
+.accordion { width: 100%; }
+.accordion-item { border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+.accordion-header { cursor: pointer; padding: 12px 14px; font-weight: 600; }
+.accordion-content { display: none; padding: 12px 14px; }
+~~~
+
+Do not over-style in the page script unless the framework expects local overrides.
+
+---
+
+## 12) Copy-Paste Accordion Template (Framework-Compatible)
+
+This template is what the AI Agent should generate inside a `$TabX HTML` calculation.
+
+~~~text
+<div class="accordion">
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">Introduction</div>
+    <div class="accordion-content" style="display:none;">
+      
+      <div class="section-image">
+        <img src="{{Introduction_Image URL}}" alt="">
+      </div>
+
+      <p class="section-statement">{{Introduction_Statement}}</p>
+
+      <div class="section-body">
+        {{Introduction_Background}}
+      </div>
+
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header" onclick="toggleAccordion(this)">Functional Requirements</div>
+    <div class="accordion-content" style="display:none;">
+      {{Functional Requirements Sub Table HTML}}
+    </div>
+  </div>
+
+</div>
+~~~
+
+Replace placeholders with FileMaker variables concatenated into the HTML string.
+
+---
+
+## 13) JS Injection Pattern (How Accordion JS Gets Into the Page)
+
+The accordion JS is injected via `$Scripts`, which is assembled as:
+
+~~~filemaker
+Set Variable [ $Scripts ;
+  Value:
+  "<script> " &
+  $Show Content Script & "¶¶" &
+  $Cancel Action Script & "¶¶" &
+  $Toggle Accordion Script &
+  " </script> "
+]
+~~~
+
+### AI Agent rule
+If you add an accordion to a page, you must ensure:
+- `$Toggle Accordion Script` is included in `$Scripts`
+- the HTML uses `onclick="toggleAccordion(this)"`
+
+---
+
+## 14) Common Failure Modes and Fixes
+
+### 14.1 Clicking header does nothing
+Cause:
+- `toggleAccordion` not injected into `$Scripts`
+Fix:
+- ensure `$Toggle Accordion Script` is in the `$Scripts` bundle
+
+### 14.2 Wrong content opens or nothing opens
+Cause:
+- header’s `nextElementSibling` is not `.accordion-content`
+Fix:
+- remove any elements between header and content
+- keep strict header then content ordering
+
+### 14.3 Default open does not work
+Cause:
+- header text mismatch (extra spaces, different punctuation)
+Fix:
+- ensure exact label match
+- `header.textContent.trim()` is compared to the exact string
+
+### 14.4 Default open works but user sees different tab
+Cause:
+- Tab 5 not active
+Fix:
+- set `$$Tab To Show = 5` when routing to SRD tab
+- ensure `showContent('tab5', ...)` is invoked if needed
+
+---
+
+## 15) Required Clarifications (Ambiguities the AI Agent Cannot Guess)
+
+These affect whether the AI Agent can implement accordions perfectly:
+
+1. **Accordion CSS source of truth**
+   - Is `.accordion` styling always guaranteed in `🖌️ Use Details CSS` for every theme?
+   - If not, should the AI Agent inject a minimal accordion CSS block whenever missing?
+
+2. **Open behavior for multiple sections**
+   - Should multiple sections be able to stay open at the same time?
+   - Or should opening one section close others automatically (classic accordion)?
+
+   Current logic allows multiple open sections.
+
+3. **Default open routing**
+   - Where is `$$Accordion Section` set from?
+   - Is it passed as a script parameter, or set by a calling script before page generation?
+
+4. **Display mode**
+   - Must accordion content open with `display: block` only?
+   - Or do some sections need `display: flex` or `grid` when open?
+
+5. **Section labels localization**
+   - Are section titles always English strings?
+   - Are they ever dynamic or pulled from table fields?
+
+---
+
+## 16) AI Agent Output Standard (What Must Be Produced)
+
+When asked to add an accordion section to a CauferoAppStarter page, the AI Agent must output:
+
+1. HTML:
+   - `.accordion` wrapper
+   - `.accordion-item` per section
+   - `.accordion-header` with `onclick="toggleAccordion(this)"`
+   - `.accordion-content` immediately after the header
+
+2. JavaScript:
+   - `toggleAccordion(element)` function injected into `$Scripts`
+   - optional auto-open on `DOMContentLoaded` using `$$Accordion Section`
+
+3. FileMaker assembly:
+   - content variables prepared (from ExecuteSQL or defaults)
+   - any subtable HTML already generated and inserted into the relevant accordion content
+
+4. Consistency:
+   - stable header labels if used for default open
+   - no DOM structure between header and content\

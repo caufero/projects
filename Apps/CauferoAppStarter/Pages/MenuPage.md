@@ -1,0 +1,892 @@
+# Side Menu Page Documentation (CauferoAppStarter)
+Version: 1.0  
+Purpose: Train an AI Agent to build a complete Side Menu page in CauferoAppStarter using FileMaker + WebViewer (HTML/CSS/JS) + ExecuteSQL.
+
+---
+
+## 0) What the Side Menu Page Is
+The Side Menu page is a WebViewer-driven UI panel that:
+- Shows navigation links a user is allowed to see, based on App + Role.
+- Supports parent links and sub links (accordion).
+- Highlights the currently selected link.
+- Can insert section dividers between link groups.
+- Has a search input to filter visible links.
+- Shows user profile photo and user actions (example: Change Password).
+- Can expose Theme switching UI based on the app’s available themes.
+
+This is not a generic menu. It is driven by your database and current user context.
+
+---
+
+## 1) Output Contract (What This Script Must Produce)
+When the “Build Side Menu” script finishes, these must be true:
+
+### 1.1 Global Variables Produced
+- `$$My Links`  
+  A fully concatenated HTML snippet containing all menu items (parents plus optional accordion submenus), including any `<hr>` dividers.
+
+- `$$Menu`  
+  The full HTML document string that can be pushed into the WebViewer.
+
+### 1.2 The WebViewer Shows the Menu
+The layout hosting the side menu contains a WebViewer object, for example:
+- Object Name: `wvMenu`
+
+The script ends by pushing `$$Menu` into that object.
+
+~~~filemaker
+Set Web Viewer [
+  Object Name: "wvMenu" ;
+  Action: "Set HTML" ;
+  HTML: $$Menu
+]
+~~~
+
+---
+
+## 2) Data Model Requirements
+The side menu relies on a specific model of Apps, Roles, and Links.
+
+### 2.1 Tables
+- `Apps`
+- `Links`
+- `Role Links`
+
+### 2.2 Required Fields (Minimum)
+#### Apps
+- `Apps::ID`
+- `Apps::Available Themes`  
+  A return-delimited list of theme names. Example:
+  - NeatFrame
+  - KoolTool
+  - Slate
+
+#### Links
+- `Links::ID`
+- `Links::Link`  
+  Display name. Example: `Dashboard`
+- `Links::Order`  
+  Numeric ordering inside the menu.
+- `Links::SVG Icon`  
+  The SVG `path d="..."` value (the actual path string).
+- `Links::Note`  
+  Used for special behavior. Example: `After Section Divider`
+- `Links::Parent Link ID`  
+  Null for top-level parent links. Populated for sub links.
+- Optional fields that often exist in real builds:
+  - `Links::Layout Name` or `Links::Target Layout`
+  - `Links::Script Name` (if navigation is script-driven)
+  - `Links::Pending` (boolean) used to hide links still being built
+
+#### Role Links
+- `Role Links::App ID`
+- `Role Links::Role ID`
+- `Role Links::Link ID`
+
+### 2.3 Relationship Concept (Mental Model)
+A user has a Role in an App.  
+Role Links defines which Links that role is allowed to see.
+
+---
+
+## 3) Runtime Context Inputs (Globals and Fields)
+The menu builder depends on current context. These values must already exist before building the menu.
+
+### 3.1 Required Context Values
+- `Settings::App ID`  
+  The current App ID.
+- Current Role ID (wherever you store it)  
+  Example patterns:
+  - `$$Role ID`
+  - `Users::Role ID`
+  - `Settings::Role ID`
+
+### 3.2 Required Globals Used by the Menu
+- `$$Link ID`  
+  The currently selected Link ID (used to add class `selected`).
+- `$$Parent Link ID`  
+  The currently selected parent Link ID (used to expand accordion).
+- `$$My Photo`  
+  User profile photo base64 (png). Can be empty.
+
+### 3.3 App Name and Slogan (Optional, If You Show Them)
+If your menu header includes app identity:
+- `$$App Name`
+- `$$App Slogan`
+
+---
+
+## 4) High-Level Build Flow
+The script is built in distinct phases:
+
+1) Query allowed parent links (App + Role, parent only).  
+2) Loop through parent links:
+   - Split record into fields
+   - Build SVG icon HTML
+   - Inject divider if Note says so
+   - Fetch sub links using a sub-script
+   - Build link HTML:
+     - Direct anchor if no sub links
+     - Accordion if sub links exist
+   - Append into `$$My Links`
+3) Build Themes list from Apps table.
+4) Pull Menu CSS from centralized script.
+5) Build JS functions as strings.
+6) Assemble final `$$Menu` HTML document string.
+7) Push `$$Menu` into the menu WebViewer.
+
+---
+
+## 5) Phase 1: Query Parent Links Using ExecuteSQL
+### 5.1 Goal
+Return a list of top-level Links the user can see:
+- Allowed by Role Links
+- Belonging to current App
+- Parent only: `Links::Parent Link ID IS NULL`
+- Excluding pending links (if you have that field)
+
+### 5.2 Query Output Shape
+Each row must return these columns in this exact order:
+1. Link ID
+2. Link Name
+3. Order
+4. SVG Icon path
+5. Note
+
+Your loop expects those 5 values per row.
+
+### 5.3 ExecuteSQL Template
+You will build a Let() block with:
+- `sql`
+- `fieldseparator`
+- `rowseparator`
+- parameters for app_id and role_id
+
+Important: Your loop later does this:
+- `GetValue ( $Link Record As List ; 1..5 )`
+
+That only works if each row can be converted into a value list, one value per line.
+
+### 5.4 Recommended Separator Strategy
+- `fieldseparator = "xxxxx"`
+- `rowseparator = "¶"`
+
+Then later:
+- Convert `"xxxxx"` into `¶` so each field becomes a value.
+This matches your sample.
+
+Why this strategy exists:
+- ExecuteSQL returns a row as a single text line.
+- You want to split fields safely without conflicts.
+- A weird separator like `xxxxx` avoids accidental collisions with normal text.
+
+### 5.5 Example SQL (Adjust Field Names to Your Schema)
+~~~filemaker
+Set Variable [ $List ;
+  Value:
+  Let ( [
+    sql =
+      "SELECT
+         t2.ID,
+         t2.Link,
+         t2.\"Order\",
+         t2.\"SVG Icon\",
+         t2.\"Note\"
+       FROM \"Role Links\" t1
+       LEFT JOIN Links t2 ON ( t1.\"Link ID\" = t2.ID )
+       WHERE
+         t1.\"App ID\" = ?
+         AND t1.\"Role ID\" = ?
+         AND t2.\"Parent Link ID\" IS NULL
+         AND ( t2.Pending IS NULL OR t2.Pending = 0 )
+       ORDER BY t2.\"Order\" " ;
+
+    fieldseparator = "xxxxx" ;
+    rowseparator   = "¶" ;
+
+    app_id  = Settings::App ID ;
+    role_id = $$Role ID ;
+
+    result = ExecuteSQL ( sql ; fieldseparator ; rowseparator ; app_id ; role_id )
+  ] ; result )
+]
+~~~
+
+### 5.6 Count Rows
+~~~filemaker
+Set Variable [ $Total ; Value: ValueCount ( $List ) ]
+Set Variable [ $$My Links ; Value: "" ]
+~~~
+
+---
+
+## 6) Phase 2: Loop Through Parent Links
+### 6.1 Loop Skeleton
+Initialize `$i` properly before incrementing.
+
+~~~filemaker
+Set Variable [ $i ; Value: 0 ]
+
+If [ $Total > 0 ]
+  Loop [ Flush: Always ]
+    Set Variable [ $i ; Value: $i + 1 ]
+    Set Variable [ $Link Record ; Value: GetValue ( $List ; $i ) ]
+
+    Exit Loop If [ $i ≥ $Total ]
+  End Loop
+End If
+~~~
+
+### 6.2 Convert Row to Value List
+Your sample uses:
+- `$Link Record` is one row: `IDxxxxxLinkxxxxxOrderxxxxxSVGxxxxxNote`
+- Convert fields into separate lines:
+
+~~~filemaker
+Set Variable [ $Link Record As List ;
+  Value: Substitute ( $Link Record ; "xxxxx" ; ¶ )
+]
+~~~
+
+### 6.3 Extract Columns
+~~~filemaker
+Set Variable [ $ID        ; Value: GetValue ( $Link Record As List ; 1 ) ]
+Set Variable [ $Link Name ; Value: GetValue ( $Link Record As List ; 2 ) ]
+Set Variable [ $Order     ; Value: GetValue ( $Link Record As List ; 3 ) ]
+Set Variable [ $SVG       ; Value: GetValue ( $Link Record As List ; 4 ) ]
+Set Variable [ $Note      ; Value: GetValue ( $Link Record As List ; 5 ) ]
+~~~
+
+---
+
+## 7) SVG Icon Rendering
+### 7.1 Data Format
+`Links::SVG Icon` stores only the `d="..."` path content.
+Example:
+`M12 2C6.48 2 2 6.48 2 12...`
+
+### 7.2 HTML Wrapper
+You create the actual SVG wrapper in script:
+
+~~~filemaker
+Set Variable [ $SVG Icon HTML ;
+  Value:
+  " <svg class='icon' viewBox='0 0 24 24'>
+      <path d='" & $SVG & "'></path>
+    </svg> "
+]
+~~~
+
+### 7.3 CSS Expectation
+The CSS must style `.icon` so icons look consistent:
+- width/height
+- fill color tied to menu state (normal vs selected)
+
+---
+
+## 8) Section Dividers
+### 8.1 Trigger Rule
+If a parent link has:
+- `Links::Note = "After Section Divider"`
+
+then append a divider immediately after this link entry.
+
+### 8.2 Divider HTML
+Your sample:
+~~~filemaker
+If [ $Note = "After Section Divider" ]
+  Set Variable [ $$My Links ;
+    Value: $$My Links & " <hr class='divider always-visible-divider' /> " & ¶
+  ]
+End If
+~~~
+
+### 8.3 Divider Filtering Rule
+The class `always-visible-divider` is used so the divider still shows (or can be controlled) during search filtering.
+Your JS must deliberately decide how dividers behave during filtering.
+
+---
+
+## 9) Fetch Sub Links (Accordion Support)
+### 9.1 Sub Script Contract
+You call:
+- `Perform Script [ “Get Sub Menu Links 1” ; Parameter: $ID ]`
+and then:
+- `$Sub Links 1 = Get ( ScriptResult )`
+
+Therefore, the sub-script must return a string that is either:
+- empty, meaning no sub links
+- non-empty, meaning sub links exist (and the returned value is embedded into HTML)
+
+### 9.2 Strong Recommendation
+The sub-script should return the final HTML for sub links, already wrapped correctly.
+
+Example returned snippet:
+~~~html
+<div class='submenu'>
+  <a class='submenu-link' data-id='123' data-name='Reports' onclick="goToLink('123')">Reports</a>
+  <a class='submenu-link' data-id='124' data-name='Settings' onclick="goToLink('124')">Settings</a>
+</div>
+~~~
+
+### 9.3 Parent Script Call
+~~~filemaker
+Perform Script [ Specified: From list ; “Get Sub Menu Links 1” ; Parameter: $ID ]
+Set Variable [ $Sub Links 1 ; Value: Get ( ScriptResult ) ]
+~~~
+
+---
+
+## 10) Build HTML for Each Parent Link
+There are two cases:
+1) Parent link has no sub links: direct navigation link
+2) Parent link has sub links: accordion container
+
+### 10.1 Direct Link Case (No Sub Links)
+Behavior:
+- Clicking takes you directly to a target
+- You mark it selected if `$ID = $$Link ID`
+
+HTML must:
+- include `data-name` for search
+- include `class='selected'` when active
+- include an onclick hook that calls FileMaker scripts
+
+Example pattern:
+~~~filemaker
+Set Variable [ $isSelected ;
+  Value: If ( $ID = $$Link ID ; " class='selected' " ; "" )
+]
+
+Set Variable [ $slug ;
+  Value: Substitute ( Lower ( $Link Name ) ; " " ; "-" )
+]
+
+Set Variable [ $Link Record's HTML ;
+  Value:
+  "<a href='#" & $slug & "' data-name='" & $Link Name & "' " &
+    $isSelected &
+    " onclick=""goToLink('" & $ID & "')"" >" &
+      "<span class='link-left'>" & $SVG Icon HTML & "<span class='link-text'>" & $Link Name & "</span></span>" &
+  "</a>"
+]
+~~~
+
+### 10.2 Accordion Case (Has Sub Links)
+Behavior:
+- Parent row is a button
+- Clicking toggles accordion open/closed
+- It is expanded when `$ID = $$Parent Link ID`
+
+Example pattern:
+~~~filemaker
+Set Variable [ $accordionClass ;
+  Value: If ( $ID = $$Parent Link ID ; "accordion expanded" ; "accordion" )
+]
+
+Set Variable [ $Link Record's HTML ;
+  Value:
+  " <div class='menu_item'>
+      <button class='" & $accordionClass & "' data-name='" & $Link Name & "' onclick=""toggleAccordion(this)"">
+        <span class='link-left'>" & $SVG Icon HTML & "<span class='link-text'>" & $Link Name & "</span></span>
+        <span class='chev'></span>
+      </button>
+      " & $Sub Links 1 & "
+    </div> "
+]
+~~~
+
+### 10.3 Append into `$$My Links`
+~~~filemaker
+Set Variable [ $$My Links ; Value: $$My Links & $Link Record's HTML & ¶ ]
+~~~
+
+---
+
+## 11) Themes List (Apps::Available Themes)
+This section builds values used by the menu UI (example: a theme switch modal).
+
+### 11.1 Pull Themes From Apps
+~~~filemaker
+Set Variable [ $List ;
+  Value:
+  Let ( [
+    sql = "SELECT \"Available Themes\" FROM \"Apps\" WHERE ID = ?" ;
+    fieldseparator = "|" ;
+    rowseparator   = "¶" ;
+    app_id = Settings::App ID ;
+    result = ExecuteSQL ( sql ; fieldseparator ; rowseparator ; app_id )
+  ] ; result )
+]
+~~~
+
+### 11.2 Normalize Themes
+- Sort
+- Remove empties
+~~~filemaker
+Set Variable [ $List ; Value: RemoveEmptyValues ( SortValues ( $List ) ) ]
+~~~
+
+### 11.3 Build `'Theme1','Theme2'` String (If Needed In JS)
+~~~filemaker
+Set Variable [ $Themes ; Value: "'" & Substitute ( $List ; "¶" ; "',¶'" ) & "'" ]
+~~~
+
+### 11.4 Modal Height Rule
+~~~filemaker
+Set Variable [ $Total Available Themes ; Value: ValueCount ( $List ) ]
+Set Variable [ $Modal Height ;
+  Value: Case ( $Total Available Themes ≤ 8 ; "30%" ; "60%" )
+]
+~~~
+
+### 11.5 User Profile Photo (Fallback)
+If `$$My Photo` is base64, build a data URI. Else use a placeholder URL.
+
+~~~filemaker
+Set Variable [ $User Profile Photo ;
+  Value:
+  If ( not IsEmpty ( $$My Photo ) ;
+    "data:image/png;base64," & $$My Photo ;
+    "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  )
+]
+~~~
+
+---
+
+## 12) CSS Source of Truth: “🖌️ Use Menu CSS”
+### 12.1 Contract
+The CSS must come from a centralized script:
+- Script name: `🖌️ Use Menu CSS`
+- Result: full CSS text, no `<style>` tags
+
+### 12.2 Call Pattern
+~~~filemaker
+Perform Script [ Specified: From list ; “🖌️ Use Menu CSS” ; Parameter: "" ]
+Set Variable [ $styles ; Value: Get ( ScriptResult ) ]
+~~~
+
+### 12.3 CSS Must Cover These Selectors
+Minimum selectors expected by generated HTML and JS:
+- Layout and containers:
+  - `body`
+  - `.menu`
+  - `.menu-header`
+  - `#menuLinks` (scroll container)
+- Links:
+  - `a`
+  - `a.selected`
+  - `.menu_item`
+  - `.link-left`
+  - `.link-text`
+- Icons:
+  - `.icon`
+- Accordion:
+  - `.accordion`
+  - `.accordion.expanded`
+  - `.submenu`
+  - `.submenu-link`
+  - `.chev`
+- Divider:
+  - `.divider`
+  - `.always-visible-divider`
+- Search:
+  - `#menuSearch`
+- Profile area:
+  - `.profile`
+  - `.profile-photo`
+
+---
+
+## 13) JavaScript (WebViewer Side)
+### 13.1 Guiding Rule
+All actions must route through FileMaker scripts using:
+- `FileMaker.PerformScript(scriptName, parameters)`
+
+### 13.2 Build Script Strings in FileMaker
+You store JS code in FileMaker variables, then inject into HTML.
+
+#### Change Password
+~~~filemaker
+Set Variable [ $Change Password Script ; Value: "Change Password" ]
+Set Variable [ $Change Password Script ;
+  Value:
+  "function changePassword(parameters) {
+     FileMaker.PerformScript('" & $Change Password Script & "', parameters);
+   }"
+]
+~~~
+
+#### Search Filter
+Your sample implies:
+- An input `menuSearch`
+- A container `menuLinks`
+- Filtering by matching `data-name` values
+
+A robust filtering function should:
+- Read input value
+- Loop through:
+  - anchors
+  - accordion buttons
+  - submenu links
+- Show/hide based on text match
+- Decide what happens to dividers
+
+Example JS (concept):
+~~~javascript
+function filterMenu() {
+  const input = document.getElementById('menuSearch').value.toLowerCase().trim();
+
+  const container = document.getElementById('menuLinks');
+  if (!container) return;
+
+  const items = container.querySelectorAll('a, button.accordion, .submenu a');
+  items.forEach(el => {
+    const name = (el.getAttribute('data-name') || el.textContent || '').toLowerCase();
+    const match = name.includes(input);
+    const wrapper = el.closest('.menu_item') || el;
+    if (input === '') {
+      wrapper.style.display = '';
+    } else {
+      wrapper.style.display = match ? '' : 'none';
+    }
+  });
+
+  const dividers = container.querySelectorAll('.always-visible-divider');
+  dividers.forEach(hr => {
+    if (input === '') hr.style.display = '';
+    else hr.style.display = '';
+  });
+}
+~~~
+
+#### Center Selected Item
+Your sample includes:
+- `#menuLinks` container
+- `.selected` item within it
+
+Behavior:
+- Scroll selected item into the middle of the scroll area on load
+
+Example JS:
+~~~javascript
+function centerSelectedInMenu() {
+  var container = document.getElementById('menuLinks');
+  if (!container) return;
+
+  var selected = container.querySelector('.selected');
+  if (!selected) return;
+
+  var containerRect = container.getBoundingClientRect();
+  var selectedRect = selected.getBoundingClientRect();
+
+  var containerCenter = containerRect.top + (containerRect.height / 2);
+  var selectedCenter  = selectedRect.top + (selectedRect.height / 2);
+
+  var delta = selectedCenter - containerCenter;
+  container.scrollTop += delta;
+}
+~~~
+
+#### Accordion Toggle
+If your HTML uses `toggleAccordion(this)`:
+~~~javascript
+function toggleAccordion(btn) {
+  if (!btn) return;
+
+  btn.classList.toggle('expanded');
+
+  var parent = btn.closest('.menu_item');
+  if (!parent) return;
+
+  var submenu = parent.querySelector('.submenu');
+  if (!submenu) return;
+
+  if (btn.classList.contains('expanded')) submenu.style.display = '';
+  else submenu.style.display = 'none';
+}
+~~~
+
+### 13.3 Navigation Function (Required)
+You must define a single point of navigation. Example: `goToLink(id)`
+
+This function should call a FileMaker script like:
+- `Navigate To Link`
+
+~~~javascript
+function goToLink(linkId) {
+  FileMaker.PerformScript('Navigate To Link', linkId);
+}
+~~~
+
+In FileMaker, `Navigate To Link`:
+- Receives `linkId`
+- Sets:
+  - `$$Link ID = linkId`
+  - Possibly sets `$$Parent Link ID`
+- Navigates to target layout or performs target script
+- Rebuilds menu so highlight updates
+
+---
+
+## 14) Assemble the Full HTML Document `$$Menu`
+### 14.1 Required Document Parts
+Your `$$Menu` must include:
+- `<!DOCTYPE html>`
+- `<head>` with CSS injection
+- optional CDN icons (Font Awesome)
+- `<body>` that contains:
+  - profile header
+  - search input
+  - menu links container with `$$My Links`
+- `<script>` injection containing your JS functions
+- onload hooks (center selected)
+
+### 14.2 Example Assembly Pattern
+~~~filemaker
+Set Variable [ $$Menu ;
+  Value:
+  "<!DOCTYPE html>
+  <html lang='en'>
+  <head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'>
+
+    <style>" & $styles & "</style>
+  </head>
+
+  <body onload='centerSelectedInMenu()'>
+
+    <div class='menu'>
+
+      <div class='menu-header'>
+        <div class='profile'>
+          <img class='profile-photo' src='" & $User Profile Photo & "' alt='' />
+          <div class='profile-meta'>
+            <div class='profile-name'>" & $$App Name & "</div>
+            <div class='profile-sub'>" & $$App Slogan & "</div>
+          </div>
+        </div>
+
+        <div class='profile-actions'>
+          <button onclick=""changePassword('')"">Change Password</button>
+        </div>
+
+        <input id='menuSearch' placeholder='Search...' oninput='filterMenu()' />
+      </div>
+
+      <div id='menuLinks'>
+        " & $$My Links & "
+      </div>
+
+    </div>
+
+    <script>
+      " & $Change Password Script & "
+      " & $Scroll To Selected Menu Item Script & "
+      " & $Search Script & "
+      function goToLink(linkId) { FileMaker.PerformScript('Navigate To Link', linkId); }
+      function toggleAccordion(btn) { /* implement toggle */ }
+    </script>
+
+  </body>
+  </html>"
+]
+~~~
+
+---
+
+## 15) Selection State Rules (Critical)
+### 15.1 Parent Link Highlight
+Direct link parent:
+- Add `class='selected'` if `$ID = $$Link ID`
+
+Accordion parent:
+- Add `expanded` class if `$ID = $$Parent Link ID`
+
+### 15.2 Sub Link Highlight
+If sub links exist, sub link HTML should also mark selected.
+Example: add `selected` class to the sub link anchor when:
+- subLinkId = $$Link ID
+
+This requires the sub-links script to know `$$Link ID`.
+
+---
+
+## 16) Performance Rules
+- ExecuteSQL once for parent links.
+- Sub links can be:
+  - fetched per parent (simple, may be slower)
+  - fetched once and grouped (faster, more complex)
+
+If the menu is big, avoid one ExecuteSQL per parent. Prefer a single query that returns all links, then group inside FileMaker.
+
+---
+
+## 17) Security and Data Integrity Rules
+- Never trust UI state alone.
+- FileMaker scripts must validate:
+  - user role
+  - link permission
+before navigating.
+
+Even if the menu hides a link, a user could still try to call a script manually.
+Permissions must be enforced in FileMaker.
+
+---
+
+## 18) Debugging Checklist
+When the menu looks wrong, check in this order:
+
+1) Is `Settings::App ID` correct?
+2) Is role ID correct?
+3) Does ExecuteSQL return rows?
+4) Are separators correct?  
+   If `xxxxx` appears in output HTML, your Substitute step failed or separators mismatch.
+5) Is `$$My Links` populated?
+6) Does CSS script return valid CSS?
+7) Does the WebViewer allow external CSS from CDNs (Font Awesome)?
+8) Is `FileMaker.PerformScript` firing?  
+   Test with a tiny script that logs parameters.
+
+---
+
+## 19) Test Cases (Must Pass)
+1) Role has zero links  
+   Result: menu shows empty state or shows only header.
+2) Role has parent links only  
+   Result: direct links work, selected highlight works.
+3) Role has parent links with sub links  
+   Result: accordion toggles, expands correct parent, sub links navigate.
+4) Dividers  
+   Result: divider appears after the flagged link.
+5) Search  
+   Result: typing filters by `data-name` correctly.
+6) Theme list  
+   Result: correct modal height, correct theme list.
+7) User photo empty  
+   Result: placeholder image displays.
+8) Selected centering  
+   Result: on load, selected item is brought into view.
+
+---
+
+## 20) Clarifications Needed (Ambiguities Found In The Sample)
+These are not optional. The AI Agent must be told the exact answers so it can generate correct code every time.
+
+### 20.1 The SQL In Your Sample Is Truncated
+Your sample begins:
+`Select t2.ID, t2.Link, t2."Order", t2."SVG Icon", t2."Note" ... and t2.Pending…`
+- What is the exact filter on `t2.Pending`?
+- Is it `= 0`, `Is Null`, or a text status?
+
+### 20.2 What Exactly Does “Get Sub Menu Links 1” Return?
+Your parent script checks:
+`If [ IsEmpty ( $Sub Links 1 ) ]`
+So `$Sub Links 1` is text.  
+Clarify which is true:
+- A) It returns raw HTML to embed directly.
+- B) It returns a list of sub link records that the parent script converts into HTML.
+- C) It returns JSON, and JS builds the submenu.
+
+Pick one and lock it.
+
+### 20.3 Separator Choice “xxxxx”
+Your loop converts `xxxxx` into `¶`.
+Clarify:
+- Is `xxxxx` always the field separator in ExecuteSQL for menus?
+- Is there a shared constant for it in your framework?
+
+### 20.4 Link Target Behavior For Direct Links
+Your sample has `href='#slug'` and an onclick stub.
+Clarify the official navigation contract:
+- A) Navigation is always `FileMaker.PerformScript('Navigate To Link', linkId)`
+- B) Navigation is layout-based using `Go to Layout [ Links::Layout Name ]`
+- C) Some links call scripts, some go to layouts
+
+If it is mixed, define the fields in Links table that drive it.
+
+### 20.5 Global Variables Ownership
+These globals are used:
+- `$$Link ID`
+- `$$Parent Link ID`
+- `$$My Photo`
+Clarify:
+- Which script sets them?
+- When do they refresh?
+- Is menu rebuilt every navigation or only sometimes?
+
+### 20.6 WebViewer Object Name
+Your sample shows building `$$Menu` but does not show the final Set Web Viewer step.
+Clarify the official object name(s) used across CauferoAppStarter:
+- Example: `wvMenu`, `wvSideMenu`, `wvLinks`
+
+Lock one standard.
+
+### 20.7 Theme Switching UI
+You generate:
+- `$Themes`
+- `$Modal Height`
+Clarify:
+- Does the menu actually render a theme picker UI now?
+- Which FileMaker script applies a theme after selection?
+
+---
+
+## 21) Implementation Recipe (AI Agent Step List)
+When the AI Agent is asked to build a new side menu page, it must follow this exact recipe:
+
+1) Confirm required context variables exist: App ID, Role ID, selected Link IDs, user photo.
+2) Run ExecuteSQL to get allowed parent links with strict field order.
+3) Loop parents:
+   - extract ID, name, order, svg, note
+   - build icon HTML
+   - insert divider if note matches
+   - get sub links output using the sub links script
+   - build either direct link or accordion block
+   - append into `$$My Links`
+4) Query `Apps::Available Themes`, normalize list, compute modal height.
+5) Call `🖌️ Use Menu CSS`, store `$styles`.
+6) Build JS strings:
+   - changePassword
+   - filterMenu
+   - centerSelectedInMenu
+   - toggleAccordion
+   - goToLink
+7) Assemble full `$$Menu` HTML document.
+8) Set WebViewer HTML to `$$Menu`.
+9) Validate test cases.
+
+---
+
+## 22) Naming Conventions (Recommended)
+- Build script: `🧭 Build Side Menu`
+- Sub links script: `🧭 Get Sub Menu Links 1`
+- CSS script: `🖌️ Use Menu CSS`
+- Navigation script: `🧭 Navigate To Link`
+- WebViewer object: `wvMenu`
+- Globals:
+  - `$$Link ID`
+  - `$$Parent Link ID`
+  - `$$My Links`
+  - `$$Menu`
+
+---
+
+## 23) Minimal Deliverables Checklist
+A Side Menu page is considered complete only when all of these exist:
+
+- [ ] Links table contains SVG paths for icons
+- [ ] Role Links defines allowed links for a role
+- [ ] Build script runs without errors
+- [ ] `$$Menu` renders correctly in WebViewer
+- [ ] Direct links navigate correctly
+- [ ] Accordion links expand/collapse
+- [ ] Selected link highlight works
+- [ ] Search works
+- [ ] Dividers work
+- [ ] Theme list builds correctly (even if UI is not shown yet)
+- [ ] Profile photo fallback works
