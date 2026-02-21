@@ -1,0 +1,560 @@
+# Building a Modal Page in CauferoAppStarter
+
+## Overview
+
+A modal page in CauferoAppStarter is a self-contained HTML form rendered inside a FileMaker Card window. It is built entirely within a FileMaker script that assembles HTML, CSS, and JavaScript into a single variable (`$$Modal`), which is then displayed in a Card window using a dedicated layout called `Modal` (Layout ID 165).
+
+---
+
+## What Makes a Modal Page Unique
+
+The **only structural element that distinguishes a modal page from other page types in CauferoAppStarter is its header and footer**.
+
+- The `modal-header` is a fixed title bar at the top.
+- The `modal-footer` is a fixed button row at the bottom (Save, Cancel, and optionally Delete).
+
+**Everything inside `modal-body` — every object, widget, or UI element placed in the main content area — is built using the exact same patterns used on the Entity Details Page.**
+
+This means:
+- Form fields, date pickers, dropdowns, checkboxes
+- Tables, lists, sub-record panels
+- Maps, image viewers, instruction panels
+- Action buttons, icon buttons, status indicators
+
+...are all constructed in the modal body the same way they would be constructed on a details page.
+
+> **Reference Documents for Modal Body Content:**
+>
+> For how to build and structure any object inside the modal body, refer to these two documentation pages:
+>
+> - **Entity Details Page** (primary reference for modal body content):
+>   `https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20Details%20Page.html`
+>
+> - **Entity List Page** (reference for adding list/table objects inside a modal body):
+>   `https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20List%20Page.html`
+
+---
+
+## How It Works (High-Level Flow)
+
+1. A triggering script calls the modal script and passes parameters (e.g., a record ID) via `GetScriptParameters`.
+2. The modal script uses `ExecuteSQL` to fetch the relevant record data.
+3. It calls the shared CSS script (`🖌️ Use Modal CSS`) to retrieve the stylesheet.
+4. It builds the HTML structure, JavaScript functions, and combines them into a full HTML page stored in `$$Modal`.
+5. It opens a new Card window that renders the modal using the `Modal` layout.
+6. When the user submits or cancels the form, JavaScript calls `FileMaker.PerformScript()` to hand control back to FileMaker scripts.
+
+---
+
+## Step-by-Step Guide
+
+### Step 1 — Receive Script Parameters
+
+The modal script receives its input via `GetScriptParameters`. Parameters are passed as a line-separated list and extracted using `GetValue`.
+
+~~~filemaker
+Set Variable [ $$Staff Education ID ; Value: GetValue ( GetScriptParameters ; 1 ) ]
+~~~
+
+**Rules:**
+- The record ID (or any primary key needed to fetch the record) is always passed as the first parameter.
+- Use a global variable (e.g., `$$Staff Education ID`) so it is accessible across scripts if needed.
+- Additional parameters can be passed on subsequent lines and extracted with `GetValue ( GetScriptParameters ; 2 )`, etc.
+
+---
+
+### Step 2 — Declare Script Name Variables
+
+At the top of the script, declare variables that hold the names of the FileMaker scripts that will be called from JavaScript buttons inside the modal.
+
+~~~filemaker
+Set Variable [ $Save Updates Script ; Value: "Save Staff Education" ]
+Set Variable [ $Cancel Script ; Value: "Close Window" ]
+Set Variable [ $Delete Record Script ; Value: "" ]
+Set Variable [ $Insert Image Script ; Value: "" ]
+~~~
+
+**Rules:**
+- `$Save Updates Script` — the FileMaker script that handles saving the form data back to the database.
+- `$Cancel Script` — the FileMaker script that closes the modal window (typically `"Close Window"`).
+- `$Delete Record Script` — optional. Leave as an empty string `""` if deletion is not supported on this modal.
+- `$Insert Image Script` — optional. Leave as an empty string `""` if image upload is not needed.
+- These variable names are later embedded into the JavaScript `FileMaker.PerformScript()` calls, so they must be set before the JavaScript variables are assembled.
+
+---
+
+### Step 3 — Fetch Record Data Using ExecuteSQL
+
+Use `ExecuteSQL` to retrieve the record fields needed for the form. Store the result in `$List`.
+
+~~~filemaker
+Set Variable [ $List ; Value:
+    Let (
+        [
+            sql = "SELECT \"Institution\", \"Programme\", \"Result\", \"Start Date\", \"Finish Date\"
+                   FROM \"Staff Education\"
+                   WHERE \"ID\" = ?" ;
+            fieldseparator = "|" ;
+            rowseparator = "¶" ;
+            id = $$Staff Education ID ;
+            result = ExecuteSQL ( sql ; fieldseparator ; rowseparator ; id )
+        ] ;
+        result
+    )
+]
+~~~
+
+**Rules:**
+- Always use a pipe `|` as the field separator and a paragraph `¶` as the row separator.
+- Always use a parameterized query with `?` and pass the ID as the last argument to `ExecuteSQL`.
+- Quote field and table names with escaped double quotes (`\"`) inside the SQL string.
+- The result is a pipe-delimited string per row, with rows separated by `¶`.
+
+---
+
+### Step 4 — Parse the SQL Result into Variables
+
+Get a count of rows using `ValueCount`, then loop through the result to extract each field value.
+
+~~~filemaker
+Set Variable [ $Total ; Value: ValueCount ( $List ) ]
+
+If [ $Total > 0 ]
+
+    Loop
+        Set Variable [ $i ; Value: $i + 1 ]
+        Set Variable [ $Link Record ; Value: GetValue ( $List ; $i ) ]
+        Set Variable [ $Link Record As List ; Value: Substitute ( $Link Record ; "|" ; ¶ ) ]
+
+        Set Variable [ $Institution ; Value: GetValue ( $Link Record As List ; 1 ) ]
+        Set Variable [ $Programme ; Value: GetValue ( $Link Record As List ; 2 ) ]
+        Set Variable [ $Result ; Value: GetValue ( $Link Record As List ; 3 ) ]
+        Set Variable [ $Start Date ; Value: GetValue ( $Link Record As List ; 4 ) ]
+        Set Variable [ $End Date ; Value: GetValue ( $Link Record As List ; 5 ) ]
+
+        Exit Loop If [ $i ≥ $Total ]
+    End Loop
+
+Else
+
+End If
+~~~
+
+**Rules:**
+- Always check `$Total > 0` before attempting to parse the result.
+- Convert each pipe-delimited row into a newline-delimited list using `Substitute ( $Link Record ; "|" ; ¶ )`, then use `GetValue` with the positional index to extract each field.
+- Field positions in `GetValue` correspond exactly to the column order in the `SELECT` statement.
+- For a single-record fetch (standard for modals), the loop runs once. The loop structure is retained for consistency with the CauferoAppStarter pattern.
+- The `Else` branch is intentionally left empty.
+
+---
+
+### Step 5 — Load the CSS
+
+Call the shared CSS script and capture its result.
+
+~~~filemaker
+Perform Script [ "🖌️ Use Modal CSS" ]
+Set Variable [ $styles ; Value: Get ( ScriptResult ) ]
+~~~
+
+**Rules:**
+- Always call `🖌️ Use Modal CSS` before building the HTML.
+- Store the result in `$styles`. It will be injected into the `<style>` tag of the HTML page.
+- Do not hardcode CSS directly in the modal script.
+
+---
+
+### Step 6 — Build the HTML
+
+This is where the modal's unique structure is defined. The HTML is divided into exactly three sections: header, body, and footer.
+
+~~~filemaker
+Set Variable [ $HTML ; Value:
+    "
+    <div class='modal'>
+
+          <!-- Title Section -->
+          <div class='modal-header'>Education Details</div>
+
+          <!-- Body Section -->
+          <div class='modal-body'>
+             <form id='update-form'>
+                <div class='form-grid1'>
+
+                   ... form fields and all other content objects go here ...
+
+                </div>
+             </form>
+          </div>
+
+          <!-- Button Section -->
+          <div class='modal-footer'>
+             <button type='button' class='save-button' onclick=\"saveUpdates()\">
+                <i class='fas fa-save'></i>
+                Save
+             </button>
+             <button type='button' class='cancel-button' onclick=\"cancelUpdates()\">
+                <i class='fas fa-times'></i>
+                Cancel
+             </button>
+          </div>
+
+    </div>
+    "
+]
+~~~
+
+---
+
+#### 6a — The Modal Header (`modal-header`)
+
+The header is the title bar of the modal. It contains only plain text — the title of the modal.
+
+~~~html
+<div class='modal-header'>Education Details</div>
+~~~
+
+**Rules:**
+- Always use the class `modal-header`.
+- The content is plain text only — the title of the modal window.
+- No buttons, icons, or other elements belong inside `modal-header`.
+
+---
+
+#### 6b — The Modal Body (`modal-body`)
+
+The modal body is the main content area. It contains a `<form>` element wrapping all content objects.
+
+~~~html
+<div class='modal-body'>
+   <form id='update-form'>
+      <div class='form-grid1'>
+
+         ... all content objects go here ...
+
+      </div>
+   </form>
+</div>
+~~~
+
+**Rules:**
+- Always use the class `modal-body`.
+- Always wrap modal body content in `<form id='update-form'>`.
+- Always use `<div class='form-grid1'>` as the direct container for content objects inside the form.
+- **All content objects placed inside the modal body — form fields, date pickers, tables, sub-lists, maps, instruction panels, buttons, image viewers, etc. — are built using the exact same patterns as the Entity Details Page.**
+
+> For how to build any specific object type inside the modal body, refer to:
+>
+> - **Entity Details Page documentation** (primary reference):
+>   `https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20Details%20Page.html`
+>
+> - **Entity List Page documentation** (for list/table objects inside the body):
+>   `https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20List%20Page.html`
+
+---
+
+#### 6c — The Modal Footer (`modal-footer`)
+
+The footer is the fixed button row at the bottom of the modal. It always contains at minimum a Save button and a Cancel button.
+
+~~~html
+<div class='modal-footer'>
+   <button type='button' class='save-button' onclick=\"saveUpdates()\">
+      <i class='fas fa-save'></i>
+      Save
+   </button>
+   <button type='button' class='cancel-button' onclick=\"cancelUpdates()\">
+      <i class='fas fa-times'></i>
+      Cancel
+   </button>
+</div>
+~~~
+
+**Rules:**
+- Always use the class `modal-footer`.
+- Always include a Save button with `class='save-button'` and `onclick="saveUpdates()"`.
+- Always include a Cancel button with `class='cancel-button'` and `onclick="cancelUpdates()"`.
+- Use Font Awesome icons inside buttons: `<i class='fas fa-save'>` for Save, `<i class='fas fa-times'>` for Cancel.
+- An optional Delete button may be included if `$Delete Record Script` was declared with a script name. It is not present by default.
+- No other elements belong in `modal-footer`.
+
+---
+
+### Step 7 — Build the JavaScript
+
+Three JavaScript functions are required for every modal. Each is built in its own variable, then combined.
+
+#### 7a — cancelUpdates()
+
+~~~filemaker
+Set Variable [ $Cancel Updates Script ; Value:
+    "function cancelUpdates() {
+         FileMaker.PerformScript('" & $Cancel Script & "');
+    }"
+]
+~~~
+
+**Rules:**
+- Calls `FileMaker.PerformScript` with the script name stored in `$Cancel Script`.
+- No parameters are passed to the cancel script.
+
+---
+
+#### 7b — Datepicker Logic (Required when the form contains date fields)
+
+~~~filemaker
+Set Variable [ $Show Datepicker ; Value:
+    "
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateFields = [
+            { id: 'start_date', iconId: 'start_date_icon' },
+            { id: 'end_date', iconId: 'end_date_icon' }
+        ];
+
+        function formatMySQLDateToReadable(mysqlDate) {
+            const parsedDate = flatpickr.parseDate(mysqlDate, 'Y-m-d');
+            return parsedDate ? flatpickr.formatDate(parsedDate, 'l, j F, Y') : '';
+        }
+
+        dateFields.forEach(field => {
+            const dateInput = document.getElementById(field.id);
+            const dateIcon = document.getElementById(field.iconId);
+            const initialDate = dateInput.value && dateInput.value !== '--' ? dateInput.value : null;
+
+            if (initialDate) {
+                dateInput.value = formatMySQLDateToReadable(initialDate);
+            }
+
+            const flatpickrInstance = flatpickr(dateInput, {
+                dateFormat: 'l, j F, Y',
+                defaultDate: initialDate || null,
+                allowInput: true,
+                onChange: function (selectedDates, dateStr) {
+                    dateInput.value = dateStr;
+                }
+            });
+
+            if (dateIcon) {
+                dateIcon.addEventListener('click', function () {
+                    flatpickrInstance.open();
+                });
+            }
+        });
+    });
+
+    function getMySQLFormattedDate(fieldId) {
+        const dateInput = document.getElementById(fieldId).value;
+        if (!dateInput || dateInput === '--') {
+            return null;
+        }
+        const parsedDate = flatpickr.parseDate(dateInput, 'l, j F, Y');
+        return parsedDate ? flatpickr.formatDate(parsedDate, 'Y-m-d') : null;
+    }
+    "
+]
+~~~
+
+**Rules:**
+- This block handles both the visual rendering (human-readable date display) and conversion back to MySQL `Y-m-d` format when saving.
+- Dates stored in FileMaker/MySQL use `Y-m-d` format. The display format shown to the user is `l, j F, Y` (e.g., `Monday, 5 January, 2025`).
+- The `dateFields` array must list every date field in the form, each with its `id` and `iconId`.
+- The `getMySQLFormattedDate(fieldId)` function is called from `saveUpdates()` for each date field.
+- If a date value is empty or equals `'--'`, the function returns `null`.
+- Omit this variable entirely if the form contains no date fields.
+- Date field HTML inputs require the calendar icon structure described in the Entity Details Page reference. Each date `<input>` must be wrapped in a `position: relative` container with a Font Awesome calendar icon whose `id` follows the pattern `{field_id}_icon`.
+
+---
+
+#### 7c — saveUpdates()
+
+~~~filemaker
+Set Variable [ $Save Updates Script ; Value:
+    "function saveUpdates() {
+         const institution = document.getElementById('institution').value;
+         const programme = document.getElementById('programme').value;
+         const result = document.getElementById('result').value;
+         const start_date = getMySQLFormattedDate('start_date');
+         const end_date = getMySQLFormattedDate('end_date');
+
+         const parameters = [ institution, programme, result, start_date, end_date ].join('|');
+
+         FileMaker.PerformScript('" & $Save Updates Script & "', parameters);
+    }"
+]
+~~~
+
+**Rules:**
+- Read each form field value using `document.getElementById('{id}').value`.
+- For date fields, always use `getMySQLFormattedDate('{field_id}')` instead of `.value` directly.
+- Collect all field values into an array and join with a pipe `|` delimiter to form the parameters string.
+- Call `FileMaker.PerformScript` with the save script name and the pipe-delimited parameters string.
+- The receiving save script parses this string using `GetValue` after substituting `|` with `¶`.
+- **Important:** `$Save Updates Script` is first declared in Step 2 with the script name string, then reassigned here with the full JavaScript function string. The script name is embedded into the function via string concatenation before the variable is overwritten. This is intentional and correct.
+
+---
+
+### Step 8 — Combine JavaScript Blocks
+
+~~~filemaker
+Set Variable [ $Scripts ; Value:
+    "<script> " &
+    $Save Updates Script & "¶¶" &
+    $Cancel Updates Script & "¶¶" &
+    $Show Datepicker
+    & " </script>"
+]
+~~~
+
+**Rules:**
+- All JavaScript functions are wrapped in a single `<script>` tag.
+- Each function block is separated by `¶¶` for readability.
+- Omit `$Show Datepicker` from the concatenation if the form contains no date fields.
+- Order by convention: `saveUpdates` first, `cancelUpdates` second, then datepicker logic.
+
+---
+
+### Step 9 — Assemble the Full HTML Page
+
+~~~filemaker
+Set Variable [ $$Modal ; Value:
+    "<!DOCTYPE html>
+    <html lang='en'>
+
+    <head>
+       <meta charset='UTF-8'>
+       <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+       <title>Modal Page</title>
+       <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'>
+       <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'>
+       <script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>
+       <style> " & $styles & " </style>
+    </head>
+
+    <body> " & $HTML & "¶¶" & $Scripts & " </body>
+
+    </html>
+    "
+]
+~~~
+
+**Rules:**
+- Always store the complete page in the global variable `$$Modal`.
+- Always include Font Awesome and Flatpickr CDN links in the `<head>`.
+- The `<style>` tag always injects `$styles` from the CSS script.
+- The `<body>` contains `$HTML` followed by `¶¶` and `$Scripts`.
+
+---
+
+### Step 10 — Open the Card Window
+
+~~~filemaker
+New Window [ Style: Card ; Name: "" ; Layout: "Modal" (165) ; Height: 750 ; Width: 600 ;
+             Dim parent window: Yes ; Close: No ; Minimize: No ; Maximize: No ;
+             Zoom control area: No ; Menu bar: No ; Resize: No ]
+~~~
+
+**Rules:**
+- Always use `Style: Card`.
+- Always use the `Modal` layout (Layout ID 165).
+- Leave `Name: ""` (empty) unless a specific window title is required.
+- Standard dimensions are `Height: 750`, `Width: 600`. Adjust only if content requires a taller or wider form.
+- Always set `Dim parent window: Yes`.
+- All window chrome options (`Close`, `Minimize`, `Maximize`, `Zoom control area`, `Menu bar`, `Resize`) must be set to `No`.
+
+---
+
+## Complete Script Structure Summary
+
+The following is the canonical order of steps in every modal-building script:
+
+1. `Set Variable` — extract script parameters (record ID and any other inputs)
+2. `Set Variable` — declare script name variables (`$Save Updates Script`, `$Cancel Script`, etc.)
+3. `Set Variable` — build and execute the `ExecuteSQL` query into `$List`
+4. `Set Variable` — `$Total = ValueCount ( $List )`
+5. `If / Loop` — parse the SQL result into individual field variables
+6. `Perform Script [ "🖌️ Use Modal CSS" ]` — load CSS into `$styles`
+7. `Set Variable [ $HTML ]` — build the modal HTML (header + body + footer)
+8. `Set Variable [ $Cancel Updates Script ]` — build `cancelUpdates()` JavaScript
+9. `Set Variable [ $Show Datepicker ]` — build datepicker JavaScript (if date fields present)
+10. `Set Variable [ $Save Updates Script ]` — build `saveUpdates()` JavaScript (overwrites the script name variable set in Step 2)
+11. `Set Variable [ $Scripts ]` — combine all JavaScript into a single `<script>` block
+12. `Set Variable [ $$Modal ]` — assemble the complete HTML page
+13. `New Window` — open the Card window
+
+---
+
+## Modal Structure at a Glance
+
+~~~
+<div class='modal'>
+    │
+    ├── <div class='modal-header'>
+    │       Plain text title only. No buttons or icons.
+    │       UNIQUE TO MODAL PAGE.
+    │
+    ├── <div class='modal-body'>
+    │       <form id='update-form'>
+    │           <div class='form-grid1'>
+    │               All content objects: fields, tables, maps,
+    │               sub-lists, instruction panels, buttons, etc.
+    │               Built using Entity Details Page patterns.
+    │           </div>
+    │       </form>
+    │
+    └── <div class='modal-footer'>
+            Save button + Cancel button (+ optional Delete button).
+            UNIQUE TO MODAL PAGE.
+~~~
+
+> **The modal-header and modal-footer are the only structural elements unique to a modal page.**
+> Everything placed inside modal-body follows the Entity Details Page documentation exactly.
+
+---
+
+## Reference Documents
+
+| Document | Purpose | URL |
+|---|---|---|
+| Entity Details Page | Primary reference for all content objects inside `modal-body` | `https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20Details%20Page.html` |
+| Entity List Page | Reference for adding list/table objects inside `modal-body` | `https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20List%20Page.html` |
+
+---
+
+## CSS Classes Reference
+
+The following CSS classes are provided by the `🖌️ Use Modal CSS` script:
+
+| Class | Usage |
+|---|---|
+| `modal` | Root wrapper `<div>` for the entire modal |
+| `modal-header` | Title bar at the top of the modal |
+| `modal-body` | Content area containing the form |
+| `modal-footer` | Button row at the bottom |
+| `form-grid1` | Grid container for content objects inside the body |
+| `form-group-2` | Full-width form field wrapper (label + input) |
+| `save-button` | Primary action button (Save) |
+| `cancel-button` | Secondary action button (Cancel) |
+
+---
+
+## External Libraries Used
+
+| Library | Purpose | CDN |
+|---|---|---|
+| Font Awesome 6.0.0-beta3 | Button and field icons | `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css` |
+| Flatpickr | Date picker UI and date formatting | JS: `https://cdn.jsdelivr.net/npm/flatpickr` / CSS: `https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css` |
+
+---
+
+## Ambiguities and Items Requiring Clarification
+
+1. **Entity Details Page URL returns 404** — The URL `https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20Details%20Page.html` returns a 404 error at the time of writing. Once this page is published, the documentation above should be verified against it to confirm that all modal body content object patterns align with what is documented there.
+
+2. **`$Save Updates Script` variable reuse** — The variable `$Save Updates Script` is first set to the script name string at Step 2, then overwritten with the full JavaScript function string at Step 7c. The original script name value is consumed by string concatenation inside the JavaScript function before the variable is reassigned. Please confirm this understanding is correct.
+
+3. **`form-group-1` vs `form-group-2`** — The sample uses `form-group-2` for all fields. Please confirm whether `form-group-1` exists in the shared CSS and what layout difference it produces (e.g., single vs double column).
+
+4. **The `$$Modal` variable and the Modal layout** — The documentation assumes the `Modal` layout (Layout ID 165) contains a Web Viewer that reads from `$$Modal` and auto-renders it. Please confirm, and whether anything else is needed after `New Window` (e.g., a `Refresh Window` or navigation step).
+
+5. **`$Delete Record Script` and `$Insert Image Script`** — These variables are declared but not used in the sample HTML or JavaScript. Please clarify whether they are reserved for optional footer buttons (e.g., a Delete button in `modal-footer`), or whether they serve another purpose such as being read by the Modal layout itself.

@@ -1,0 +1,1533 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Build Modal Page Documentation</title>
+<link rel="icon" type="image/png" href="https://caufero.github.io/projects/Apps/CarePort/Screenshots/caufero_logo.png">
+</head>
+<body>
+  <div class="page" data-theme="auto">
+    <div class="bg" aria-hidden="true"></div>
+
+    <header class="topbar" role="banner">
+      <div class="topbar-inner">
+        <div class="topbar-left">
+          <a class="brand" href="https://caufero.github.io/projects/_Misc/_/_Stuff.html#">
+            <img src="https://caufero.github.io/projects/Apps/CarePort/Screenshots/caufero_logo.png" alt="4KPAINT" style="width:37px;height:37px;object-fit:cover;margin-right:-3px;" />
+            <div class="brand-text">
+              <div class="brand-name">Caufero Workspace</div>
+              <div class="brand-sub">Your control room for apps, prompts, chats, and modular blocks</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="topbar-center">
+          <div class="page-chip">
+            <span class="page-chip-dot" aria-hidden="true"></span>
+            <span class="page-chip-text">Documentation › Scripts</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a class="icon-btn"
+            href="#"
+            onclick="openInVSCode(); return false;"
+            title="Beautify Markdown Pages" aria-label="Beautify Markdown Pages">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <polyline points="12 18 15 15 12 12" />
+              <line x1="9" y1="15" x2="15" y2="15" />
+            </svg>
+            <span class="icon-btn-text">Go To File</span>
+          </a>
+
+          <a class="icon-btn"
+            href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Beautify%20Markdown%20File.html#"
+            title="Beautify Markdown Pages" aria-label="Beautify Markdown Pages">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3l2.2 6.8H21l-5.6 4.1L17.6 21 12 16.9 6.4 21l2.2-7.1L3 9.8h6.8L12 3z" />
+            </svg>
+            <span class="icon-btn-text">Beautify</span>
+          </a>
+
+          <a class="icon-btn brand"
+            href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/How%20To%20Go%20About%20Some%20Development%20Task.html#"
+            title="How To Do Stuff In Caufero" aria-label="How To Do Stuff In Caufero">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <path d="M14 2v6h6" />
+              <path d="M8 13h8" />
+              <path d="M8 17h8" />
+              <path d="M8 9h2" />
+            </svg>
+            <span class="icon-btn-text">How To</span>
+          </a>
+
+          <button class="icon-btn ghost" id="btnTheme" type="button" title="Toggle theme" aria-label="Toggle theme">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" />
+            </svg>
+            <span class="icon-btn-text">Theme</span>
+          </button>
+
+          <button class="icon-btn ghost" id="btnMenu" type="button" title="Toggle menu" aria-label="Toggle menu">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 6h16" />
+              <path d="M4 12h16" />
+              <path d="M4 18h16" />
+            </svg>
+            <span class="icon-btn-text">Menu</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell" id="shell">
+      <aside class="rail rail-left" id="railLeft" aria-label="Side menu">
+        <div class="rail-top">
+          <div class="rail-title">Navigation</div>
+          <div class="rail-sub">Quick jump to sections</div>
+
+          <div class="rail-search">
+            <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M21 21l-4.3-4.3"></path>
+            </svg>
+            <input id="navSearch" type="search" placeholder="Search sections..." autocomplete="off" />
+            <button class="xbtn" id="navClear" type="button" title="Clear" aria-label="Clear">
+              <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 6L6 18"></path>
+                <path d="M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <nav class="rail-body" id="navTree">
+          <a class="nav-item" href="https://caufero.github.io/projects/_Misc/_/_Stuff.html#" data-label="Home">
+            <span class="nav-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 10.5L12 3l9 7.5"></path>
+                <path d="M5 10v11h14V10"></path>
+              </svg>
+            </span>
+            <span class="nav-text">Home</span>
+          </a>
+
+          <div class="nav-group" data-label="Apps">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path></svg></span>
+              <span class="nav-text">Apps</span>
+              <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/4KPAINT/_NewAdditions.html" data-label="Apps 4KPAINT"><span class="dot" aria-hidden="true"></span><span class="nav-text">4KPAINT</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CarePort/_NewAdditions.html" data-label="Apps CarePort"><span class="dot" aria-hidden="true"></span><span class="nav-text">CarePort</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/Elimes%20Outfit/_NewAdditions.html" data-label="Apps Elimes Outfit"><span class="dot" aria-hidden="true"></span><span class="nav-text">Elimes Outfit</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/Giftera/_NewAdditions.html" data-label="Apps Giftera"><span class="dot" aria-hidden="true"></span><span class="nav-text">Giftera</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/I2D/_NewAdditions.html" data-label="Apps I2D"><span class="dot" aria-hidden="true"></span><span class="nav-text">I2D</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/KoolTool/_NewAdditions.html" data-label="Apps KoolTool"><span class="dot" aria-hidden="true"></span><span class="nav-text">KoolTool</span></a>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Temp Text Files">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg></span>
+              <span class="nav-text">Temp Text Files</span>
+              <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub danger" href="https://caufero.github.io/projects/_Misc/_/Temp1.html" data-label="Temp Text Files Temp 1"><span class="dot"></span><span class="nav-text">Temp 1</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp2.html" data-label="Temp Text Files Temp 2"><span class="dot"></span><span class="nav-text">Temp 2</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp3.html" data-label="Temp Text Files Temp 3"><span class="dot"></span><span class="nav-text">Temp 3</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp4.html" data-label="Temp Text Files Temp 4"><span class="dot"></span><span class="nav-text">Temp 4</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp5.html" data-label="Temp Text Files Temp 5"><span class="dot"></span><span class="nav-text">Temp 5</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp6.html" data-label="Temp Text Files Temp 6"><span class="dot"></span><span class="nav-text">Temp 6</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp7.html" data-label="Temp Text Files Temp 7"><span class="dot"></span><span class="nav-text">Temp 7</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp8.html" data-label="Temp Text Files Temp 8"><span class="dot"></span><span class="nav-text">Temp 8</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/Temp9.html" data-label="Temp Text Files Temp 9"><span class="dot"></span><span class="nav-text">Temp 9</span></a>
+              <a class="nav-item sub danger" href="https://caufero.github.io/projects/_Misc/_/Temp10.html" data-label="Temp Text Files Temp 10"><span class="dot"></span><span class="nav-text">Temp 10</span></a>
+            </div>
+          </div>
+
+          <div class="nav-group open" data-label="AI Prompts">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4v1H7a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1v1a4 4 0 1 0 8 0v-1h1a3 3 0 0 0 3-3V10a3 3 0 0 0-3-3h-1V6a4 4 0 0 0-4-4z"></path><path d="M9 12h6"></path><path d="M12 9v6"></path></svg></span>
+              <span class="nav-text">AI Prompts</span>
+              <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+            </button>
+            <div class="nav-group-body">
+              <div class="nav-subgroup" data-label="AI Prompts CSS">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill">CSS</span>
+                  <span class="nav-text">CSS</span>
+                  <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Convert%20Current%20CSS%20To%20Tailwind%20CSS.html" data-label="AI Prompts CSS Convert Current CSS to Tailwind CSS"><span class="dot"></span><span class="nav-text">Convert Current CSS to Tailwind CSS</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/CSS_Theme_Mapper_Prompt.html" data-label="AI Prompts CSS Map CSS To Some Theme"><span class="dot"></span><span class="nav-text">Map CSS To Some Theme</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup open" data-label="AI Prompts Development">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill violet">DEV</span>
+                  <span class="nav-text">Development</span>
+                  <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/PopulateAvailableLinks.html" data-label="AI Prompts Development Add Link To Menu"><span class="dot"></span><span class="nav-text">Add Link To Menu</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/Build%20Apps%20With%20CauferoAppStarter.html" data-label="AI Prompts Development Build App In CauferoAppStarter"><span class="dot"></span><span class="nav-text">Build App In CauferoAppStarter</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/_Entity%20Filter%20Page.html" data-label="AI Prompts Development Build List Filter Page"><span class="dot"></span><span class="nav-text">Build List Filter Page</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20List%20Page.html" data-label="AI Prompts Development Build List Page"><span class="dot"></span><span class="nav-text">Build List Page</span></a>
+                  <a class="nav-item sub active" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20Modal%20Page.html" data-label="AI Prompts Development Build Modal Page"><span class="dot"></span><span class="nav-text">Build Modal Page</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++ Report%20Filter%20Page.html" data-label="AI Prompts Development Build Report Filter Page"><span class="dot"></span><span class="nav-text">Build Report Filter Page</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Build%20Totally%20New%20Page.html" data-label="AI Prompts Development Build Totally New Page"><span class="dot"></span><span class="nav-text">Build Totally New Page</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Do%20Changes%20In%20Solution%20Based%20On%20Development%20Documentation.html" data-label="AI Prompts Development Do Changes In Solution Based On Development Documentation"><span class="dot"></span><span class="nav-text">Do Changes In Solution Based On Development Documentation</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/Get%20Value%20List.html" data-label="AI Prompts Development Implement Value List"><span class="dot"></span><span class="nav-text">Implement Value List</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/How%20To%20Go%20About%20Some%20Development%20Task.html" data-label="AI Prompts Development How To Go About Some Development Task"><span class="dot"></span><span class="nav-text">How To Go About Some Development Task</span></a>
+                  <div class="nav-subgroup" data-label="AI Prompts Development Make Page Generation Better">
+                    <button class="nav-subgroup-head inner" type="button" data-toggle="subgroup">
+                      <span class="mini-pill teal">GEN</span>
+                      <span class="nav-text">Make Page Generation Better</span>
+                      <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+                    </button>
+                    <div class="nav-subgroup-body">
+                      <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Make%20A%20Page%20ChatGPT%20Generated%20Become%20Better/Format%20JS%20Of%20Working%20FM%20Script%20Into%20Preferred%20Components.html" data-label="AI Prompts Development Make Page Generation Better Format JS Of Working FM Script Into Preferred Components"><span class="dot"></span><span class="nav-text">Format JS Of Working FM Script Into Preferred Components</span></a>
+                      <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Make%20A%20Page%20ChatGPT%20Generated%20Become%20Better/Make%20A%20Page%20ChatGPT%20Generated%20Become%20Better.html" data-label="AI Prompts Development Make Page Generation Better Make A Page ChatGPT Generated Become Better"><span class="dot"></span><span class="nav-text">Make A Page ChatGPT Generated Become Better</span></a>
+                    </div>
+                  </div>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Mimic%20Caufero%20Workspace%20Page.html" data-label="AI Prompts Development Mimic Caufero Workspace Page"><span class="dot"></span><span class="nav-text">Mimic Caufero Workspace Page</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Update%20ExecuteSQL%20Query.html" data-label="AI Prompts Development Update ExecuteSQL Query"><span class="dot"></span><span class="nav-text">Update ExecuteSQL Query</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts Documents">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill amber">DOC</span>
+                  <span class="nav-text">Documents</span>
+                  <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Contract.html" data-label="AI Prompts Documents Software Contract"><span class="dot"></span><span class="nav-text">Software Contract</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Software%20Features%20Document%20_%20Based%20On%20DDR%20_n_%20Sample%20Features%20Doc.html" data-label="AI Prompts Documents Software Features Document"><span class="dot"></span><span class="nav-text">Software Features Document</span></a>
+                  <a class="nav-item sub muted" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Invoice.html" data-label="AI Prompts Documents Invoice"><span class="dot"></span><span class="nav-text">&#9203; Invoice</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Software%20Proposal.html" data-label="AI Prompts Documents Software Proposal"><span class="dot"></span><span class="nav-text">Software Proposal</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts FM Script XML">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill slate">XML</span>
+                  <span class="nav-text">FM Script &lt;-&gt; XML</span>
+                  <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/XML:FM%20Scripts%20Convertions/Convert%20FM%20Script%20To%20XML.html" data-label="AI Prompts FM Script XML FM Script To XML"><span class="dot"></span><span class="nav-text">FM Script To XML</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/XML:FM%20Scripts%20Convertions/Convert%20XML%20To%20FM%20Script.html" data-label="AI Prompts FM Script XML XML To FM Script"><span class="dot"></span><span class="nav-text">XML To FM Script</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts Docs">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill teal">DOCS</span>
+                  <span class="nav-text">Docs</span>
+                  <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Documentations/AI_AgentTraining.html" data-label="AI Prompts Docs Documentation To Train Agent To Do Something"><span class="dot"></span><span class="nav-text">Documentation To Train Agent To Do Something</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Generate%20Documentations/FM%20App%20Documentation.html" data-label="AI Prompts Docs Documentation For A FileMaker Application"><span class="dot"></span><span class="nav-text">Documentation For A FileMaker Application</span></a>
+                </div>
+              </div>
+
+              <div class="nav-subgroup" data-label="AI Prompts Explain">
+                <button class="nav-subgroup-head" type="button" data-toggle="subgroup">
+                  <span class="mini-pill rose">WHY</span>
+                  <span class="nav-text">Explain</span>
+                  <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+                </button>
+                <div class="nav-subgroup-body">
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/What%20Is%20It%20Doing/What%20Is%20This%20FM%20App%20Doing.html" data-label="AI Prompts Explain What Is This FileMaker Application Doing"><span class="dot"></span><span class="nav-text">What Is This FileMaker Application Doing?</span></a>
+                  <a class="nav-item sub" href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/What%20Is%20It%20Doing/What%20Is%20This%20FM%20Script%20Doing.html" data-label="AI Prompts Explain What Is This FileMaker Script Doing"><span class="dot"></span><span class="nav-text">What Is This FileMaker Script Doing?</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-group" data-label="Chats">
+            <button class="nav-group-head" type="button" data-toggle="group">
+              <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path></svg></span>
+              <span class="nav-text">Chats</span>
+              <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" class="ico sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+            </button>
+            <div class="nav-group-body">
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/ScriptsCalcs.html" data-label="Chats ScriptsCalcs"><span class="dot"></span><span class="nav-text">ScriptsCalcs</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/SQL.html" data-label="Chats SQL"><span class="dot"></span><span class="nav-text">SQL</span></a>
+              <a class="nav-item sub" href="https://caufero.github.io/projects/Chats/Javascript%20in%20FileMaker.html" data-label="Chats Javascript in FileMaker"><span class="dot"></span><span class="nav-text">Javascript in FileMaker</span></a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="rail-bottom">
+          <div class="rail-foot">
+            <span class="rail-foot-dot" aria-hidden="true"></span>
+            <span>Fixed menu &bull; scroll inside</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ========== MAIN CONTENT CANVAS (CENTER COLUMN) ========== -->
+      <main class="content" id="content" role="main">
+        <div class="content-inner">
+
+          <!-- HERO -->
+          <section class="hero">
+            <div class="hero-glow" aria-hidden="true"></div>
+            <div class="hero-inner">
+              <div class="hero-top">
+                <div class="hero-title">Building a Modal Page</div>
+                <div class="hero-sub">A self-contained HTML form rendered inside a FileMaker Card window. Built entirely within a FileMaker script that assembles HTML, CSS, and JavaScript into a single variable ($$Modal), then displayed via the Modal layout (ID 165). The only structural elements unique to a modal are its header and footer — everything inside modal-body follows Entity Details Page patterns exactly.</div>
+              </div>
+              <div class="hero-actions">
+                <button class="cta" id="heroCopyBtn" type="button">
+                  <span class="cta-ico" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                  </span>
+                  Copy script template
+                </button>
+              </div>
+              <div class="hero-meta">
+                <span class="chip">Card Window</span>
+                <span class="chip violet">HTML + JS</span>
+                <span class="chip amber">FileMaker Script</span>
+                <span class="chip copper">$$Modal</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- OVERVIEW -->
+          <section class="card section" id="overview-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">&#128214;</span>
+                <span>Overview</span>
+                <span class="section-sub">What Makes a Modal Page Unique</span>
+              </div>
+            </div>
+            <div style="padding: 20px; line-height: 1.6;">
+              <p>A modal page in CauferoAppStarter is a self-contained HTML form rendered inside a FileMaker Card window. It is built entirely within a FileMaker script that assembles HTML, CSS, and JavaScript into a single variable (<code>$$Modal</code>), which is then displayed in a Card window using a dedicated layout called <strong>Modal</strong> (Layout ID 165).</p>
+              <h3 style="margin-top: 20px; margin-bottom: 12px; font-weight: 750;">The Only Structural Differentiators</h3>
+              <p>The <strong>only structural elements that distinguish a modal page from other page types</strong> are its header and footer:</p>
+              <p style="margin-left: 16px;">&#8212; The <code>modal-header</code> is a fixed title bar at the top.<br>&#8212; The <code>modal-footer</code> is a fixed button row at the bottom (Save, Cancel, and optionally Delete).</p>
+              <p style="margin-top: 12px;"><strong>Everything inside <code>modal-body</code></strong> — every object, widget, or UI element placed in the main content area — is built using the exact same patterns used on the Entity Details Page. This includes form fields, date pickers, dropdowns, checkboxes, tables, lists, sub-record panels, maps, image viewers, instruction panels, action buttons, icon buttons, and status indicators.</p>
+              <h3 style="margin-top: 20px; margin-bottom: 12px; font-weight: 750;">High-Level Flow</h3>
+              <ol style="margin-left: 20px; line-height: 1.9;">
+                <li>A triggering script calls the modal script and passes parameters (e.g., a record ID) via <code>GetScriptParameters</code>.</li>
+                <li>The modal script uses <code>ExecuteSQL</code> to fetch the relevant record data.</li>
+                <li>It calls the shared CSS script (<code>🖌️ Use Modal CSS</code>) to retrieve the stylesheet.</li>
+                <li>It builds the HTML structure, JavaScript functions, and combines them into a full HTML page stored in <code>$$Modal</code>.</li>
+                <li>It opens a new Card window that renders the modal using the <code>Modal</code> layout.</li>
+                <li>When the user submits or cancels, JavaScript calls <code>FileMaker.PerformScript()</code> to hand control back to FileMaker scripts.</li>
+              </ol>
+              <p style="background: rgba(213,67,46,0.1); border-left: 3px solid rgba(213,67,46,0.7); padding: 12px; border-radius: 8px; margin-top: 16px;"><strong>Hard Rule:</strong> The modal-header and modal-footer are the only structural elements unique to a modal page. Everything placed inside modal-body follows the Entity Details Page documentation exactly.</p>
+              <h3 style="margin-top: 20px; margin-bottom: 12px; font-weight: 750;">Reference Documents for Modal Body Content</h3>
+              <p>For how to build and structure any object inside the modal body, refer to:</p>
+              <p style="margin-left: 16px;">&#8212; <strong>Entity Details Page</strong> (primary reference): <a href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20Details%20Page.html">+++Entity Details Page.html</a><br>&#8212; <strong>Entity List Page</strong> (for list/table objects inside a modal body): <a href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20List%20Page.html">+++Entity List Page.html</a></p>
+            </div>
+          </section>
+
+          <!-- MODAL PAGE PROMPT -->
+          <section class="card section" id="modal-prompt-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">&#128203;</span>
+                <span>Modal Page Prompt</span>
+                <span class="section-sub">Copy this prompt and send to AI with a sample script below.</span>
+              </div>
+              <div class="section-actions">
+                <div class="copy-status" id="copyStatusMP" aria-live="polite"></div>
+                <button class="btn primary" id="copyBtnMP" type="button">Copy</button>
+              </div>
+            </div>
+            <div class="prompt-wrap">
+              <textarea class="prompt-box" id="promptBoxMP" readonly spellcheck="false">https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity Modal Page.html
+
+The link above will guide you to guide me generate a modal page in CauferoAppStarter FileMaker file.
+
+Generate a modal page for the following:
+
+________________.
+
+Find below a sample FileMaker script that generates a modal page:
+
+# Get Script Parameters
+
+Set Variable [ $$Staff Education ID ; Value: GetValue ( GetScriptParameters ; 1 ) ]
+
+#
+# Details HTML
+
+Set Variable [ $Save Updates Script ; Value: "Save Staff Education" ]
+Set Variable [ $Cancel Script ; Value: "Close Window" ]
+Set Variable [ $Delete Record Script ; Value: "" ]
+Set Variable [ $Insert Image Script ; Value: "" ]
+
+#
+#
+#
+#
+# Set details in a variable
+#
+
+Set Variable [ $List ; Value:
+    Let (
+        [
+            sql = "SELECT \"Institution\", \"Programme\", \"Result\", \"Start Date\", \"Finish Date\"
+                   FROM \"Staff Education\"
+                   WHERE \"ID\" = ?" ;
+            fieldseparator = "|" ;
+            rowseparator = "¶" ;
+            id = $$Staff Education ID ;
+            result = ExecuteSQL ( sql ; fieldseparator ; rowseparator ; id )
+        ] ;
+        result
+    )
+]
+
+Set Variable [ $Total ; Value: ValueCount ( $List ) ]
+
+#
+
+If [ $Total > 0 ]
+
+    Loop
+        Set Variable [ $i ; Value: $i + 1 ]
+        Set Variable [ $Link Record ; Value: GetValue ( $List ; $i ) ]
+        Set Variable [ $Link Record As List ; Value: Substitute ( $Link Record ; "|" ; ¶ ) ]
+
+        #
+
+        Set Variable [ $Institution ; Value: GetValue ( $Link Record As List ; 1 ) ]
+        Set Variable [ $Programme ; Value: GetValue ( $Link Record As List ; 2 ) ]
+        Set Variable [ $Result ; Value: GetValue ( $Link Record As List ; 3 ) ]
+        Set Variable [ $Start Date ; Value: GetValue ( $Link Record As List ; 4 ) ]
+        Set Variable [ $End Date ; Value: GetValue ( $Link Record As List ; 5 ) ]
+
+        #
+
+        Exit Loop If [ $i ≥ $Total ]
+
+        #
+
+    End Loop
+
+#
+
+Else
+
+End If
+
+#
+#
+# ******************************************
+# ******************************************
+# GENERATE PAGE (START)
+# ******************************************
+# ******************************************
+#
+# CSS
+
+Perform Script [ "🖌️ Use Modal CSS" ]
+
+Set Variable [ $styles ; Value: Get ( ScriptResult ) ]
+
+#
+#
+# HTML
+
+Set Variable [ $HTML ; Value:
+    "
+    <div class='modal'>
+
+          <!-- Title Section -->
+          <div class='modal-header'>Education Details</div>
+
+          <!-- Body Section -->
+          <div class='modal-body'>
+             <form id='update-form'>
+                <div class='form-grid1'>
+
+                   <div class='form-group-2'>
+                      <label for='institution'>Institution</label>
+                      <input type='text' id='institution' value='" & $Institution & "'>
+                   </div>
+
+                   <div class='form-group-2'>
+                      <label for='programme'>Programme</label>
+                      <input type='text' id='programme' value='" & $Programme & "'>
+                   </div>
+
+                   <div class='form-group-2'>
+                      <label for='result'>Result</label>
+                      <input type='text' id='result' value='" & $Result & "'>
+                   </div>
+
+                   <div class='form-group-2'>
+                      <label for='start_date'>Start Date</label>
+                      <div style='position: relative;'>
+                         <input type='text' id='start_date' value='" & $Start Date & "'>
+                         <i class='fas fa-calendar-alt' id='start_date_icon' style='position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #666; cursor: pointer;'></i>
+                      </div>
+                   </div>
+
+                   <div class='form-group-2'>
+                      <label for='end_date'>End Date</label>
+                      <div style='position: relative;'>
+                         <input type='text' id='end_date' value='" & $End Date & "'>
+                         <i class='fas fa-calendar-alt' id='end_date_icon' style='position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #666; cursor: pointer;'></i>
+                      </div>
+                   </div>
+
+                </div>
+             </form>
+          </div>
+
+          <!-- Button Section -->
+          <div class='modal-footer'>
+             <button type='button' class='save-button' onclick=\"saveUpdates()\">
+                <i class='fas fa-save'></i>
+                Save
+             </button>
+             <button type='button' class='cancel-button' onclick=\"cancelUpdates()\">
+                <i class='fas fa-times'></i>
+                Cancel
+             </button>
+          </div>
+
+    </div>
+    "
+]
+
+#
+#
+# Javascript
+
+Set Variable [ $Cancel Updates Script ; Value:
+    "function cancelUpdates() {
+         FileMaker.PerformScript('" & $Cancel Script & "');
+    }"
+]
+
+Set Variable [ $Show Datepicker ; Value:
+    "
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateFields = [
+            { id: 'start_date', iconId: 'start_date_icon' },
+            { id: 'end_date', iconId: 'end_date_icon' }
+        ];
+
+        function formatMySQLDateToReadable(mysqlDate) {
+            const parsedDate = flatpickr.parseDate(mysqlDate, 'Y-m-d');
+            return parsedDate ? flatpickr.formatDate(parsedDate, 'l, j F, Y') : '';
+        }
+
+        dateFields.forEach(field => {
+            const dateInput = document.getElementById(field.id);
+            const dateIcon = document.getElementById(field.iconId);
+            const initialDate = dateInput.value && dateInput.value !== '--' ? dateInput.value : null;
+
+            if (initialDate) {
+                dateInput.value = formatMySQLDateToReadable(initialDate);
+            }
+
+            const flatpickrInstance = flatpickr(dateInput, {
+                dateFormat: 'l, j F, Y',
+                defaultDate: initialDate || null,
+                allowInput: true,
+                onChange: function (selectedDates, dateStr) {
+                    dateInput.value = dateStr;
+                }
+            });
+
+            if (dateIcon) {
+                dateIcon.addEventListener('click', function () {
+                    flatpickrInstance.open();
+                });
+            }
+        });
+    });
+
+    function getMySQLFormattedDate(fieldId) {
+        const dateInput = document.getElementById(fieldId).value;
+        if (!dateInput || dateInput === '--') {
+            return null;
+        }
+        const parsedDate = flatpickr.parseDate(dateInput, 'l, j F, Y');
+        return parsedDate ? flatpickr.formatDate(parsedDate, 'Y-m-d') : null;
+    }
+    "
+]
+
+Set Variable [ $Save Updates Script ; Value:
+    "function saveUpdates() {
+         const institution = document.getElementById('institution').value;
+         const programme = document.getElementById('programme').value;
+         const result = document.getElementById('result').value;
+         const start_date = getMySQLFormattedDate('start_date');
+         const end_date = getMySQLFormattedDate('end_date');
+
+         const parameters = [ institution, programme, result, start_date, end_date ].join('|');
+
+         FileMaker.PerformScript('" & $Save Updates Script & "', parameters);
+    }"
+]
+
+#
+
+Set Variable [ $Scripts ; Value:
+    "<script> " &
+    $Save Updates Script & "¶¶" &
+    $Cancel Updates Script & "¶¶" &
+    $Show Datepicker
+    & " </script>"
+]
+
+#
+#
+# Full Page
+
+Set Variable [ $$Modal ; Value:
+    "<!DOCTYPE html>
+    <html lang='en'>
+
+    <head>
+       <meta charset='UTF-8'>
+       <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+       <title>Modal Page</title>
+       <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'>
+       <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'>
+       <script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>
+       <style> " & $styles & " </style>
+    </head>
+
+    <body> " & $HTML & "¶¶" & $Scripts & " </body>
+
+    </html>
+    "
+]
+
+#
+#
+# ******************************************
+# ******************************************
+# GENERATE PAGE (END)
+# ******************************************
+# ******************************************
+#
+
+New Window [ Style: Card ; Name: "" ; Layout: "Modal" (165) ; Height: 750 ; Width: 600 ;
+             Dim parent window: Yes ; Close: No ; Minimize: No ; Maximize: No ;
+             Zoom control area: No ; Menu bar: No ; Resize: No ]
+</textarea>
+            </div>
+          </section>
+
+          <!-- STEP BY STEP -->
+          <section class="card section" id="steps-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">&#128203;</span>
+                <span>Step-by-Step Guide</span>
+                <span class="section-sub">10 Steps to Build a Modal Page</span>
+              </div>
+            </div>
+            <div style="padding: 20px; line-height: 1.6;">
+
+              <!-- Step 1 -->
+              <div style="margin-bottom: 28px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 750; display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:linear-gradient(180deg,rgba(14,51,68,.14),rgba(14,51,68,.07));border:1px solid rgba(14,51,68,.18);font-size:12px;font-weight:850;flex:0 0 auto;">1</span>
+                  Receive Script Parameters
+                </h3>
+                <p>The modal script receives its input via <code>GetScriptParameters</code>. Parameters are passed as a line-separated list and extracted using <code>GetValue</code>. The record ID is always passed as the first parameter. Use a global variable (e.g., <code>$$Staff Education ID</code>) so it is accessible across scripts. Additional parameters can be extracted with <code>GetValue ( GetScriptParameters ; 2 )</code>, etc.</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6; margin-top: 10px;">Set Variable [ $$Staff Education ID ; Value: GetValue ( GetScriptParameters ; 1 ) ]</pre>
+              </div>
+
+              <!-- Step 2 -->
+              <div style="margin-bottom: 28px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 750; display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:linear-gradient(180deg,rgba(14,51,68,.14),rgba(14,51,68,.07));border:1px solid rgba(14,51,68,.18);font-size:12px;font-weight:850;flex:0 0 auto;">2</span>
+                  Declare Script Name Variables
+                </h3>
+                <p>Declare variables that hold the names of the FileMaker scripts called from JavaScript buttons inside the modal. <code>$Delete Record Script</code> and <code>$Insert Image Script</code> are optional — leave as empty string <code>""</code> if not needed.</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6; margin-top: 10px;">Set Variable [ $Save Updates Script ; Value: "Save Staff Education" ]
+Set Variable [ $Cancel Script ; Value: "Close Window" ]
+Set Variable [ $Delete Record Script ; Value: "" ]
+Set Variable [ $Insert Image Script ; Value: "" ]</pre>
+              </div>
+
+              <!-- Step 3 -->
+              <div style="margin-bottom: 28px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 750; display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:linear-gradient(180deg,rgba(14,51,68,.14),rgba(14,51,68,.07));border:1px solid rgba(14,51,68,.18);font-size:12px;font-weight:850;flex:0 0 auto;">3</span>
+                  Fetch Record Data Using ExecuteSQL
+                </h3>
+                <p>Use <code>ExecuteSQL</code> to retrieve the record fields needed for the form. Always use pipe <code>|</code> as field separator and paragraph <code>¶</code> as row separator. Always use a parameterised query with <code>?</code>. Quote field and table names with escaped double quotes inside the SQL string.</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6; margin-top: 10px;">Set Variable [ $List ; Value:
+    Let (
+        [
+            sql = "SELECT \"Institution\", \"Programme\", \"Result\", \"Start Date\", \"Finish Date\"
+                   FROM \"Staff Education\"
+                   WHERE \"ID\" = ?" ;
+            fieldseparator = "|" ;
+            rowseparator = "¶" ;
+            id = $$Staff Education ID ;
+            result = ExecuteSQL ( sql ; fieldseparator ; rowseparator ; id )
+        ] ;
+        result
+    )
+]</pre>
+              </div>
+
+              <!-- Step 4 -->
+              <div style="margin-bottom: 28px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 750; display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:linear-gradient(180deg,rgba(14,51,68,.14),rgba(14,51,68,.07));border:1px solid rgba(14,51,68,.18);font-size:12px;font-weight:850;flex:0 0 auto;">4</span>
+                  Parse the SQL Result into Variables
+                </h3>
+                <p>Get a count of rows using <code>ValueCount</code>, then loop through the result. Convert each pipe-delimited row into a newline list using <code>Substitute ( $Link Record ; "|" ; ¶ )</code>, then use <code>GetValue</code> with positional index. Always check <code>$Total &gt; 0</code> before parsing. The <code>Else</code> branch is intentionally left empty.</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6; margin-top: 10px;">Set Variable [ $Total ; Value: ValueCount ( $List ) ]
+If [ $Total > 0 ]
+    Loop
+        Set Variable [ $i ; Value: $i + 1 ]
+        Set Variable [ $Link Record ; Value: GetValue ( $List ; $i ) ]
+        Set Variable [ $Link Record As List ; Value: Substitute ( $Link Record ; "|" ; ¶ ) ]
+        Set Variable [ $Institution ; Value: GetValue ( $Link Record As List ; 1 ) ]
+        Set Variable [ $Programme ; Value: GetValue ( $Link Record As List ; 2 ) ]
+        Set Variable [ $Result ; Value: GetValue ( $Link Record As List ; 3 ) ]
+        Set Variable [ $Start Date ; Value: GetValue ( $Link Record As List ; 4 ) ]
+        Set Variable [ $End Date ; Value: GetValue ( $Link Record As List ; 5 ) ]
+        Exit Loop If [ $i ≥ $Total ]
+    End Loop
+Else
+End If</pre>
+              </div>
+
+              <!-- Step 5 -->
+              <div style="margin-bottom: 28px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 750; display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:linear-gradient(180deg,rgba(14,51,68,.14),rgba(14,51,68,.07));border:1px solid rgba(14,51,68,.18);font-size:12px;font-weight:850;flex:0 0 auto;">5</span>
+                  Load the CSS
+                </h3>
+                <p>Call the shared CSS script and capture its result. Always call <code>🖌️ Use Modal CSS</code> before building the HTML. Store the result in <code>$styles</code> — it will be injected into the <code>&lt;style&gt;</code> tag. Never hardcode CSS directly in the modal script.</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6; margin-top: 10px;">Perform Script [ "🖌️ Use Modal CSS" ]
+Set Variable [ $styles ; Value: Get ( ScriptResult ) ]</pre>
+              </div>
+
+              <!-- Step 6 -->
+              <div style="margin-bottom: 28px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 750; display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:linear-gradient(180deg,rgba(14,51,68,.14),rgba(14,51,68,.07));border:1px solid rgba(14,51,68,.18);font-size:12px;font-weight:850;flex:0 0 auto;">6</span>
+                  Build the HTML
+                </h3>
+                <p>The HTML is divided into exactly three sections. The <strong>modal-header</strong> contains only a plain text title — no buttons or icons. The <strong>modal-body</strong> contains a <code>&lt;form id='update-form'&gt;</code> wrapping all content inside <code>&lt;div class='form-grid1'&gt;</code>. The <strong>modal-footer</strong> contains Save and Cancel buttons (and optionally Delete).</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6; margin-top: 10px;">Set Variable [ $HTML ; Value:
+    "
+    &lt;div class='modal'&gt;
+        &lt;div class='modal-header'&gt;Education Details&lt;/div&gt;
+        &lt;div class='modal-body'&gt;
+           &lt;form id='update-form'&gt;
+              &lt;div class='form-grid1'&gt;
+                 ... form fields and all other content objects go here ...
+              &lt;/div&gt;
+           &lt;/form&gt;
+        &lt;/div&gt;
+        &lt;div class='modal-footer'&gt;
+           &lt;button type='button' class='save-button' onclick=\"saveUpdates()\"&gt;
+              &lt;i class='fas fa-save'&gt;&lt;/i&gt; Save
+           &lt;/button&gt;
+           &lt;button type='button' class='cancel-button' onclick=\"cancelUpdates()\"&gt;
+              &lt;i class='fas fa-times'&gt;&lt;/i&gt; Cancel
+           &lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    "
+]</pre>
+              </div>
+
+              <!-- Step 7 -->
+              <div style="margin-bottom: 28px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 750; display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:linear-gradient(180deg,rgba(14,51,68,.14),rgba(14,51,68,.07));border:1px solid rgba(14,51,68,.18);font-size:12px;font-weight:850;flex:0 0 auto;">7</span>
+                  Build the JavaScript (3 Functions)
+                </h3>
+                <p>Three JavaScript functions are required for every modal. Build each in its own variable, then combine in Step 8.</p>
+
+                <p style="margin-top: 14px; margin-bottom: 6px; font-weight: 750;">7a — cancelUpdates()</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6;">Set Variable [ $Cancel Updates Script ; Value:
+    "function cancelUpdates() {
+         FileMaker.PerformScript('" & $Cancel Script & "');
+    }"
+]</pre>
+
+                <p style="margin-top: 18px; margin-bottom: 6px; font-weight: 750;">7b — Datepicker Logic (only when date fields are present)</p>
+                <p style="margin-bottom: 8px; font-size: 13px;">Handles both visual display (<code>l, j F, Y</code> format) and conversion back to MySQL <code>Y-m-d</code> for saving. The <code>dateFields</code> array must list every date field with its <code>id</code> and <code>iconId</code>. Omit entirely if the form has no date fields.</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6;">Set Variable [ $Show Datepicker ; Value:
+    "
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateFields = [
+            { id: 'start_date', iconId: 'start_date_icon' },
+            { id: 'end_date', iconId: 'end_date_icon' }
+        ];
+        function formatMySQLDateToReadable(mysqlDate) {
+            const parsedDate = flatpickr.parseDate(mysqlDate, 'Y-m-d');
+            return parsedDate ? flatpickr.formatDate(parsedDate, 'l, j F, Y') : '';
+        }
+        dateFields.forEach(field => {
+            const dateInput = document.getElementById(field.id);
+            const dateIcon = document.getElementById(field.iconId);
+            const initialDate = dateInput.value &amp;&amp; dateInput.value !== '--' ? dateInput.value : null;
+            if (initialDate) { dateInput.value = formatMySQLDateToReadable(initialDate); }
+            const flatpickrInstance = flatpickr(dateInput, {
+                dateFormat: 'l, j F, Y',
+                defaultDate: initialDate || null,
+                allowInput: true,
+                onChange: function (selectedDates, dateStr) { dateInput.value = dateStr; }
+            });
+            if (dateIcon) { dateIcon.addEventListener('click', function () { flatpickrInstance.open(); }); }
+        });
+    });
+    function getMySQLFormattedDate(fieldId) {
+        const dateInput = document.getElementById(fieldId).value;
+        if (!dateInput || dateInput === '--') { return null; }
+        const parsedDate = flatpickr.parseDate(dateInput, 'l, j F, Y');
+        return parsedDate ? flatpickr.formatDate(parsedDate, 'Y-m-d') : null;
+    }
+    "
+]</pre>
+
+                <p style="margin-top: 18px; margin-bottom: 6px; font-weight: 750;">7c — saveUpdates()</p>
+                <p style="margin-bottom: 8px; font-size: 13px;"><strong>Note:</strong> <code>$Save Updates Script</code> is first declared in Step 2 with the script name string, then overwritten here with the full JavaScript function. The script name is consumed by string concatenation before the variable is reassigned — this is intentional and correct.</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6;">Set Variable [ $Save Updates Script ; Value:
+    "function saveUpdates() {
+         const institution = document.getElementById('institution').value;
+         const programme = document.getElementById('programme').value;
+         const result = document.getElementById('result').value;
+         const start_date = getMySQLFormattedDate('start_date');
+         const end_date = getMySQLFormattedDate('end_date');
+         const parameters = [ institution, programme, result, start_date, end_date ].join('|');
+         FileMaker.PerformScript('" & $Save Updates Script & "', parameters);
+    }"
+]</pre>
+              </div>
+
+              <!-- Step 8 -->
+              <div style="margin-bottom: 28px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 750; display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:linear-gradient(180deg,rgba(14,51,68,.14),rgba(14,51,68,.07));border:1px solid rgba(14,51,68,.18);font-size:12px;font-weight:850;flex:0 0 auto;">8</span>
+                  Combine JavaScript Blocks
+                </h3>
+                <p>All JavaScript functions are wrapped in a single <code>&lt;script&gt;</code> tag, each block separated by <code>¶¶</code>. Order by convention: <code>saveUpdates</code> first, <code>cancelUpdates</code> second, then datepicker logic. Omit <code>$Show Datepicker</code> if the form has no date fields.</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6; margin-top: 10px;">Set Variable [ $Scripts ; Value:
+    "&lt;script&gt; " &amp;
+    $Save Updates Script &amp; "¶¶" &amp;
+    $Cancel Updates Script &amp; "¶¶" &amp;
+    $Show Datepicker
+    &amp; " &lt;/script&gt;"
+]</pre>
+              </div>
+
+              <!-- Step 9 -->
+              <div style="margin-bottom: 28px;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 750; display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:linear-gradient(180deg,rgba(14,51,68,.14),rgba(14,51,68,.07));border:1px solid rgba(14,51,68,.18);font-size:12px;font-weight:850;flex:0 0 auto;">9</span>
+                  Assemble the Full HTML Page
+                </h3>
+                <p>Always store the complete page in the global variable <code>$$Modal</code>. Always include Font Awesome and Flatpickr CDN links in the <code>&lt;head&gt;</code>. The <code>&lt;style&gt;</code> tag always injects <code>$styles</code>. The <code>&lt;body&gt;</code> contains <code>$HTML</code> followed by <code>¶¶</code> and <code>$Scripts</code>.</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6; margin-top: 10px;">Set Variable [ $$Modal ; Value:
+    "&lt;!DOCTYPE html&gt;
+    &lt;html lang='en'&gt;
+    &lt;head&gt;
+       &lt;meta charset='UTF-8'&gt;
+       &lt;meta name='viewport' content='width=device-width, initial-scale=1.0'&gt;
+       &lt;title&gt;Modal Page&lt;/title&gt;
+       &lt;link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'&gt;
+       &lt;link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'&gt;
+       &lt;script src='https://cdn.jsdelivr.net/npm/flatpickr'&gt;&lt;/script&gt;
+       &lt;style&gt; " &amp; $styles &amp; " &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt; " &amp; $HTML &amp; "¶¶" &amp; $Scripts &amp; " &lt;/body&gt;
+    &lt;/html&gt;"
+]</pre>
+              </div>
+
+              <!-- Step 10 -->
+              <div style="margin-bottom: 0;">
+                <h3 style="margin-top: 0; margin-bottom: 10px; font-weight: 750; display: flex; align-items: center; gap: 10px;">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:linear-gradient(180deg,rgba(14,51,68,.14),rgba(14,51,68,.07));border:1px solid rgba(14,51,68,.18);font-size:12px;font-weight:850;flex:0 0 auto;">10</span>
+                  Open the Card Window
+                </h3>
+                <p>Always use <code>Style: Card</code> and the <code>Modal</code> layout (ID 165). Standard dimensions are <code>Height: 750</code>, <code>Width: 600</code> — adjust only if content requires it. Always set <code>Dim parent window: Yes</code> and all window chrome options to <code>No</code>.</p>
+                <pre style="background: #0f1729; color: #e5e7eb; padding: 14px 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6; margin-top: 10px;">New Window [ Style: Card ; Name: "" ; Layout: "Modal" (165) ; Height: 750 ; Width: 600 ;
+             Dim parent window: Yes ; Close: No ; Minimize: No ; Maximize: No ;
+             Zoom control area: No ; Menu bar: No ; Resize: No ]</pre>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- STRUCTURE AT A GLANCE -->
+          <section class="card section" id="structure-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">&#128221;</span>
+                <span>Modal Structure at a Glance</span>
+                <span class="section-sub">Canonical Layout</span>
+              </div>
+            </div>
+            <div style="padding: 20px; line-height: 1.6;">
+              <pre style="background: #0f1729; color: #e5e7eb; padding: 16px; border-radius: 12px; overflow-x: auto; font-size: 12px; line-height: 1.7; margin-top: 0;">&lt;div class='modal'&gt;
+    │
+    ├── &lt;div class='modal-header'&gt;
+    │       Plain text title only. No buttons or icons.
+    │       *** UNIQUE TO MODAL PAGE ***
+    │
+    ├── &lt;div class='modal-body'&gt;
+    │       &lt;form id='update-form'&gt;
+    │           &lt;div class='form-grid1'&gt;
+    │               All content objects: fields, tables, maps,
+    │               sub-lists, instruction panels, buttons, etc.
+    │               Built using Entity Details Page patterns.
+    │           &lt;/div&gt;
+    │       &lt;/form&gt;
+    │
+    └── &lt;div class='modal-footer'&gt;
+            Save button + Cancel button (+ optional Delete button).
+            *** UNIQUE TO MODAL PAGE ***</pre>
+            </div>
+          </section>
+
+          <!-- SCRIPT STRUCTURE SUMMARY -->
+          <section class="card section" id="summary-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">&#128220;</span>
+                <span>Complete Script Structure</span>
+                <span class="section-sub">Canonical step order for every modal-building script</span>
+              </div>
+            </div>
+            <div style="padding: 20px; line-height: 1.6;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <thead><tr style="background: rgba(15,23,42,.06); border-bottom: 2px solid rgba(15,23,42,.1);">
+                  <th style="padding: 10px; text-align: right; width: 60px;">Step</th>
+                  <th style="padding: 10px; text-align: left;">Action</th>
+                  <th style="padding: 10px; text-align: left;">Result Variable</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; text-align: right; font-weight: 650;">1</td><td style="padding: 10px;">Extract script parameters (record ID, etc.)</td><td style="padding: 10px;"><code>$$Staff Education ID</code></td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; text-align: right; font-weight: 650;">2</td><td style="padding: 10px;">Declare script name variables</td><td style="padding: 10px;"><code>$Save Updates Script</code>, <code>$Cancel Script</code>, etc.</td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; text-align: right; font-weight: 650;">3</td><td style="padding: 10px;">Build and execute ExecuteSQL query</td><td style="padding: 10px;"><code>$List</code></td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; text-align: right; font-weight: 650;">4</td><td style="padding: 10px;">Get row count, parse SQL result into field variables</td><td style="padding: 10px;"><code>$Total</code>, <code>$Institution</code>, <code>$Programme</code>, etc.</td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; text-align: right; font-weight: 650;">5</td><td style="padding: 10px;">Load the shared CSS</td><td style="padding: 10px;"><code>$styles</code></td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; text-align: right; font-weight: 650;">6</td><td style="padding: 10px;">Build the modal HTML (header + body + footer)</td><td style="padding: 10px;"><code>$HTML</code></td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; text-align: right; font-weight: 650;">7a</td><td style="padding: 10px;">Build cancelUpdates() JavaScript</td><td style="padding: 10px;"><code>$Cancel Updates Script</code></td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; text-align: right; font-weight: 650;">7b</td><td style="padding: 10px;">Build datepicker JavaScript (if date fields present)</td><td style="padding: 10px;"><code>$Show Datepicker</code></td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; text-align: right; font-weight: 650;">7c</td><td style="padding: 10px;">Build saveUpdates() JavaScript (overwrites Step 2 variable)</td><td style="padding: 10px;"><code>$Save Updates Script</code></td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; text-align: right; font-weight: 650;">8</td><td style="padding: 10px;">Combine all JavaScript into a single &lt;script&gt; block</td><td style="padding: 10px;"><code>$Scripts</code></td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; text-align: right; font-weight: 650;">9</td><td style="padding: 10px;">Assemble the complete HTML page</td><td style="padding: 10px;"><code>$$Modal</code></td></tr>
+                  <tr><td style="padding: 10px; text-align: right; font-weight: 650;">10</td><td style="padding: 10px;">Open the Card window (Layout: Modal, ID 165)</td><td style="padding: 10px;">—</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- REFERENCE DOCS + CSS + LIBRARIES -->
+          <section class="card section" id="reference-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">&#128196;</span>
+                <span>References, CSS Classes &amp; Libraries</span>
+                <span class="section-sub">Everything you need to look up</span>
+              </div>
+            </div>
+            <div style="padding: 20px; line-height: 1.6;">
+              <h3 style="margin-top: 0; margin-bottom: 12px; font-weight: 750;">Reference Documents</h3>
+              <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 24px;">
+                <thead><tr style="background: rgba(15,23,42,.06); border-bottom: 2px solid rgba(15,23,42,.1);">
+                  <th style="padding: 10px; text-align: left;">Document</th>
+                  <th style="padding: 10px; text-align: left;">Purpose</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; font-weight: 650;"><a href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20Details%20Page.html">Entity Details Page</a></td><td style="padding: 10px;">Primary reference for all content objects inside <code>modal-body</code></td></tr>
+                  <tr><td style="padding: 10px; font-weight: 650;"><a href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/+++Entity%20List%20Page.html">Entity List Page</a></td><td style="padding: 10px;">Reference for adding list/table objects inside <code>modal-body</code></td></tr>
+                </tbody>
+              </table>
+
+              <h3 style="margin-top: 0; margin-bottom: 12px; font-weight: 750;">CSS Classes (provided by 🖌️ Use Modal CSS)</h3>
+              <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 24px;">
+                <thead><tr style="background: rgba(15,23,42,.06); border-bottom: 2px solid rgba(15,23,42,.1);">
+                  <th style="padding: 10px; text-align: left;">Class</th>
+                  <th style="padding: 10px; text-align: left;">Usage</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px;"><code>modal</code></td><td style="padding: 10px;">Root wrapper &lt;div&gt; for the entire modal</td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px;"><code>modal-header</code></td><td style="padding: 10px;">Title bar at the top of the modal</td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px;"><code>modal-body</code></td><td style="padding: 10px;">Content area containing the form</td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px;"><code>modal-footer</code></td><td style="padding: 10px;">Button row at the bottom</td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px;"><code>form-grid1</code></td><td style="padding: 10px;">Grid container for content objects inside the body</td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px;"><code>form-group-2</code></td><td style="padding: 10px;">Full-width form field wrapper (label + input)</td></tr>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px;"><code>save-button</code></td><td style="padding: 10px;">Primary action button (Save)</td></tr>
+                  <tr><td style="padding: 10px;"><code>cancel-button</code></td><td style="padding: 10px;">Secondary action button (Cancel)</td></tr>
+                </tbody>
+              </table>
+
+              <h3 style="margin-top: 0; margin-bottom: 12px; font-weight: 750;">External Libraries</h3>
+              <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <thead><tr style="background: rgba(15,23,42,.06); border-bottom: 2px solid rgba(15,23,42,.1);">
+                  <th style="padding: 10px; text-align: left;">Library</th>
+                  <th style="padding: 10px; text-align: left;">Purpose</th>
+                  <th style="padding: 10px; text-align: left;">CDN</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid rgba(15,23,42,.06);"><td style="padding: 10px; font-weight: 650;">Font Awesome 6.0.0-beta3</td><td style="padding: 10px;">Button and field icons</td><td style="padding: 10px;"><code>cdnjs.cloudflare.com/.../font-awesome/6.0.0-beta3/css/all.min.css</code></td></tr>
+                  <tr><td style="padding: 10px; font-weight: 650;">Flatpickr</td><td style="padding: 10px;">Date picker UI and date formatting</td><td style="padding: 10px;"><code>cdn.jsdelivr.net/npm/flatpickr</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- AMBIGUITIES -->
+          <section class="card section" id="ambiguities-section">
+            <div class="section-head">
+              <div class="section-title">
+                <span class="section-emoji" aria-hidden="true">&#9888;&#65039;</span>
+                <span>Ambiguities &amp; Open Questions</span>
+                <span class="section-sub">Items requiring clarification</span>
+              </div>
+            </div>
+            <div style="padding: 20px; line-height: 1.6;">
+              <ol style="margin-left: 20px; line-height: 2.0;">
+                <li><strong>Entity Details Page URL returns 404</strong> — The URL for the Entity Details Page documentation currently returns a 404 error. Once published, all modal body content object patterns should be verified against it.</li>
+                <li><strong><code>$Save Updates Script</code> variable reuse</strong> — The variable is first set to the script name string at Step 2, then overwritten with the full JavaScript function string at Step 7c. The original script name value is consumed by string concatenation before the variable is reassigned. Confirm this is correct.</li>
+                <li><strong><code>form-group-1</code> vs <code>form-group-2</code></strong> — The sample uses <code>form-group-2</code> for all fields. Confirm whether <code>form-group-1</code> exists in the shared CSS and what layout difference it produces (e.g., single vs double column).</li>
+                <li><strong>The <code>$$Modal</code> variable and the Modal layout</strong> — Documentation assumes the Modal layout (ID 165) contains a Web Viewer that reads from <code>$$Modal</code> and auto-renders it. Confirm whether anything else is needed after <code>New Window</code> (e.g., <code>Refresh Window</code> or a navigation step).</li>
+                <li><strong><code>$Delete Record Script</code> and <code>$Insert Image Script</code></strong> — These variables are declared but not used in the sample HTML or JavaScript. Clarify whether they are reserved for optional footer buttons or serve another purpose such as being read by the Modal layout itself.</li>
+              </ol>
+            </div>
+          </section>
+
+          <footer class="footer">
+            <div class="footer-left">
+              <div class="footer-title">Caufero Workspace</div>
+              <div class="footer-sub">Built like Tailwind. Stored like Markdown.</div>
+            </div>
+            <div class="footer-right">
+              <a class="footer-link" href="#">Apps</a>
+              <a class="footer-link" href="#">Documentation</a>
+              <a class="footer-link" href="#">AI Prompts</a>
+            </div>
+          </footer>
+        </div>
+      </main>
+      <!-- ========== END MAIN CONTENT CANVAS ========== -->
+
+      <!-- ========== RIGHT PANEL ========== -->
+      <aside class="rail rail-right" id="railRight" aria-label="Right panel">
+        <div class="rail-top">
+          <div class="rail-title">Script Details</div>
+          <div class="rail-sub">Building a Modal Page</div>
+          <div class="rail-actions">
+            <a class="rail-btn" href="#">Home</a>
+            <a class="rail-btn" href="#overview-section">Overview</a>
+            <a class="rail-btn" href="#modal-prompt-section">Prompt</a>
+            <a class="rail-btn" href="#steps-section">Steps</a>
+            <a class="rail-btn" href="#reference-section">Reference</a>
+          </div>
+        </div>
+
+        <div class="rail-body">
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">About this page</div>
+              <div class="panel-sub">Modal page builder for CauferoAppStarter</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">Self-contained HTML form in a FileMaker Card window</div>
+              <div class="stack-item">Script assembles HTML + CSS + JS into $$Modal</div>
+              <div class="stack-item">Rendered via Modal layout (ID 165)</div>
+              <div class="stack-item">Uses shared 🖌️ Use Modal CSS for stylesheet</div>
+              <div class="stack-item">JavaScript calls FileMaker.PerformScript() to save/cancel</div>
+              <div class="stack-item">Flatpickr handles all date field display and conversion</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">10-Step Script Order</div>
+              <div class="panel-sub">Canonical build sequence</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">1. Receive script parameters</div>
+              <div class="stack-item">2. Declare script name variables</div>
+              <div class="stack-item">3. ExecuteSQL → $List</div>
+              <div class="stack-item">4. Parse SQL result into field variables</div>
+              <div class="stack-item">5. Load CSS → $styles</div>
+              <div class="stack-item">6. Build HTML → $HTML</div>
+              <div class="stack-item">7. Build JS functions → $Scripts</div>
+              <div class="stack-item">8. Combine JS blocks</div>
+              <div class="stack-item">9. Assemble $$Modal</div>
+              <div class="stack-item">10. New Window (Card, Layout 165)</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Unique Modal Elements</div>
+              <div class="panel-sub">Only these differ from other page types</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">modal-header: plain text title only</div>
+              <div class="stack-item">modal-footer: Save + Cancel (+ optional Delete)</div>
+              <div class="stack-item">Everything in modal-body uses Entity Details patterns</div>
+              <div class="stack-item">form id='update-form' wraps all body content</div>
+              <div class="stack-item">form-grid1 is the direct content container</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Date Field Rules</div>
+              <div class="panel-sub">Flatpickr conventions</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">Storage format: Y-m-d (MySQL)</div>
+              <div class="stack-item">Display format: l, j F, Y (human-readable)</div>
+              <div class="stack-item">getMySQLFormattedDate() converts for saving</div>
+              <div class="stack-item">Each date field needs id and iconId in dateFields array</div>
+              <div class="stack-item">Omit $Show Datepicker if no date fields in form</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Common Mistakes</div>
+              <div class="panel-sub">What to avoid</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item">&#10060; Adding buttons or icons to modal-header</div>
+              <div class="stack-item">&#10060; Not wrapping modal-body content in form id='update-form'</div>
+              <div class="stack-item">&#10060; Using .value directly on date fields (use getMySQLFormattedDate)</div>
+              <div class="stack-item">&#10060; Hardcoding CSS instead of calling 🖌️ Use Modal CSS</div>
+              <div class="stack-item">&#10060; Forgetting to pipe-join parameters in saveUpdates()</div>
+              <div class="stack-item">&#10060; Including $Show Datepicker when there are no date fields</div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Quick Links</div>
+              <div class="panel-sub">Jump to sections</div>
+            </div>
+            <div class="side-grid">
+              <a class="side-pill" href="#overview-section">Overview</a>
+              <a class="side-pill" href="#modal-prompt-section">Prompt</a>
+              <a class="side-pill" href="#steps-section">All Steps</a>
+              <a class="side-pill" href="#structure-section">Structure</a>
+              <a class="side-pill" href="#summary-section">Summary</a>
+              <a class="side-pill" href="#reference-section">CSS &amp; Libs</a>
+              <a class="side-pill" href="#ambiguities-section">Open Q's</a>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div class="panel-title">Key Concepts</div>
+              <div class="panel-sub">Important terms</div>
+            </div>
+            <div class="pill-row">
+              <span class="pill2">$$MODAL</span>
+              <span class="pill2">CARD WINDOW</span>
+              <span class="pill2">FLATPICKR</span>
+              <span class="pill2">EXECUTESQL</span>
+              <span class="pill2">FORM-GRID1</span>
+              <span class="pill2">LAYOUT 165</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rail-bottom">
+          <div class="rail-foot">
+            <span class="rail-foot-dot right" aria-hidden="true"></span>
+            <span>Right panel &bull; scroll inside</span>
+          </div>
+        </div>
+      </aside>
+      <!-- ========== END RIGHT PANEL ========== -->
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var root = document.querySelector(".page");
+      var btnTheme = document.getElementById("btnTheme");
+      var btnMenu = document.getElementById("btnMenu");
+      var railLeft = document.getElementById("railLeft");
+      var railRight = document.getElementById("railRight");
+      var navSearch = document.getElementById("navSearch");
+      var navClear = document.getElementById("navClear");
+      var navTree = document.getElementById("navTree");
+
+      function setTheme(mode) {
+        if (!root) return;
+        root.setAttribute("data-theme", mode);
+        try { localStorage.setItem("cwf_theme", mode); } catch (e) {}
+      }
+      function getTheme() {
+        try { return localStorage.getItem("cwf_theme") || "auto"; } catch (e) { return "auto"; }
+      }
+      function toggleTheme() {
+        var cur = root.getAttribute("data-theme") || "auto";
+        if (cur === "auto") return setTheme("dark");
+        if (cur === "dark") return setTheme("light");
+        return setTheme("auto");
+      }
+      function toggleLeftRail() {
+        if (!railLeft) return;
+        railLeft.classList.toggle("open");
+      }
+      function closest(el, sel) {
+        while (el && el !== document.documentElement) {
+          if (el.matches && el.matches(sel)) return el;
+          el = el.parentNode;
+        }
+        return null;
+      }
+      function filterNav(q) {
+        if (!navTree) return;
+        var query = (q || "").trim().toLowerCase();
+        var items = navTree.querySelectorAll("[data-label]");
+        for (var i = 0; i < items.length; i++) {
+          var el = items[i];
+          var label = (el.getAttribute("data-label") || "").toLowerCase();
+          var hit = !query || label.indexOf(query) !== -1;
+          el.classList.toggle("is-hit", hit);
+          el.classList.toggle("is-hidden", !!query && !hit);
+        }
+        var groups = navTree.querySelectorAll(".nav-group, .nav-subgroup");
+        for (var g = 0; g < groups.length; g++) {
+          var group = groups[g];
+          var all = group.querySelectorAll("[data-label]");
+          var anyHit = false;
+          for (var j = 0; j < all.length; j++) {
+            if (all[j].classList.contains("is-hit")) { anyHit = true; break; }
+          }
+          group.classList.toggle("is-hidden", !!query && !anyHit);
+          if (query && anyHit) { group.classList.add("forced-open"); }
+          else { group.classList.remove("forced-open"); }
+        }
+      }
+      function wireDisclosure() {
+        document.addEventListener("click", function(e) {
+          var head = closest(e.target, "[data-toggle='group'], [data-toggle='subgroup']");
+          if (!head) return;
+          var wrap = head.parentNode;
+          if (!wrap) return;
+          wrap.classList.toggle("open");
+        });
+      }
+      function closeMobileRailsOnOutsideClick(e) {
+        var isMobile = window.matchMedia("(max-width: 980px)").matches;
+        if (!isMobile) return;
+        if (!railLeft || !railRight) return;
+        var t = e.target;
+        if (!closest(t, "#railLeft") && !closest(t, "#railRight") && !closest(t, "#btnMenu")) {
+          railLeft.classList.remove("open");
+          railRight.classList.remove("open");
+        }
+      }
+
+      function execCopyFallback(text) {
+        try {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          ta.style.top = "0";
+          document.body.appendChild(ta);
+          ta.focus(); ta.select();
+          try { ta.setSelectionRange(0, ta.value.length); } catch (e) {}
+          var ok = document.execCommand("copy");
+          document.body.removeChild(ta);
+          return ok;
+        } catch (e) { return false; }
+      }
+
+      var heroCopyBtn = document.getElementById("heroCopyBtn");
+      function doCopy() {
+        var allPre = document.querySelectorAll("pre");
+        var text = Array.from(allPre).map(function(p) { return p.textContent; }).join("\n\n---\n\n");
+        if (!text) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).catch(function() { execCopyFallback(text); });
+        } else {
+          execCopyFallback(text);
+        }
+      }
+      if (heroCopyBtn) heroCopyBtn.addEventListener("click", doCopy);
+
+      /* ---- Copy Modal Prompt ---- */
+      var copyBtnMP = document.getElementById("copyBtnMP");
+      var promptBoxMP = document.getElementById("promptBoxMP");
+      var copyStatusMP = document.getElementById("copyStatusMP");
+
+      function setStatusMP(msg) {
+        if (!copyStatusMP) return;
+        copyStatusMP.textContent = msg || "";
+        if (!msg) return;
+        window.setTimeout(function() { copyStatusMP.textContent = ""; }, 1400);
+      }
+      function doCopyMP() {
+        var text = promptBoxMP ? promptBoxMP.value : "";
+        if (!text) { setStatusMP("Nothing to copy"); return; }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function() { setStatusMP("Copied!"); }).catch(function() {
+            var ok = execCopyFallback(text);
+            setStatusMP(ok ? "Copied!" : "Select + Cmd+C");
+          });
+        } else {
+          var ok = execCopyFallback(text);
+          setStatusMP(ok ? "Copied!" : "Select + Cmd+C");
+        }
+      }
+      if (copyBtnMP) copyBtnMP.addEventListener("click", doCopyMP);
+
+      function init() {
+        setTheme(getTheme());
+        wireDisclosure();
+        if (btnTheme) btnTheme.addEventListener("click", toggleTheme);
+        if (btnMenu) btnMenu.addEventListener("click", function() {
+          var isMobile = window.matchMedia("(max-width: 980px)").matches;
+          if (isMobile) { toggleLeftRail(); }
+          else { document.body.classList.toggle("compact-rails"); }
+        });
+        if (navClear) navClear.addEventListener("click", function() {
+          if (!navSearch) return;
+          navSearch.value = "";
+          filterNav("");
+          navSearch.focus();
+        });
+        if (navSearch) navSearch.addEventListener("input", function() {
+          filterNav(navSearch.value || "");
+        });
+        document.addEventListener("click", closeMobileRailsOnOutsideClick, true);
+        filterNav("");
+      }
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+      else init();
+    })();
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      window.location.href = vscodePath;
+    }
+  </script>
+
+  <style>
+    :root{
+      --slate-950:#0b1220;--slate-900:#0f172a;--slate-800:#1f2937;--slate-700:#334155;--slate-600:#475569;--slate-500:#64748b;--slate-400:#94a3b8;--slate-300:#cbd5e1;--slate-200:#e2e8f0;--slate-100:#f1f5f9;--slate-50:#f8fafc;
+      --caufero-900:#0b2a36;--caufero-800:#0e3344;--caufero-700:#124458;
+      --teal-700:#0f5e5b;--teal-600:#147a74;--teal-500:#1a9a93;
+      --sky-600:#2c97b9;--sky-500:#41c5e0;
+      --violet-600:#5b49c8;--amber-600:#b7791f;--copper-600:#d8743d;--rose-700:#b4233a;--danger:#d5432e;
+      --bg:var(--slate-50);--surface:rgba(255,255,255,.88);--surface2:rgba(255,255,255,.78);--elev:rgba(255,255,255,.70);
+      --line:rgba(15,23,42,.10);--line2:rgba(15,23,42,.16);
+      --shadow-1:0 1px 0 rgba(15,23,42,.06),0 10px 22px rgba(15,23,42,.06);--shadow-2:0 2px 0 rgba(15,23,42,.08),0 18px 36px rgba(15,23,42,.10);
+      --r-xs:8px;--r-sm:10px;--r-md:12px;--r-lg:14px;--r-xl:18px;
+      --topbarH:56px;--railW:288px;--railWCompact:228px;--contentMax:1200px;
+      --focus:rgba(14,51,68,.22);
+    }
+    *{box-sizing:border-box;}
+    html,body{height:100%;}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";background:var(--bg);color:var(--slate-900);line-height:1.45;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+    a{color:var(--caufero-800);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    img{max-width:100%;}
+    .page{min-height:100vh;position:relative;}
+    .bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(900px 480px at 12% -10%, rgba(14,51,68,.14), transparent 58%),radial-gradient(860px 520px at 100% 10%, rgba(216,116,61,.12), transparent 58%),radial-gradient(900px 520px at 60% 110%, rgba(95,164,161,.10), transparent 60%),var(--bg);}
+    .page[data-theme="dark"]{--bg:#070a12;--surface:rgba(10,14,26,.82);--surface2:rgba(10,14,26,.68);--elev:rgba(10,14,26,.60);--line:rgba(148,163,184,.14);--line2:rgba(148,163,184,.22);color:var(--slate-100);}
+    .page[data-theme="dark"] a{color:#a7d7e3;}
+    .page[data-theme="dark"] .bg{background:radial-gradient(900px 480px at 12% -10%, rgba(65,197,224,.14), transparent 60%),radial-gradient(860px 520px at 100% 10%, rgba(216,116,61,.10), transparent 60%),radial-gradient(900px 520px at 60% 110%, rgba(95,164,161,.10), transparent 62%),var(--bg);}
+    .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbarH);z-index:50;border-bottom:1px solid var(--line);backdrop-filter:saturate(140%) blur(10px);background:linear-gradient(to bottom, rgba(248,250,252,.82), rgba(248,250,252,.62));}
+    .page[data-theme="dark"] .topbar{background:linear-gradient(to bottom, rgba(10,14,26,.84), rgba(10,14,26,.62));}
+    .topbar-inner{height:100%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:0 14px;max-width:calc(var(--contentMax) + (var(--railW) * 2) + 72px);margin:0 auto;}
+    .brand{display:flex;align-items:center;gap:10px;min-width:0;text-decoration:none;}
+    .brand:hover{text-decoration:none;}
+    .brand-text{min-width:0;}
+    .brand-name{font-weight:750;font-size:14px;color:inherit;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .brand-sub{font-size:12px;color:var(--slate-600);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .page[data-theme="dark"] .brand-sub{color:rgba(241,245,249,.68);}
+    .topbar-left,.topbar-center,.topbar-right{display:flex;align-items:center;}
+    .topbar-left{justify-content:flex-start;min-width:0;}
+    .topbar-center{justify-content:center;}
+    .topbar-right{justify-content:flex-end;gap:8px;}
+    .page-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface2);padding:7px 10px;border-radius:999px;box-shadow:0 1px 0 rgba(15,23,42,.04);}
+    .page-chip-dot{width:8px;height:8px;border-radius:999px;background:linear-gradient(180deg, var(--copper-600), var(--teal-600));box-shadow:0 0 0 3px rgba(216,116,61,.12);}
+    .page-chip-text{font-size:12px;font-weight:650;letter-spacing:.1px;}
+    .icon-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:inherit;box-shadow:0 1px 0 rgba(15,23,42,.04);cursor:pointer;user-select:none;transition:transform .12s ease, box-shadow .12s ease;}
+    .icon-btn:hover{text-decoration:none;box-shadow:var(--shadow-1);transform:translateY(-1px);}
+    .icon-btn:active{transform:translateY(0px);}
+    .icon-btn.ghost{background:transparent;border:1px solid var(--line);}
+    .icon-btn.brand{border-color:rgba(14,51,68,.22);background:linear-gradient(180deg, rgba(14,51,68,.10), rgba(14,51,68,.06));}
+    .icon-btn-text{font-size:12px;font-weight:650;}
+    .ico{width:18px;height:18px;display:block;}
+    .ico.sm{width:16px;height:16px;}
+    .shell{padding-top:var(--topbarH);display:grid;grid-template-columns:var(--railW) 1fr var(--railW);min-height:100vh;gap:14px;max-width:calc(var(--contentMax) + (var(--railW) * 2) + 72px);margin:0 auto;padding-left:14px;padding-right:14px;}
+    body.compact-rails .shell{grid-template-columns:var(--railWCompact) 1fr var(--railWCompact);}
+    .rail{position:sticky;top:calc(var(--topbarH) + 14px);height:calc(100vh - var(--topbarH) - 28px);border:1px solid var(--line);background:var(--surface);border-radius:var(--r-xl);box-shadow:var(--shadow-1);overflow:hidden;display:flex;flex-direction:column;}
+    .rail-top{padding:14px 14px 12px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,0));}
+    .page[data-theme="dark"] .rail-top{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));}
+    .rail-title{font-size:12px;font-weight:750;letter-spacing:.12px;}
+    .rail-sub{font-size:12px;color:var(--slate-600);margin-top:2px;}
+    .page[data-theme="dark"] .rail-sub{color:rgba(241,245,249,.70);}
+    .rail-search{margin-top:10px;display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface2);border-radius:12px;padding:8px 10px;}
+    .rail-search input{width:100%;border:0;outline:none;background:transparent;color:inherit;font-size:12px;}
+    .xbtn{border:0;background:transparent;color:inherit;padding:4px;border-radius:10px;cursor:pointer;opacity:.75;}
+    .xbtn:hover{opacity:1;background:rgba(15,23,42,.06);}
+    .page[data-theme="dark"] .xbtn:hover{background:rgba(241,245,249,.08);}
+    .rail-body{padding:10px;overflow:auto;overscroll-behavior:contain;}
+    .rail-bottom{padding:10px 12px;border-top:1px solid var(--line);background:linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.62));}
+    .page[data-theme="dark"] .rail-bottom{background:linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.06));}
+    .rail-foot{display:flex;align-items:center;gap:10px;color:var(--slate-600);font-size:11px;justify-content:center;}
+    .page[data-theme="dark"] .rail-foot{color:rgba(241,245,249,.64);}
+    .rail-foot-dot{width:8px;height:8px;border-radius:999px;background:rgba(14,51,68,.55);box-shadow:0 0 0 3px rgba(14,51,68,.10);}
+    .rail-foot-dot.right{background:rgba(216,116,61,.70);box-shadow:0 0 0 3px rgba(216,116,61,.10);}
+    .rail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+    .rail-btn{display:inline-flex;align-items:center;justify-content:center;padding:8px 10px;border-radius:12px;border:1px solid var(--line);background:var(--surface2);font-size:12px;font-weight:800;color:inherit;text-decoration:none;}
+    .rail-btn:hover{text-decoration:none;box-shadow:0 1px 0 rgba(15,23,42,.04);}
+    .nav-item,.nav-group-head,.nav-subgroup-head{width:100%;display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;border:1px solid transparent;color:inherit;background:transparent;cursor:pointer;user-select:none;text-align:left;}
+    .nav-item:hover,.nav-group-head:hover,.nav-subgroup-head:hover{background:rgba(15,23,42,.04);border-color:rgba(15,23,42,.06);text-decoration:none;}
+    .page[data-theme="dark"] .nav-item:hover,.page[data-theme="dark"] .nav-group-head:hover,.page[data-theme="dark"] .nav-subgroup-head:hover{background:rgba(241,245,249,.06);border-color:rgba(241,245,249,.08);}
+    .nav-item.active{background:linear-gradient(180deg, rgba(14,51,68,.10), rgba(14,51,68,.06));border-color:rgba(14,51,68,.20);}
+    .page[data-theme="dark"] .nav-item.active{background:linear-gradient(180deg, rgba(65,197,224,.10), rgba(65,197,224,.06));border-color:rgba(65,197,224,.22);}
+    .nav-item.sub{padding-left:34px;}
+    .nav-item.sub .dot{width:6px;height:6px;border-radius:999px;background:rgba(100,116,139,.55);flex:0 0 auto;}
+    .nav-item.sub.danger .dot{background:rgba(213,67,46,.70);}
+    .nav-item.sub.muted{opacity:.65;cursor:default;}
+    .nav-ico{display:inline-flex;align-items:center;justify-content:center;color:inherit;opacity:.9;}
+    .nav-text{flex:1 1 auto;font-size:12.5px;font-weight:650;letter-spacing:.05px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .chev{opacity:.65;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;transition:transform .14s ease;}
+    .nav-group,.nav-subgroup{margin-top:6px;}
+    .nav-group-body,.nav-subgroup-body{padding-left:6px;margin-top:6px;display:none;}
+    .nav-group.open>.nav-group-body{display:block;}
+    .nav-subgroup.open>.nav-subgroup-body{display:block;}
+    .nav-group.open>.nav-group-head .chev,.nav-subgroup.open>.nav-subgroup-head .chev{transform:rotate(90deg);}
+    .nav-subgroup-head{padding-left:12px;gap:10px;}
+    .nav-subgroup-head.inner{padding-left:22px;}
+    .mini-pill{font-size:10px;font-weight:800;letter-spacing:.3px;padding:3px 7px;border-radius:999px;border:1px solid var(--line);background:rgba(15,23,42,.02);color:var(--slate-700);flex:0 0 auto;}
+    .page[data-theme="dark"] .mini-pill{background:rgba(241,245,249,.06);color:rgba(241,245,249,.78);}
+    .mini-pill.teal{border-color:rgba(20,122,116,.25);background:rgba(20,122,116,.10);color:var(--teal-700);}
+    .mini-pill.violet{border-color:rgba(91,73,200,.22);background:rgba(91,73,200,.10);color:var(--violet-600);}
+    .mini-pill.amber{border-color:rgba(183,121,31,.22);background:rgba(183,121,31,.10);color:var(--amber-600);}
+    .mini-pill.slate{border-color:rgba(71,85,105,.22);background:rgba(71,85,105,.08);color:var(--slate-700);}
+    .mini-pill.rose{border-color:rgba(180,35,58,.22);background:rgba(180,35,58,.10);color:var(--rose-700);}
+    .is-dim{opacity:.35;filter:saturate(.9);}
+    .is-hidden{display:none !important;}
+    .forced-open>.nav-group-body,.forced-open>.nav-subgroup-body{display:block;}
+    .content{min-width:0;padding:14px 0 22px 0;}
+    .content-inner{max-width:var(--contentMax);margin:0 auto;display:flex;flex-direction:column;gap:14px;}
+    .hero{border:1px solid var(--line);background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.70));border-radius:var(--r-xl);box-shadow:var(--shadow-2);position:relative;overflow:hidden;}
+    .page[data-theme="dark"] .hero{background:linear-gradient(180deg, rgba(10,14,26,.88), rgba(10,14,26,.66));}
+    .hero-glow{position:absolute;inset:-80px -120px auto -120px;height:220px;background:radial-gradient(closest-side, rgba(65,197,224,.20), transparent 68%);opacity:.9;pointer-events:none;}
+    .hero-inner{padding:18px 18px 16px 18px;position:relative;}
+    .hero-top{display:flex;flex-direction:column;gap:6px;}
+    .hero-title{font-size:18px;font-weight:850;letter-spacing:.2px;}
+    .hero-sub{font-size:13px;color:var(--slate-600);max-width:100ch;}
+    .page[data-theme="dark"] .hero-sub{color:rgba(241,245,249,.68);}
+    .hero-actions{margin-top:14px;display:flex;flex-wrap:wrap;gap:10px;}
+    .cta{display:inline-flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid rgba(14,51,68,.18);background:linear-gradient(180deg, rgba(14,51,68,.12), rgba(14,51,68,.06));color:inherit;font-weight:750;font-size:12.5px;box-shadow:0 1px 0 rgba(15,23,42,.04);cursor:pointer;}
+    .cta:hover{text-decoration:none;box-shadow:var(--shadow-1);transform:translateY(-1px);transition:transform .12s ease, box-shadow .12s ease;}
+    .cta:active{transform:translateY(0px);}
+    .cta-ico{display:inline-flex;align-items:center;justify-content:center;}
+    .hero-meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;}
+    .chip{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.55);font-size:11px;font-weight:750;color:var(--slate-700);}
+    .page[data-theme="dark"] .chip{background:rgba(255,255,255,.06);color:rgba(241,245,249,.78);}
+    .chip.violet{border-color:rgba(91,73,200,.22);background:rgba(91,73,200,.10);color:var(--violet-600);}
+    .chip.amber{border-color:rgba(183,121,31,.22);background:rgba(183,121,31,.10);color:var(--amber-600);}
+    .chip.copper{border-color:rgba(216,116,61,.22);background:rgba(216,116,61,.10);color:var(--copper-600);}
+    .card{border:1px solid var(--line);background:var(--surface);border-radius:var(--r-xl);box-shadow:var(--shadow-1);}
+    .section{padding:16px;}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;}
+    .section-title{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:.12px;font-size:14px;min-width:0;}
+    .section-emoji{font-size:18px;}
+    .section-sub{font-size:12px;color:var(--slate-600);font-weight:650;}
+    .page[data-theme="dark"] .section-sub{color:rgba(241,245,249,.68);}
+    .section-actions{display:flex;align-items:center;gap:10px;}
+    .copy-status{font-size:12px;color:var(--teal-600);font-weight:750;min-width:60px;text-align:right;}
+    .page[data-theme="dark"] .copy-status{color:var(--sky-500);}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface2);color:inherit;font-weight:750;font-size:12.5px;cursor:pointer;box-shadow:0 1px 0 rgba(15,23,42,.04);transition:transform .12s ease, box-shadow .12s ease;}
+    .btn:hover{text-decoration:none;box-shadow:var(--shadow-1);transform:translateY(-1px);}
+    .btn:active{transform:translateY(0px);}
+    .btn.primary{background:linear-gradient(180deg, rgba(14,51,68,.14), rgba(14,51,68,.08));border-color:rgba(14,51,68,.20);}
+    .page[data-theme="dark"] .btn.primary{background:linear-gradient(180deg, rgba(65,197,224,.18), rgba(65,197,224,.10));border-color:rgba(65,197,224,.24);}
+    .footer{border:1px solid var(--line);background:var(--surface);border-radius:var(--r-xl);box-shadow:var(--shadow-1);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .footer-title{font-weight:950;letter-spacing:.2px;}
+    .footer-sub{font-size:12px;color:var(--slate-600);margin-top:2px;}
+    .page[data-theme="dark"] .footer-sub{color:rgba(241,245,249,.66);}
+    .footer-right{display:flex;gap:12px;flex-wrap:wrap;}
+    .footer-link{font-size:12px;font-weight:800;color:inherit;text-decoration:none;padding:7px 10px;border-radius:12px;border:1px solid transparent;}
+    .footer-link:hover{text-decoration:none;border-color:var(--line);background:var(--surface2);}
+    .panel-card{border:1px solid var(--line);background:linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.60));border-radius:16px;padding:14px;box-shadow:0 1px 0 rgba(15,23,42,.04);margin-bottom:12px;}
+    .page[data-theme="dark"] .panel-card{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));}
+    .panel-head{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;}
+    .panel-title{font-weight:950;letter-spacing:.15px;display:flex;align-items:center;gap:10px;}
+    .panel-sub{font-size:12px;color:var(--slate-600);line-height:1.35;}
+    .page[data-theme="dark"] .panel-sub{color:rgba(241,245,249,.66);}
+    .pill-row{display:flex;flex-wrap:wrap;gap:8px;}
+    .pill2{font-size:11px;font-weight:850;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);color:inherit;}
+    .side-grid{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:10px;}
+    .side-pill{display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;border-radius:14px;border:1px solid var(--line);background:var(--surface2);font-size:12px;font-weight:850;color:inherit;text-decoration:none;min-height:42px;}
+    .side-pill:hover{text-decoration:none;box-shadow:0 1px 0 rgba(15,23,42,.04);transform:translateY(-1px);transition:transform .12s ease;}
+    .stack{display:flex;flex-direction:column;gap:8px;}
+    .stack-item{border:1px solid var(--line);background:var(--surface2);border-radius:14px;padding:10px 12px;font-size:12.5px;font-weight:800;color:inherit;line-height:1.45;}
+    code{background:rgba(15,23,42,.06);padding:2px 6px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;}
+    .page[data-theme="dark"] code{background:rgba(241,245,249,.08);}
+    :focus{outline:none;}
+    :focus-visible{box-shadow:0 0 0 3px var(--focus), 0 0 0 6px rgba(255,255,255,.12);border-radius:12px;}
+    .page[data-theme="dark"] :focus-visible{box-shadow:0 0 0 3px rgba(65,197,224,.22), 0 0 0 6px rgba(10,14,26,.40);}
+    .prompt-wrap{margin-top:6px;}
+    .prompt-box{width:100%;height:170px;min-height:80px;resize:none;border-radius:16px;border:1px solid rgba(15,23,42,.20);background:#0f1729;color:#e5e7eb;padding:18px 20px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:13px;line-height:1.6;outline:none;box-shadow:inset 0 2px 8px rgba(0,0,0,.3),0 8px 24px rgba(2,6,23,.25);overflow:auto;white-space:pre;}
+    .prompt-box::selection{background:rgba(65,197,224,.35);color:#fff;}
+    @media (max-width: 980px){
+      .shell{grid-template-columns:1fr;gap:12px;}
+      .rail{position:fixed;top:var(--topbarH);height:calc(100vh - var(--topbarH));border-radius:18px;z-index:60;width:min(92vw, 340px);box-shadow:var(--shadow-2);transform:translateX(-110%);transition:transform .18s ease;}
+      .rail-right{right:12px;left:auto;transform:translateX(110%);}
+      .rail-left{left:12px;right:auto;}
+      .rail.open{transform:translateX(0%);}
+      .content{padding:12px 0 18px 0;}
+      .side-grid{grid-template-columns:1fr;}
+      .topbar-inner{grid-template-columns:1fr auto;gap:10px;}
+      .topbar-center{display:none;}
+      .brand-sub{display:none;}
+    }
+    @media (max-width: 560px){
+      .icon-btn-text{display:none;}
+      .topbar-right{gap:6px;}
+    }
+  </style>
+</body>
+</html>
