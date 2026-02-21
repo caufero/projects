@@ -735,6 +735,20 @@
       function init(){setTheme(getTheme());wireDisclosure();highlightKeywords();setActiveNav("Apps 4KPAINT");if(btnTheme)btnTheme.addEventListener("click",toggleTheme);if(btnMenu)btnMenu.addEventListener("click",function(){var isMobile=window.matchMedia("(max-width: 980px)").matches;if(isMobile){toggleLeftRail();}else{document.body.classList.toggle("compact-rails");}});if(navClear)navClear.addEventListener("click",function(){if(!navSearch)return;navSearch.value="";filterNav("");navSearch.focus();});if(navSearch)navSearch.addEventListener("input",function(){filterNav(navSearch.value||"");});document.addEventListener("click",closeMobileRailsOnOutsideClick,true);filterNav("");}
       if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
     })();
+  
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
   </script>
 
   <style>

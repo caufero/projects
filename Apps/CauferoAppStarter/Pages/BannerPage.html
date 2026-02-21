@@ -143,7 +143,21 @@ Set Variable [ $Go Back To App Script ; Value: "function goBackToApp(){ FileMake
 ... more function strings ...
 
 # Combine all JS functions into one <script> block
-Set Variable [ $Scripts ; Value: "<script>" & $Go Back To App Script & " " & ... & "</script>" ]
+Set Variable [ $Scripts ; Value: "<script>" & $Go Back To App Script & " " & ... & "
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>" ]
 
 # 6) Full document
 Set Variable [ $$Banner ; Value:
@@ -353,7 +367,21 @@ Set Variable [ $Scripts ; Value:
   "<script>" &
   $JS_GoBackToApp_Function & Char ( 10 ) &
   $JS_GoToMail_Function & Char ( 10 ) &
-  "</script>"
+  "
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>"
 ]
 ~~~
 

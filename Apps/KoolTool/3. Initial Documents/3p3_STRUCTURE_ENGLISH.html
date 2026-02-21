@@ -885,6 +885,20 @@
       
       event.target.classList.add('active');
     }
+  
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
   </script>
 </body>
 </html>

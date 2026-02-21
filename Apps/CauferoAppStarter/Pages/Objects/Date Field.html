@@ -47,7 +47,21 @@ Your full page includes these CDN resources:
 
 ~~~html
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'>
-<script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>
+<script src='https://cdn.jsdelivr.net/npm/flatpickr'>
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>
 ~~~
 
 ### Rules
@@ -347,7 +361,21 @@ Cause:
 - Flatpickr JS not loaded
 Fix:
 - Ensure:
-  - `<script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>`
+  - `<script src='https://cdn.jsdelivr.net/npm/flatpickr'>
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>`
 
 ### 11.2 Icon click does nothing
 Cause:

@@ -349,7 +349,21 @@ Set Variable [ $Scripts ;
     $Line Graph JS & ¶ &
     $Progress Circle JS & ¶ &
     $Counter JS & ¶ &
-    "</script>"
+    "
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>"
 ]
 ~~~
 
@@ -366,7 +380,21 @@ Your pattern options:
 The sample uses:
 
 ~~~filemaker
-"<script>" & $Dashboard JS & "</script>"
+"<script>" & $Dashboard JS & "
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>"
 ~~~
 
 This implies `$Dashboard JS` contains ChartJS library code or loader code.
@@ -449,7 +477,21 @@ Set Variable [ $$Page ;
       "<meta charset='UTF-8'>" &
       "<meta name='viewport' content='width=device-width, initial-scale=1.0'>" &
       "<title>Dashboard</title>" &
-      "<script>" & $Dashboard JS & "</script>" &
+      "<script>" & $Dashboard JS & "
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>" &
       $Styles &
     "<link rel="icon" type="image/png" href="https://caufero.github.io/projects/Apps/CarePort/Screenshots/caufero_logo.png">
 </head>" &
@@ -545,7 +587,21 @@ Set Variable [ $Scripts ;
     $Progress Circle JS & ¶ &
     $Counter JS & ¶ &
     $Timeline JS & ¶ &
-  "</script>"
+  "
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>"
 ]
 
 /* Full page */
@@ -557,7 +613,21 @@ Set Variable [ $$Page ;
       "<meta charset='UTF-8'>" &
       "<meta name='viewport' content='width=device-width, initial-scale=1.0'>" &
       "<title>Dashboard</title>" &
-      "<script>" & $Dashboard JS & "</script>" &
+      "<script>" & $Dashboard JS & "
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>" &
       $Styles &
     "<link rel="icon" type="image/png" href="https://caufero.github.io/projects/Apps/CarePort/Screenshots/caufero_logo.png">
 </head>" &
@@ -864,7 +934,21 @@ Before the AI finalizes any dashboard generation script, it must verify:
 5. `🖌️ Use Dashboard CSS` called and included in `$Styles`
 6. Every `<canvas id='X'>` has matching JS `getElementById('X')`
 7. `$HTML` contains all component blocks
-8. `$Scripts` concatenates all JS blocks inside `<script>...</script>`
+8. `$Scripts` concatenates all JS blocks inside `<script>...
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>`
 9. `$$Page` includes: doctype, html, head, body
 10. WebDirect stabilization is executed (pause + refresh)
 11. No missing variable references
@@ -955,7 +1039,21 @@ Set Variable [ $Pie Chart JS ;
     "})();"
 ]
 
-Set Variable [ $Scripts ; Value: "<script>" & ¶ & $Pie Chart JS & ¶ & "</script>" ]
+Set Variable [ $Scripts ; Value: "<script>" & ¶ & $Pie Chart JS & ¶ & "
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>" ]
 
 Set Variable [ $$Page ;
   Value:
@@ -963,7 +1061,21 @@ Set Variable [ $$Page ;
       "<meta charset='UTF-8'>" &
       "<meta name='viewport' content='width=device-width, initial-scale=1.0'>" &
       "<title>Dashboard</title>" &
-      "<script>" & $Dashboard JS & "</script>" &
+      "<script>" & $Dashboard JS & "
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>" &
       $Styles &
     "<link rel="icon" type="image/png" href="https://caufero.github.io/projects/Apps/CarePort/Screenshots/caufero_logo.png">
 </head><body>" &

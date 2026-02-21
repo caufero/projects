@@ -336,7 +336,21 @@ function saveUpdates() {
 ### 7.3 Script bundling into one script tag
 
 The system uses a single variable:
-- `$Scripts` containing `<script> ... </script>`
+- `$Scripts` containing `<script> ... 
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>`
 
 Example:
 ~~~filemaker
@@ -346,7 +360,21 @@ Set Variable [ $Scripts ;
   $Save Updates Script & "¶¶" &
   $Cancel Updates Script & "¶¶" &
   $Some Other Script &
-" </script>"
+" 
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>"
 ]
 ~~~
 
@@ -397,7 +425,21 @@ Set Variable [ $$Modal ;
 Only include Flatpickr when a datepicker is used:
 ~~~html
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'>
-<script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>
+<script src='https://cdn.jsdelivr.net/npm/flatpickr'>
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>
 ~~~
 
 ---

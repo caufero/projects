@@ -34,6 +34,22 @@
         </div>
 
         <div class="topbar-right">
+
+          <a class="icon-btn"
+            href="#"
+            onclick="openInVSCode(); return false;"
+            title="Beautify Markdown Pages" aria-label="Beautify Markdown Pages">
+            <svg viewBox="0 0 24 24" class="ico" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <polyline points="12 18 15 15 12 12" />
+              <line x1="9" y1="15" x2="15" y2="15" />
+            </svg>
+            <span class="icon-btn-text">Go To File</span>
+          </a>
+
+        <div class="topbar-right">
           <a class="icon-btn"
             href="https://caufero.github.io/projects/_Misc/_/AI%20Prompts/Beautify%20Markdown%20File.html#"
             title="Beautify Markdown Pages" aria-label="Beautify Markdown Pages">
@@ -263,6 +279,11 @@
                   </span>
                 </button>
                 <div class="nav-subgroup-body">
+
+                  <a class="nav-item sub"
+                    href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/PopulateAvailableLinks.html"
+                    data-label="AI Prompts Development Add Link To Menu"><span class="dot"></span><span
+                      class="nav-text">Add Link To Menu</span></a>
 
                   <a class="nav-item sub"
                     href="https://caufero.github.io/projects/Apps/CauferoAppStarter/_Misc/Build%20Apps%20With%20CauferoAppStarter.html"
@@ -1912,6 +1933,20 @@
       if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
       else init();
     })();
+  
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
   </script>
 
   <style>

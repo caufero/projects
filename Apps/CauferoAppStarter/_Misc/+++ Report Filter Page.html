@@ -1108,7 +1108,21 @@ $Filter Actions Script & "¶¶" &
 $Filter Generate Report Script & "¶¶" &
 $Filter Init Script &
 
-" </script> " ]
+" 
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script> " ]
 #
 # Full Page
 Set Variable [ $$Page ; Value:
@@ -1121,7 +1135,21 @@ Set Variable [ $$Page ; Value:
    <title>Report Filters</title>
    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'>
    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'>
-   <script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>
+   <script src='https://cdn.jsdelivr.net/npm/flatpickr'>
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
+  </script>
    <style> " & $styles & " </style>
 <link rel="icon" type="image/png" href="https://caufero.github.io/projects/Apps/CarePort/Screenshots/caufero_logo.png">
 </head>
@@ -1618,6 +1646,20 @@ Refresh Window [ Flush cached join results ]</textarea>
       }
 
     })();
+  
+
+    function openInVSCode() {
+      const githubBase = "https://caufero.github.io";
+      const localBase = "file:///Users/cyril/Documents/Caufero%20Apps";
+      
+      const currentURL = window.location.href;
+      const localPath = currentURL.replace(githubBase, localBase);
+      
+      // Convert file:// path to vscode:// path
+      const vscodePath = localPath.replace("file://", "vscode://file/");
+      
+      window.location.href = vscodePath;
+    }
   </script>
 
   <style>
