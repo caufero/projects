@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Temp 10</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temp 10</title>
 </head>
 <body>
+<script>
+  var storageKey = 'pageContent_' + window.location.pathname.split('/').pop().replace('.html','');
 
-  <script>
-    // Load saved content on startup
-    if (localStorage.getItem('pageContent')) {
-      document.body.innerHTML = localStorage.getItem('pageContent');
-    }
+  // Load saved content on startup
+  if (localStorage.getItem(storageKey)) {
+    document.body.innerHTML = localStorage.getItem(storageKey);
+  }
 
-    // Turn on edit mode
-    document.designMode = 'on';
+  // Turn on edit mode
+  document.designMode = 'on';
 
-    // Save content to localStorage every second
-    setInterval(() => {
-      localStorage.setItem('pageContent', document.body.innerHTML);
-    }, 1000);
-  </script>
-
+  // Save content to localStorage every second
+  setInterval(() => {
+    localStorage.setItem(storageKey, document.body.innerHTML);
+  }, 1000);
+</script>
 </body>
 </html>
