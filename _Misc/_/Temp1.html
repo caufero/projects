@@ -4,22 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Temp 1</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { height: 100vh; }
+  #editor {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    outline: none;
+    font-family: sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-y: auto;
+  }
+</style>
 </head>
 <body>
+<div id="editor" contenteditable="true"></div>
 <script>
   var storageKey = 'pageContent_' + window.location.pathname.split('/').pop().replace('.html','');
+  var editor = document.getElementById('editor');
 
   // Load saved content on startup
-  if (localStorage.getItem(storageKey)) {
-    document.body.innerHTML = localStorage.getItem(storageKey);
-  }
-
-  // Turn on edit mode
-  document.designMode = 'on';
+  var saved = localStorage.getItem(storageKey);
+  if (saved) editor.innerHTML = saved;
 
   // Save content to localStorage every second
   setInterval(() => {
-    localStorage.setItem(storageKey, document.body.innerHTML);
+    localStorage.setItem(storageKey, editor.innerHTML);
   }, 1000);
 </script>
 </body>
